@@ -3,6 +3,33 @@ import xml.etree.ElementTree as ET
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
+class ScrollableFrame(tk.Frame):
+    def __init__(self, master, **kwargs):
+        tk.Frame.__init__(self, master, **kwargs)
+
+        self.canvas = tk.Canvas(self, borderwidth=0, background="#ffffff")
+        self.frame = tk.Frame(self.canvas, background="#ffffff")
+        self.vsb = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self.vsb.set)
+
+        self.vsb.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.canvas.create_window((4,4), window=self.frame, anchor="nw", tags="self.frame")
+
+        self.frame.bind("<Configure>", self.on_frame_configure)
+        self.canvas.bind("<Configure>", self.on_canvas_configure)
+
+        self.scrollable_frame = tk.Frame(self.frame, background="#ffffff")
+        self.scrollable_frame.pack(fill="both", expand=True)
+
+    def on_frame_configure(self, event):
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def on_canvas_configure(self, event):
+        canvas_width = event.width
+        self.canvas.itemconfig("self.frame", width=canvas_width)
+
+
 def read_tbx(file_path, selected_columns):
     tree = ET.parse(file_path)
     root = tree.getroot()
@@ -318,20 +345,40 @@ def show_column_selection(tbx_file_path):
 
     root = tk.Tk()
     root.title("Spaltenauswahl")
-    root.geometry("300x300")
+    root.geometry("300x400")
 
     selected_columns = []
 
+    scroll_frame = ScrollableFrame(root)
+    scroll_frame.pack(fill="both", expand=True)
+
+    global checkboxes
+    checkboxes = []
+
+    # Funktion hier definieren
     def on_checkbox_change(column):
         if column in selected_columns:
             selected_columns.remove(column)
         else:
             selected_columns.append(column)
 
+    def select_all_columns():
+        print("Button 'Alle auswählen' wurde geklickt.")
+        for checkbox in scroll_frame.scrollable_frame.winfo_children():
+            checkbox.select()
+            column = checkbox.cget("text")
+            if column not in selected_columns:
+                selected_columns.append(column)
+        
+        print(f"Ausgewählte Spalten: {selected_columns}")
+
     for column in columns:
         var = tk.IntVar()
-        checkbox = tk.Checkbutton(root, text=column, variable=var, command=lambda col=column: on_checkbox_change(col))
+        checkbox = tk.Checkbutton(scroll_frame.scrollable_frame, text=column, variable=var, command=lambda col=column: on_checkbox_change(col))
         checkbox.pack(anchor=tk.W)
+
+    select_all_button = tk.Button(root, text="Alle auswählen", command=select_all_columns, bg="#003366", fg="white")
+    select_all_button.pack(pady=10, side=tk.TOP, fill=tk.X)
 
     def on_continue_click():
         root.destroy()
@@ -339,8 +386,8 @@ def show_column_selection(tbx_file_path):
         convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns)
 
 
-    continue_button = tk.Button(root, text="Weiter", command=on_continue_click)
-    continue_button.pack(pady=10)
+    continue_button = tk.Button(root, text="Weiter", command=on_continue_click, bg="#003366", fg="white")
+    continue_button.pack(pady=10, side=tk.TOP, fill=tk.X)
 
     root.mainloop()
 
