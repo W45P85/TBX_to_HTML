@@ -337,7 +337,7 @@ def choose_file():
         
         if selected_columns:
             html_file_path = "ausgabe.html"
-            convert_tbx_to_html(file_path, html_file_path)
+            convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
 def show_column_selection(tbx_file_path):
