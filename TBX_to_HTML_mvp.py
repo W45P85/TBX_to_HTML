@@ -1,9 +1,9 @@
 import os
 import xml.etree.ElementTree as ET
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 
-def read_tbx(file_path):
+def read_tbx(file_path, selected_columns):
     tree = ET.parse(file_path)
     root = tree.getroot()
 
@@ -32,9 +32,8 @@ def read_tbx(file_path):
 
     return term_dict
 
-def convert_tbx_to_html(tbx_file_path, html_file_path):
-    tree = ET.parse(tbx_file_path)
-    root = tree.getroot()
+def convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns):
+    term_dictionary = read_tbx(tbx_file_path, selected_columns)
 
     file_name = os.path.splitext(os.path.basename(tbx_file_path))[0]
 
@@ -156,37 +155,19 @@ def convert_tbx_to_html(tbx_file_path, html_file_path):
         <!-- Add headers here -->
 """
 
-    term_dictionary = read_tbx(tbx_file_path)
-
-    # Dynamically add headers for notes
-    note_headers = set()
-    # Iteriere über alle term_infos, um die Header zu sammeln
-    for terms_info in term_dictionary.values():
-        for term_info in terms_info:
-            note_headers.update(term_info["notes"].keys())
-
-    # Iteriere über alle term_infos, um fehlende Header hinzuzufügen
-    for terms_info in term_dictionary.values():
-        for term_info in terms_info:
-            for header in note_headers:
-                if header not in term_info["notes"]:
-                    term_info["notes"][header] = "-"
-
-    for note_header in sorted(note_headers):
-        clean_header = note_header.split("|")[0].strip()
-        html_content += f"<th>{clean_header}</th>\n"
+    for column in selected_columns:
+        html_content += f"<th>{column}</th>\n"
 
     html_content += "</tr>\n"
 
-    # Populate table rows
     for concept_id, terms_info in term_dictionary.items():
         for term_info in terms_info:
             html_content += f"<tr>"
             html_content += f"<td>{concept_id}</td>"
             html_content += f"<td>{term_info['term']}</td>"
 
-            for note_header in sorted(note_headers):
-                note_value = term_info["notes"].get(note_header, "-")
+            for column in selected_columns:
+                note_value = term_info["notes"].get(column, "-")
                 html_content += f"<td>{note_value}</td>"
 
             html_content += "</tr>\n"
@@ -307,11 +288,65 @@ def convert_tbx_to_html(tbx_file_path, html_file_path):
 
     print(f"Erfolgreich in {html_file_path} konvertiert.")
 
+
+def preview_columns(tbx_file_path):
+    tree = ET.parse(tbx_file_path)
+    root = tree.getroot()
+
+    columns = set()
+
+    for entry in root.findall(".//termEntry"):
+        for ntig in entry.findall(".//ntig"):
+            for term_note in ntig.findall(".//termNote"):
+                columns.add(term_note.get("type"))
+
+    return list(sorted(columns))
+
+
 def choose_file():
     file_path = filedialog.askopenfilename(filetypes=[("TBX files", "*.tbx")])
     if file_path:
+        selected_columns = show_column_selection(file_path)
+        
+        if selected_columns:
+            html_file_path = "ausgabe.html"
+            convert_tbx_to_html(file_path, html_file_path)
+
+
+def show_column_selection(tbx_file_path):
+    columns = preview_columns(tbx_file_path)
+
+    root = tk.Tk()
+    root.title("Spaltenauswahl")
+    root.geometry("300x300")
+
+    selected_columns = []
+
+    def on_checkbox_change(column):
+        if column in selected_columns:
+            selected_columns.remove(column)
+        else:
+            selected_columns.append(column)
+
+    for column in columns:
+        var = tk.IntVar()
+        checkbox = tk.Checkbutton(root, text=column, variable=var, command=lambda col=column: on_checkbox_change(col))
+        checkbox.pack(anchor=tk.W)
+
+    def on_continue_click():
+        root.destroy()
         html_file_path = "ausgabe.html"
-        convert_tbx_to_html(file_path, html_file_path)
+        convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns)
+
+
+    continue_button = tk.Button(root, text="Weiter", command=on_continue_click)
+    continue_button.pack(pady=10)
+
+    root.mainloop()
+
+    return selected_columns
+
+
 
 # GUI-Fenster erstellen
 root = tk.Tk()
