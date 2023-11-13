@@ -1,0 +1,654 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBX in HTML konvertiert</title>
+        <style>
+        body {
+            font-family: Calibri;
+            background-color: #f4f4f4;
+            margin: 0;
+            text-align: center;
+            padding: 0;
+        }
+
+        header {
+            text-align: left;
+        }
+
+        img {
+            max-width: 170px;
+            padding: 10px;
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+            font-size: 40px;
+        }
+
+        .search-container {
+            margin-top: 20px;
+        }
+
+        p {
+            color: #555;
+        }
+
+        input[type="text"] {
+            text-align: center;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #003366;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            border: solid #000000;
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: thin solid #000000;
+            vertical-align: top;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr.deprecatedTerm {
+            background-color: #ffcccc; /* Hintergrundfarbe für deprecatedTerm */
+        }
+
+        footer {
+            text-align: center;
+            font-style: italic;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        th {
+            background-color: #003366;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<header>
+    <img src="logo.png" alt="Logo Remira">
+    <h2>Vollexport_de_en_US_2023-11-06</h2>
+</header>
+<body>
+
+<p>Willkommen zum TBX Viewer! Hier finden Sie eine Liste der Begriffe aus der TBX-Datei.</p>
+<p>Verwenden Sie das Suchfeld, um die Tabelle nach Termen zu filtern.</p>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Suche nach Terme" oninput="updateAutocomplete()">
+    <div id="autocomplete" class="autocomplete-items"></div>
+</div>
+    
+<table id="termTable">
+    <tr>
+        <th>Concept ID</th>
+        <th>Term</th>
+        <th>Anmerkung</th>
+        <th>Benennungstyp</th>
+        <th>Definition</th>
+        <th>Genus</th>
+        <th>Kontextbeispiel</th>
+        <th>Numerus</th>
+        <th>Quelle</th>
+        <th>Termset</th>
+        <th>Verwendung</th>
+        <th>Wortklasse</th>
+        <th>normativeAuthorization</th>
+    </tr>
+<tr><td>concept-1</td><td>Absatzprognose</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-2</td><td>Auftragsabwicklung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-3</td><td>Auftragsmanagement</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-4</td><td>Automatische Disposition</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-5</td><td>Automatisches Kleinteilelager</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-6</td><td>AutoStore</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-7</td><td>Avisierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-8</td><td>Belegausgabepflicht</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-9</td><td>BSP</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-10</td><td>Bestandscontrolling</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-11</td><td>Bestandsmanagement</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-12</td><td>Bestandsoptimierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-13</td><td>Bestandsreduzierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-14</td><td>Business Intelligence Software</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-15</td><td>Chaotische Lagerhaltung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-16</td><td>Charge</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-17</td><td>Click-and-Collect</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-18</td><td>Click-and-Reserve</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-19</td><td>Customer Relationship Management</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-20</td><td>Disposition</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-21</td><td>Doppelspiel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-22</td><td>Dropshipping</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-23</td><td>Durchlaufregal</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-24</td><td>Durchlaufzeit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-25</td><td>EAN</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-25</td><td>European Article Number</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-26</td><td>E-Commerce</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-27</td><td>EDI Clearing Center</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-28</td><td>EDIFACT</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-29</td><td>Einzelhandel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-30</td><td>Electronic Data Interchange</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-31</td><td>Endless Aisle</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-32</td><td>ERP-System</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-33</td><td>FEFO</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-34</td><td>FiBU-Anbindung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-35</td><td>Funkerkennung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-36</td><td>GoBD</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-37</td><td>Großhandel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-38</td><td>Handling Unit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-39</td><td>HRL</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-40</td><td>IDW PS 880</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-41</td><td>Intralogistik</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-42</td><td>Inventur</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-43</td><td>Inventursoftware</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-44</td><td>Just-in-Time</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-45</td><td>KassenSichV</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-46</td><td>Kaufentscheidung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-47</td><td>KPI</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-48</td><td>Kommissioniermethode</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-49</td><td>Kommissionierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-50</td><td>Kommissionierverfahren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-51</td><td>LHM</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-52</td><td>Lagerart</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-53</td><td>Lagereinheit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-53</td><td>SKU</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-54</td><td>Lagerhaltung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-55</td><td>Lagerhaltungskosten</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-56</td><td>Lagerkennzahl</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-57</td><td>Lagerlogistik</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-58</td><td>LP</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-59</td><td>Lagerumschlagshäufigkeit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-60</td><td>Lagerverwaltung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-61</td><td>Lagerverwaltungssystem</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-62</td><td>Lieferantenintegration</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-63</td><td>Lieferantenmanagement</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-64</td><td>Lieferfähigkeit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-65</td><td>Lieferkette</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-66</td><td>LIFO</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-67</td><td>Logistik</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-68</td><td>Logistikdienstleister</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-69</td><td>Losgrößen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-70</td><td>Materialfluss</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-71</td><td>Materialwirtschaft</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-72</td><td>Maximalbestand</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-73</td><td>MDE</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-74</td><td>Meldebestand</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-75</td><td>MiMe</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-76</td><td>MOP</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-77</td><td>MOP-Bereich</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-78</td><td>Multichannel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-79</td><td>Multi-Echelon-Optimierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-80</td><td>Omnichannel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-81</td><td>Fortlaufende Inventur</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-82</td><td>Produktionsplanung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-83</td><td>ROI</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-83</td><td>ROI</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-84</td><td>Retourenmanagement</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-85</td><td>Retourenverhinderung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-86</td><td>Selbstzahlungskasse</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-87</td><td>SGTIN</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-88</td><td>Stückgut</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-89</td><td>Track-and-Trace</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-90</td><td>TA</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-91</td><td>Transportlogistik</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-92</td><td>Transportmanagement</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-93</td><td>Umlagerung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-94</td><td>Umschlagslogistik</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-95</td><td>Unified Commerce</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-96</td><td>VAS-Codes</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-97</td><td>Mehrwertdienstleistungen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-98</td><td>Lieferantengesteuerter Bestand</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-99</td><td>Versand ab Lager</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-100</td><td>Virtuelles Lager</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-101</td><td>Warehouse Management System</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-102</td><td>Warenausgang</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-103</td><td>Warendisposition</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-104</td><td>Wareneingang</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-105</td><td>Warenwirtschaftssystem</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-106</td><td>Zentrallager</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-107</td><td>Zwischenlager</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-108</td><td>Automatisches Scannen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-109</td><td>Plattform</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-110</td><td>Belegrabatt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-111</td><td>Click & Collect-Auftrag</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-112</td><td>Click & Reserve-Auftrag</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-113</td><td>Einfache Kundensuche</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-114</td><td>Erweiterte Kundensuche</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-115</td><td>Globaber Warenkorb</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-116</td><td>HID-Scanner</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-117</td><td>Inventur-Set</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-118</td><td>Kontinuierliches Scannen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-119</td><td>NFC</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-120</td><td>Offline-Inventur</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-121</td><td>Persönliche Registrierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-122</td><td>Rabattgrund</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-123</td><td>Referenzliste</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-124</td><td>Reservierungsauftrag</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-125</td><td>Ship from Store-Auftrag</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-126</td><td>Zahlungsterminal</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-127</td><td>Warenbewegungsgrund</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-128</td><td>Zeilenrabatt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-129</td><td>Abweichung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-130</td><td>Artikel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-131</td><td>AVZ</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-131</td><td>Order lead time</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-132</td><td>Ausreißer</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-133</td><td>Automatische Aktion</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-134</td><td>Basiseinheit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-135</td><td>Berechtigung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-136</td><td>BE</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-137</td><td>Bestellmenge</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-138</td><td>Bestellrhythmus</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-139</td><td>Bestelltag</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-140</td><td>Bestellvorschlag</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-141</td><td>Bestellzeitpunkt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-142</td><td>Beta</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-143</td><td>ELZ</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-144</td><td>Exklusive Aktion</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-145</td><td>Extra-Saisonalität</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-146</td><td>Folgebestelltermin</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-147</td><td>Gesamt-Menge</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-148</td><td>GTIN</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-149</td><td>Info-Aktion</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-150</td><td>Kennzahl</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-151</td><td>Knoten</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-152</td><td>Kontrakt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-153</td><td>Lager</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-154</td><td>Lambda</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-155</td><td>Langsamdreher</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-156</td><td>Lieferrhythmus</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-157</td><td>Liefer-Rhythmus</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-158</td><td>Liefertermin</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-159</td><td>Manuelle Aktion</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-160</td><td>Maximale Reichweite</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-161</td><td>Mindestbestand</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-162</td><td>Mindestbestellmenge</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-163</td><td>Min. Reichweite</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-163</td><td>minimal coverage</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-164</td><td>Nötige Menge</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-165</td><td>On-top-Menge</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-166</td><td>ORDRSP</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-167</td><td>Periodenlänge</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-168</td><td>Periodizität</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-169</td><td>Präsentationsbestand</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-170</td><td>Prognosegrafik</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-171</td><td>Prognose-Tabelle</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-171</td><td>forecast table</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-172</td><td>Prognoseungenauigkeit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-173</td><td>Quad. Trend</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-174</td><td>RFID</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-175</td><td>Reichweite</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-176</td><td>Semi-Aktion</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-177</td><td>SiB</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-177</td><td>SFT</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-178</td><td>Sigma</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-179</td><td>Sporadisches Verfahren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-180</td><td>Standardabweichung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-181</td><td>Stichtags-Aktion</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-182</td><td>Stückliste</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-183</td><td>SCM</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-184</td><td>Typische Verkaufseinheit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-185</td><td>Verfügbarkeitsdatum</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-185</td><td>Availability date</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-186</td><td>Verschränkung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-187</td><td>Wiederbeschaffungszeit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-188</td><td>Endpoint</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-189</td><td>ASIN</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-190</td><td>Attribut</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-191</td><td>Bestellung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-191</td><td>ORDERS</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-192</td><td>Bestelländerung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-192</td><td>ORDCHG</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-193</td><td>Auftragsbestätigung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-193</td><td>order response</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-194</td><td>Datenbereich</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-195</td><td>Domänen-Menü</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-196</td><td>neuerfassen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-197</td><td>Pivottabelle</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-198</td><td>PRICAT</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-198</td><td>price catalog</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-199</td><td>Query</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-200</td><td>Rechnung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-200</td><td>INVOIC</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-201</td><td>REMIRA RETAIL</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-202</td><td>Schnellfunktionen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-203</td><td>ständig verfügbarer Artikel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-203</td><td>NOS</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-204</td><td>Warenempfangsbestätigung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-204</td><td>RECADV</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-205</td><td>Workflow</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-206</td><td>Aktionsrabatt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-207</td><td>Anzahlung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-208</td><td>Artikeldaten</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-209</td><td>Artikelsuche</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-210</td><td>Ausgaben</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-211</td><td>Auswahl</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-212</td><td>Auswahl Retoure</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-213</td><td>Beraterstatistik</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-214</td><td>Bestandsanzeige</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-215</td><td>Verkaufsbeleg</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-216</td><td>Bondrucker</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-217</td><td>Bonrabatt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-218</td><td>Bonretoure</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-219</td><td>Bonsuche</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-220</td><td>DSFinV-K</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-221</td><td>Einlage</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-222</td><td>Einnahmen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-223</td><td>Ersatzbeleg</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-224</td><td>Etiketten</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-225</td><td>Externe Warenkörbe</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-226</td><td>Remote-Tagesabschluss</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-227</td><td>Fiskalisierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-228</td><td>Z-Bericht</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-228</td><td>Z-Report</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-229</td><td>Kassenjournal</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-230</td><td>Kassenlade</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-231</td><td>Kassenstation</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-232</td><td>Kassierer</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-233</td><td>Nullbon</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-234</td><td>Retoure</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-235</td><td>Runden für wohltätige Zwecke</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-236</td><td>TSE</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-237</td><td>Tresor</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-238</td><td>Umtausch</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-239</td><td>Verkaufsberater</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-240</td><td>X-Bericht</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-240</td><td>X-Report</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-241</td><td>Warengruppenverkauf</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-242</td><td>Zeilenrabatt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-243</td><td>Bestandswert</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-244</td><td>Dashboard</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-245</td><td>Grundgesamtheit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-246</td><td>Lagerbestand</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-247</td><td>Mengeneinheit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-248</td><td>Preiseinheit</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-249</td><td>Schichtungsparameter</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-250</td><td>Stichprobe</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-251</td><td>Stichprobeninventur</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-252</td><td>Vollaufnahme</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-253</td><td>abgebrochen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-253</td><td>cancelled</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-254</td><td>abgelehnt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-254</td><td>rejected</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-255</td><td>ablehnen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-255</td><td>reject</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-256</td><td>ausloggen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-257</td><td>Aktionen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-257</td><td>Action</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-258</td><td>aktualisieren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-258</td><td>refresh</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-259</td><td>einloggen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-260</td><td>Anwendungsprogramme</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-261</td><td>Anwenderprogramme</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-262</td><td>Stepper</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-263</td><td>ausführen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-263</td><td>execute</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-264</td><td>Bar-Code</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-265</td><td>UI</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-266</td><td>Bereich</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-267</td><td>bestätigt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-267</td><td>confirmed</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-268</td><td>bestellt</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-268</td><td>ordered</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-269</td><td>Knöpfe</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-270</td><td>Kontrollkasten</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-271</td><td>Kalendersteuerelement</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-272</td><td>deaktivert</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-272</td><td>disabled</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-273</td><td>Dialogfenster</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-274</td><td>Drag & Drop</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-275</td><td>Drop-Down-Menü</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-276</td><td>Input</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-276</td><td>Input</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-277</td><td>entfernen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>concept-278</td><td>Erfolgsnachricht</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-279</td><td>erstellen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-279</td><td>create</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-280</td><td>exportieren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-280</td><td>export</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-281</td><td>Fehler</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-281</td><td>Error</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-282</td><td>Fehler-Pop-up</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-283</td><td>Eingabefeld</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-284</td><td>Programmfenster</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-285</td><td>Trichter</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-286</td><td>filtern</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-287</td><td>Eingabemaske</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-288</td><td>Ladebalken</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-289</td><td>geändert</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-289</td><td>changed</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-290</td><td>gelöscht</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-290</td><td>deleted</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-291</td><td>hinzufügen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-291</td><td>add</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-292</td><td>hochgeladen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-292</td><td>uploaded</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-293</td><td>hochladen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-293</td><td>upload</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-294</td><td>Symbol</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-295</td><td>importieren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-295</td><td>import</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-296</td><td>Karte</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-296</td><td>card</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-297</td><td>Kontextmenü</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-298</td><td>konvertieren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-298</td><td>convert</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-299</td><td>konvertiert</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-299</td><td>converted</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-300</td><td>laden</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-300</td><td>load</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-301</td><td>löschen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>concept-301</td><td>delete</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-302</td><td>Massenaktualisierung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-302</td><td>Bulk Update</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-303</td><td>Cursor</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-304</td><td>Toast Nachricht</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-305</td><td>Menü</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-306</td><td>neu</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-306</td><td>new</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-307</td><td>normalisieren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-307</td><td>normalize</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-308</td><td>Kennwort</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-309</td><td>planen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-309</td><td>schedule</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-310</td><td>Scan-Code</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-311</td><td>Optionsschaltfläche</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-312</td><td>schließen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-312</td><td>close</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-313</td><td>Webseite</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-313</td><td>site</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-314</td><td>Seitenzahlanzeige</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-315</td><td>sortieren</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-316</td><td>sichern</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-316</td><td>save</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-317</td><td>Speichern und Nächstes</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-317</td><td>Save and Next</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-318</td><td>Speichern und Neu</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-318</td><td>Save and New</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-319</td><td>starten</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-319</td><td>start</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-320</td><td>Strich-Code</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-321</td><td>Registerkarte</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-322</td><td>Feature</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-323</td><td>Tooltip</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-324</td><td>Schalter</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-325</td><td>ungeändert</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-325</td><td>unchanged</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-326</td><td>vergleichen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-326</td><td>compare</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-327</td><td>Vorschau</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-327</td><td>preview</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-328</td><td>Warn-Pop-up</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>deprecatedTerm</td></tr>
+<tr><td>concept-329</td><td>Warnung</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-329</td><td>warning</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-330</td><td>Website</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-331</td><td>weniger</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-331</td><td>less</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-332</td><td>zuweisen</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-332</td><td>assign</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>preferredTerm</td></tr>
+<tr><td>concept-333</td><td>Aufzählungstitel</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-334</td><td>COMMERCE Cloud</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-335</td><td>Device Wizard</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-336</td><td>Getting-Started-Guide</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-337</td><td>Grundgesamtheiten</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-338</td><td>INSTORE App</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-339</td><td>LOGOMATE</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-340</td><td>POS</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-341</td><td>POS Admin</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-342</td><td>Release Notes</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-343</td><td>REMIRA</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-344</td><td>REMIRA COMMERCE Cloud</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-345</td><td>REMIRA Device Wizard</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-346</td><td>REMIRA Group GmbH</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-347</td><td>REMIRA INSTORE App</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-348</td><td>REMIRA Integrated Service Bus</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-349</td><td>REMIRA ISB</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-350</td><td>REMIRA LOGOMATE</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-351</td><td>REMIRA POS</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-352</td><td>REMIRA POS Admin</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-354</td><td>REMIRA STATCONTROL Cloud</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-355</td><td>REMIRA STATCONTROL Cloud App</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-356</td><td>RETAIL</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-357</td><td>ROQQIO</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-358</td><td>ROQQIO GmbH</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-359</td><td>sich</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-360</td><td>STATCONTROL Cloud</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-361</td><td>STATCONTROL Cloud App</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-362</td><td>User Guide</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+<tr><td>concept-363</td><td>Verfahrensdokumentation</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>admittedTerm</td></tr>
+</table>
+
+<script>
+    var suggestionTimeout;
+
+    function updateAutocomplete() {
+        clearTimeout(suggestionTimeout);
+
+        // Verzögere die Aktualisierung der Vorschläge um 500 Millisekunden
+        suggestionTimeout = setTimeout(function () {
+            var input, filter, table, tr, td, i, j, txtValue, found;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.getElementById('termTable');
+            tr = table.getElementsByTagName('tr');
+
+            // Array, um Concept-IDs der sichtbaren Zeilen zu speichern
+            var visibleConceptIds = [];
+
+            // Loop durch jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
+            for (i = 1; i < tr.length; i++) {
+                // Zeige die Zeile standardmäßig an
+                tr[i].style.display = '';
+
+                // Wenn die Sucheingabe nicht leer ist, filtere die Zeilen
+                if (filter.trim() !== '') {
+                    td = tr[i].getElementsByTagName('td');
+                    found = false;
+
+                    // Überprüfe jede Zelle in der Zeile
+                    for (j = 0; j < td.length; j++) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+
+                            // Extrahiere die Concept-ID der gefundenen Zeile
+                            var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
+
+                            // Speichere die Concept-ID, wenn sie noch nicht gespeichert wurde
+                            if (!visibleConceptIds.includes(conceptId)) {
+                                visibleConceptIds.push(conceptId);
+                            }
+
+                            break;
+                        }
+                    }
+
+                    // Wenn keine der Zellen den Filter enthält, verstecke die Zeile
+                    if (!found) {
+                        tr[i].style.display = 'none';
+                    }
+                }
+            }
+
+            // Wenn keine sichtbaren Zeilen vorhanden sind und die Sucheingabe nicht leer ist, zeige alle Zeilen mit den gespeicherten Concept-IDs
+            if (visibleConceptIds.length > 0 && filter.trim() !== '') {
+                for (i = 1; i < tr.length; i++) {
+                    var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
+                    if (visibleConceptIds.includes(conceptId)) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }
+            }
+
+            // Aktualisiere die Suchvorschläge
+            updateSuggestions(filter);
+        }, 500); // Warte 500 Millisekunden, bevor die Vorschläge aktualisiert werden
+    }
+
+    function updateSuggestions(filter) {
+        var suggestions = [];
+        var termTable = document.getElementById('termTable');
+        var tr = termTable.getElementsByTagName('tr');
+
+        // Durchlaufe jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
+        for (var i = 1; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName('td');
+
+            // Überprüfe jede Zelle in der Zeile
+            for (var j = 0; j < td.length; j++) {
+                var txtValue = td[j].textContent || td[j].innerText;
+
+                // Überprüfe, ob der Begriff mit dem eingegebenen Filter beginnt
+                if (txtValue.toUpperCase().startsWith(filter)) {
+                    // Füge den gefundenen Begriff zu den Vorschlägen hinzu
+                    suggestions.push(txtValue);
+                    break; // Sobald ein passender Begriff gefunden wurde, breche die innere Schleife ab
+                }
+            }
+        }
+
+        // Anzeige der Vorschläge im Eingabefeld
+        var autocompleteInput = document.getElementById('searchInput');
+        if (suggestions.length > 0) {
+            autocompleteInput.placeholder = suggestions[0].substring(filter.length);
+        } else {
+            autocompleteInput.placeholder = '';
+        }
+    }
+</script>
+
+<footer>
+    Programmiert von Daniel Rukober - User Assistance
+</footer>
+</body>
+</html>
