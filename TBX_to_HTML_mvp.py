@@ -14,7 +14,7 @@ class ScrollableFrame(tk.Frame):
 
         self.vsb.pack(side="right", fill="y")
         self.canvas.pack(side="left", fill="both", expand=True)
-        self.canvas.create_window((4,4), window=self.frame, anchor="nw", tags="self.frame")
+        self.canvas.create_window((4, 4), window=self.frame, anchor="nw", tags="self.frame")
 
         self.frame.bind("<Configure>", self.on_frame_configure)
         self.canvas.bind("<Configure>", self.on_canvas_configure)
@@ -23,12 +23,13 @@ class ScrollableFrame(tk.Frame):
         self.scrollable_frame.pack(fill="both", expand=True)
 
     def on_frame_configure(self, event):
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+            # Resize the canvas to fit the frame width and height
+            canvas_width = event.width
 
     def on_canvas_configure(self, event):
-        canvas_width = event.width
-        self.canvas.itemconfig("self.frame", width=canvas_width)
-
+            # Resize scrollable frame to fit canvas size
+            canvas_width = event.width
+            self.canvas.itemconfig("self.frame", width=canvas_width)
 
 def read_tbx(file_path, selected_columns):
     tree = ET.parse(file_path)
@@ -59,10 +60,10 @@ def read_tbx(file_path, selected_columns):
 
     return term_dict
 
-def convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns):
-    term_dictionary = read_tbx(tbx_file_path, selected_columns)
+def convert_tbx_to_html(file_path, html_file_path, selected_columns):
+    term_dictionary = read_tbx(file_path, selected_columns)
 
-    file_name = os.path.splitext(os.path.basename(tbx_file_path))[0]
+    file_name = os.path.splitext(os.path.basename(file_path))[0]
 
     html_content = f"""
 <!DOCTYPE html>
@@ -316,8 +317,8 @@ def convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns):
     print(f"Erfolgreich in {html_file_path} konvertiert.")
 
 
-def preview_columns(tbx_file_path):
-    tree = ET.parse(tbx_file_path)
+def preview_columns(file_path, selected_columns):
+    tree = ET.parse(file_path)
     root = tree.getroot()
 
     columns = set()
@@ -331,18 +332,24 @@ def preview_columns(tbx_file_path):
 
 
 def choose_file():
+    # Get the file path
     file_path = filedialog.askopenfilename(filetypes=[("TBX files", "*.tbx")])
-    if file_path:
-        selected_columns = show_column_selection(file_path)
-        
-        if selected_columns:
-            html_file_path = "ausgabe.html"
-            convert_tbx_to_html(file_path, html_file_path, selected_columns)
+
+    # Get the selected columns
+    selected_columns = show_column_selection(file_path)
+       
+    if selected_columns:
+        # Call the preview_columns function with both arguments
+        columns = preview_columns(file_path, selected_columns)
+
+        html_file_path = "ausgabe.html"
+        convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
-def show_column_selection(tbx_file_path):
-    columns = preview_columns(tbx_file_path)
-
+def show_column_selection(file_path):
+    selected_columns = None
+    columns = preview_columns(file_path, selected_columns)
+    
     root = tk.Tk()
     root.title("Spaltenauswahl")
     root.geometry("300x400")
@@ -383,7 +390,7 @@ def show_column_selection(tbx_file_path):
     def on_continue_click():
         root.destroy()
         html_file_path = "ausgabe.html"
-        convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns)
+        convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
     continue_button = tk.Button(root, text="Weiter", command=on_continue_click, bg="#003366", fg="white")
