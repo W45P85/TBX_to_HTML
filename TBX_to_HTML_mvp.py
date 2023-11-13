@@ -326,7 +326,9 @@ def preview_columns(file_path, selected_columns):
     for entry in root.findall(".//termEntry"):
         for ntig in entry.findall(".//ntig"):
             for term_note in ntig.findall(".//termNote"):
-                columns.add(term_note.get("type"))
+                column_name = term_note.get("type")
+                if column_name == 'normativeAuthorization' or column_name.endswith("|String"):
+                    columns.add(column_name)
 
     return list(sorted(columns))
 
