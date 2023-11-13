@@ -42,9 +42,18 @@ def read_tbx(file_path, selected_columns):
         concept_id = entry.get("id")
         terms_info = []
 
+        # Sprache extrahieren
+        lang_set = entry.find(".//langSet")
+        language = lang_set.get("{http://www.w3.org/XML/1998/namespace}lang", "") if lang_set is not None else ""
+
         # Schritt 2: Iteriere über alle <term> Tags unter dem aktuellen <termEntry>
         for ntig in entry.findall(".//ntig"):
-            term_info = {"term": ntig.find(".//term").text, "notes": {}}
+            term_info = {"term": "", "notes": {}, "language": language}
+
+            # Term extrahieren
+            term = ntig.find(".//term")
+            if term is not None:
+                term_info["term"] = term.text
 
             # Schritt 3: Füge die Daten aus <termNote> Tags hinzu
             for term_note in ntig.findall(".//termNote"):
@@ -179,6 +188,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 <table id="termTable">
     <tr>
         <th>Concept ID</th>
+        <th>Language</th>
         <th>Term</th>
         <!-- Add headers here -->
 """
@@ -192,6 +202,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         for term_info in terms_info:
             html_content += f"<tr>"
             html_content += f"<td>{concept_id}</td>"
+            html_content += f"<td>{term_info['language']}</td>"
             html_content += f"<td>{term_info['term']}</td>"
 
             for column in selected_columns:
