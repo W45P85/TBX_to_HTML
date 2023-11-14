@@ -341,7 +341,13 @@ def preview_columns(file_path, selected_columns):
                 if column_name == 'normativeAuthorization' or column_name.endswith("|String"):
                     columns.add(column_name)
 
-    return list(sorted(columns))
+    # Hier kannst du die Spalten nach deiner gewünschten Reihenfolge anordnen
+    ordered_columns = ['Concept ID', 'normativeAuthorization', 'Benennungstyp|String', 'Wortklasse|String', 'Genus|String', 'Language' , 'Definition|String', 'Quelle|String', 'Anmerkung|String', 'Kontextbeispiel|String', 'Termset|String']
+
+    # Filtere nur die ausgewählten Spalten, die auch in der Reihenfolge vorkommen
+    selected_columns = [col for col in ordered_columns if col in columns]
+
+    return selected_columns
 
 
 def choose_file():
