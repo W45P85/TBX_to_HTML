@@ -74,6 +74,19 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 
     file_name = os.path.splitext(os.path.basename(file_path))[0]
 
+    # Ersetze die alten Spaltennamen durch die neuen
+    new_column_names = {
+        'normativeAuthorization': 'Verwendung / Usage',
+        'Benennungstyp|String': 'Benennungstyp / Term type',
+        'Wortklasse|String': 'Wortklasse / Word class',
+        'Genus|String': 'Genus / Gender',
+        'Definition|String': 'Definition',
+        'Quelle|String': 'Quelle / Source',
+        'Anmerkung|String': 'Anmerkung / Additional note',
+        'Kontextbeispiel|String': 'Kontextbeispiel / Context example',
+        'Termset|String': 'Termset / Term set'
+    }
+
     html_content = f"""
 <!DOCTYPE html>
 <html lang="de">
@@ -188,7 +201,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 <table id="termTable">
     <tr>
         <th>Concept ID</th>
-        <th>Language</th>
+        <th>Sprache / Language</th>
         <th>Term</th>
         <!-- Add headers here -->
 """
@@ -206,7 +219,9 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             html_content += f"<td>{term_info['term']}</td>"
 
             for column in selected_columns:
-                note_value = term_info["notes"].get(column, "-")
+                # Verwende den ursprünglichen Spaltennamen für die Zuordnung des Inhalts
+                original_column_name = next((key for key, value in new_column_names.items() if value == column), column)
+                note_value = term_info["notes"].get(original_column_name, "-")
                 html_content += f"<td>{note_value}</td>"
 
             html_content += "</tr>\n"
@@ -368,6 +383,19 @@ def choose_file():
 def show_column_selection(file_path):
     selected_columns = None
     columns = preview_columns(file_path, selected_columns)
+
+    # Ersetze die alten Spaltennamen durch die neuen
+    new_column_names = {
+        'normativeAuthorization': 'Verwendung / Usage',
+        'Benennungstyp|String': 'Benennungstyp / Term type',
+        'Wortklasse|String': 'Wortklasse / Word class',
+        'Genus|String': 'Genus / Gender',
+        'Definition|String': 'Definition',
+        'Quelle|String': 'Quelle / Source',
+        'Anmerkung|String': 'Anmerkung / Additional note',
+        'Kontextbeispiel|String': 'Kontextbeispiel / Context example',
+        'Termset|String': 'Termset / Term set'
+    }
     
     root = tk.Tk()
     root.title("Spaltenauswahl")
@@ -389,7 +417,6 @@ def show_column_selection(file_path):
             selected_columns.append(column)
 
     def select_all_columns():
-        print("Button 'Alle auswählen' wurde geklickt.")
         for checkbox in scroll_frame.scrollable_frame.winfo_children():
             checkbox.select()
             column = checkbox.cget("text")
@@ -400,7 +427,7 @@ def show_column_selection(file_path):
 
     for column in columns:
         var = tk.IntVar()
-        checkbox = tk.Checkbutton(scroll_frame.scrollable_frame, text=column, variable=var, command=lambda col=column: on_checkbox_change(col))
+        checkbox = tk.Checkbutton(scroll_frame.scrollable_frame, text=new_column_names.get(column, column), variable=var, command=lambda col=column: on_checkbox_change(col))
         checkbox.pack(anchor=tk.W)
 
     select_all_button = tk.Button(root, text="Alle auswählen", command=select_all_columns, bg="#003366", fg="white")
