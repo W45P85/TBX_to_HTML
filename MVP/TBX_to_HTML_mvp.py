@@ -40,30 +40,32 @@ def read_tbx(file_path, selected_columns):
     # Schritt 1: Durchlaufe jeden termEntry-Eintrag
     for entry in root.findall(".//termEntry"):
         concept_id = entry.get("id")
+        lang_sets = entry.findall(".//langSet")
+
         terms_info = []
 
-        # Sprache extrahieren
-        lang_set = entry.find(".//langSet")
-        language = lang_set.get("{http://www.w3.org/XML/1998/namespace}lang", "") if lang_set is not None else ""
+        # Schritt 2: Iteriere über alle <langSet> Tags unter dem aktuellen <termEntry>
+        for lang_set in lang_sets:
+            language = lang_set.get("{http://www.w3.org/XML/1998/namespace}lang", "")
 
-        # Schritt 2: Iteriere über alle <term> Tags unter dem aktuellen <termEntry>
-        for ntig in entry.findall(".//ntig"):
-            term_info = {"term": "", "notes": {}, "language": language}
+            # Schritt 3: Iteriere über alle <termGrp> Tags unter dem aktuellen <langSet>
+            for term_grp in lang_set.findall(".//termGrp"):
+                term_info = {"term": "", "notes": {}, "language": language}
 
-            # Term extrahieren
-            term = ntig.find(".//term")
-            if term is not None:
-                term_info["term"] = term.text
+                # Schritt 4: Iteriere über alle <term> Tags unter dem aktuellen <termGrp>
+                term = term_grp.find(".//term")
+                if term is not None:
+                    term_info["term"] = term.text
 
-            # Schritt 3: Füge die Daten aus <termNote> Tags hinzu
-            for term_note in ntig.findall(".//termNote"):
-                note_type = term_note.get("type")
-                note_value = term_note.text
-                term_info["notes"][note_type] = note_value
+                # Schritt 5: Füge die Daten aus <termNote> Tags hinzu
+                for term_note in term_grp.findall(".//termNote"):
+                    note_type = term_note.get("type")
+                    note_value = term_note.text
+                    term_info["notes"][note_type] = note_value
 
-            terms_info.append(term_info)
+                terms_info.append(term_info)
 
-        # Schritt 4: Füge das Dictionary zum Dict hinzu
+        # Schritt 6: Füge das Dictionary zum Dict hinzu
         if concept_id and terms_info:
             term_dict[concept_id] = terms_info
 
