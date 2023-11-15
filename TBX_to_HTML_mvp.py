@@ -163,10 +163,6 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             border-bottom: 1px solid #ddd;
         }}
 
-        tr.deprecatedTerm {{
-            background-color: #ffcccc; /* Hintergrundfarbe für deprecatedTerm */
-        }}
-
         footer {{
             text-align: center;
             font-style: italic;
@@ -182,6 +178,11 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         tr:hover {{
             background-color: #f5f5f5;
         }}
+
+        #legende {{
+            text-align: left;
+            padding: 10px;
+        }}
     </style>
 </head>
 <header>
@@ -192,10 +193,12 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 
 <p>Willkommen zum TBX Viewer! Hier finden Sie eine Liste der Begriffe aus der TBX-Datei.</p>
 <p>Verwenden Sie das Suchfeld, um die Tabelle nach Termen zu filtern.</p>
+<p>Am Ende der Tabelle ist eine kleine Legende, falls erste Fragen sind</p>
 
 <div class="search-container">
     <input type="text" id="searchInput" placeholder="Suche nach Terme" oninput="updateAutocomplete()">
     <div id="autocomplete" class="autocomplete-items"></div>
+    <!-- <button onclick="highlightTableRows()">Zeige erlaubte Terme</button> -->
 </div>
     
 <table id="termTable">
@@ -326,12 +329,79 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         } else {
             autocompleteInput.placeholder = '';
         }
-    }
+    }   
 </script>
 
+<div id="legende">
+    <h2>Legende:</h2>
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+    <li><strong>Concept-ID:</strong> 
+        <ul>
+            <li>Eindeutige Identifikationsnummer des Begriffs im Redaktionssystem SMC.</li>
+        </ul>
+    <li><strong>Sprache / Language:</strong>
+        <ul>
+            <li><em>de:</em> Deutsche Sprache</li>
+            <li><em>en_US:</em> Englisch (US)</li>
+        </ul>
+    </li>
 
+    <li><strong>Verwendung / Usage:</strong>
+        <ul>
+            <li><em>preferredTerm:</em> Bevorzugter Begriff</li>
+            <li><em>admittedTerm:</em> Erlaubter Begriff</li>
+            <li><em>deprecatedTerm:</em> Gesperrter Begriff</li>
+        </ul>
+    </li>
+
+    <li><strong>Benennungstyp / Term type:</strong>
+        <ul>
+            <li><em>Hauptbenennung:</em> Primary designation</li>
+            <li><em>Gemeinsprachliche Benennung:</em> General designation</li>
+            <li><em>Kurzform:</em> Shorthand designation</li>
+            <li><em>Abkürzung:</em> Abbreviation</li>
+            <li><em>Standardtext:</em> Standard text</li>
+            <li><em>Synonym:</em> Synonym</li>
+            <li><em>Variante:</em> Variant</li>
+        </ul>
+    </li>
+
+    <li><strong>Wortklasse / Word class:</strong>
+        <ul>
+            <li><em>Substantiv:</em> Nomen</li>
+            <li><em>Verb:</em> Tätigkeitswort</li>
+            <li><em>Adjektiv:</em> Eigenschaftswort</li>
+            <li><em>Adverb:</em> Umstandswort</li>
+        </ul>
+    </li>
+
+    <li><strong>Genus / Gender:</strong>
+        <ul>
+            <li><em>Maskulinum:</em> Männlich</li>
+            <li><em>Femininum:</em> Weiblich</li>
+            <li><em>Neutrum:</em> Sächlich</li>
+        </ul>
+    </li>
+
+    <li><strong>Definition:</strong> Klar formulierte Erklärung oder Bedeutung des Begriffs.</li>
+
+    <li><strong>Quelle / Source:</strong> Ursprung oder Referenz, woher der Begriff stammt.</li>
+
+    <li><strong>Anmerkung / Additional note:</strong>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li><em>Kurze Produktangabe (falls anwendbar):</em> Zusätzliche Information, insbesondere für Produkte.</li>
+        </ul>
+    </li>
+
+    <li><strong>Kontextbeispiel / Context example:</strong> Praktisches Beispiel, das den Begriff in einem Kontext zeigt.</li>
+
+    <li><strong>Termset / Term set:</strong> Gruppierung des Begriffs in einem bestimmten Satz oder Zusammenhang.</li>
+</ul>
+
+
+</div>
 <footer>
-    Programmiert von Daniel Rukober - User Assistance
+    User Assistance - 2023
 </footer>
 </body>
 </html>
