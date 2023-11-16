@@ -1,7 +1,7 @@
 import os
 import xml.etree.ElementTree as ET
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
 
 class ScrollableFrame(tk.Frame):
     def __init__(self, master, **kwargs):
@@ -181,9 +181,8 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             background-color: #f5f5f5;
         }}
 
-        #legende {{
-            text-align: left;
-            padding: 10px;
+        .english-table {{
+            display: none;
         }}
     </style>
 </head>
@@ -331,75 +330,144 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         } else {
             autocompleteInput.placeholder = '';
         }
-    }   
+    }
+    function toggleTable() {
+            var germanTable = document.getElementById('german-table');
+            var englishTable = document.getElementById('english-table');
+
+            if (document.getElementById('language-toggle').checked) {
+                // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
+                germanTable.style.display = 'none';
+                englishTable.style.display = 'table';
+            } else {
+                // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
+                germanTable.style.display = 'table';
+                englishTable.style.display = 'none';
+            }
+        }   
 </script>
 
-<div id="legende">
-    <h2>Legende:</h2>
-    <ul style="list-style-type: none; padding: 0; margin: 0;">
-    <li><strong>Concept-ID:</strong> 
-        <ul>
-            <li>Eindeutige Identifikationsnummer des Begriffs im Redaktionssystem SMC.</li>
-        </ul>
-    <li><strong>Sprache / Language:</strong>
-        <ul>
-            <li><em>de:</em> Deutsche Sprache</li>
-            <li><em>en_US:</em> Englisch (US)</li>
-        </ul>
-    </li>
+<h2>Legende</h2>
 
-    <li><strong>Verwendung / Usage:</strong>
-        <ul>
-            <li><em>preferredTerm:</em> Bevorzugter Begriff</li>
-            <li><em>admittedTerm:</em> Erlaubter Begriff</li>
-            <li><em>deprecatedTerm:</em> Gesperrter Begriff</li>
-        </ul>
-    </li>
+<label for="language-toggle">English version</label>
+    <input type="checkbox" id="language-toggle" onchange="toggleTable()">
 
-    <li><strong>Benennungstyp / Term type:</strong>
-        <ul>
-            <li><em>Hauptbenennung:</em> Primary designation</li>
-            <li><em>Gemeinsprachliche Benennung:</em> General designation</li>
-            <li><em>Kurzform:</em> Shorthand designation</li>
-            <li><em>Abkürzung:</em> Abbreviation</li>
-            <li><em>Standardtext:</em> Standard text</li>
-            <li><em>Synonym:</em> Synonym</li>
-            <li><em>Variante:</em> Variant</li>
-        </ul>
-    </li>
+    <table id="german-table">
+        <!-- Deutsche Tabelle -->
+        <thead>
+            <tr>
+                <th>Spaltenname</th>
+                <th>Beschreibung</th>
+                <th>Mögliche Werte</th>
+                <!-- Weitere Spalten nach Bedarf -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Concept-ID</td>
+                <td>Eindeutige Identifikationsnummer einer Termgruppe im Redaktionssystem SMC. Verschiedene Terme können zu einer Termgruppe gehören.</td>
+                <td>Aufsteigende Nummerierung (z.B. concept-xxx)</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Sprache / Language</td>
+                <td>Jeweilige Sprache eines Terms innerhalb einer Termgruppe.</td>
+                <td>de (Deutsch - Deutschland)<br>en_US (Englisch - USA)</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Verwendung / Usage</td>
+                <td>Jeweilige Verwendungseinstufung eines Terms</td>
+                <td>preferredTerm (Bevorzugter Begriff)<br>admittedTerm (Erlaubter Begriff/ Wörterbucheintrag)<br>deprecatedTerm (Gesperrter Begriff)</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Benennungstyp / Term type</td>
+                <td>Jeweilige Art der Benennung eines Terms (z.B. Langform, Kurzform)</td>
+                <td>Hauptbenennung<br>
+                    Gemeinsprachliche Benennung<br>
+                    Kurzform<br>
+                    Abkürzung<br>
+                    Standardtext<br>
+                    Synonym<br>
+                    Variante
+                </td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Wortklasse / Word class</td>
+                <td>Lexikalische Kategorie eines Terms (z.B. Verb)</td>
+                <td>Substantiv: Nomen<br>Verb: Tätigkeitswort<br>Adjektiv: Eigenschaftswort<br>Adverb: Umstandswort</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Genus / Gender</td>
+                <td>Grammatikalische Kategorie eines Terms (z.B. Männlich)</td>
+                <td>Maskulinum: Männlich<br>Femininum: Weiblich<br>Neutrum: Sächlich</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Definition</td>
+                <td>Klar formulierte Erklärung oder Bedeutung des Terms.</td>
+                <td>Freitexteingabe einer Definition eines Terms aus dem Redaktionssystem SMC</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Quelle / Source</td>
+                <td>Ursprung oder Referenz, woher der Term stammt.</td>
+                <td>Freitexteingabe einer Quelle eines Terms aus dem Redaktionssystem SMC</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Anmerkung / Additional note</td>
+                <td>Zusätzliche Information für einen Term, insbesondere für Produkte.</td>
+                <td>Freitexteingabe einer Quelle eines Terms aus dem Redaktionssystem SMC</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Kontextbeispiel / Context example</td>
+                <td>Praktisches Beispiel, das den Term in einem Kontext zeigt.</td>
+                <td>Freitexteingabe einer Quelle eines Terms aus dem Redaktionssystem SMC</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+            <tr>
+                <td>Termset / Term set</td>
+                <td>Gruppierung des Terms in einem bestimmten produktspezifischen oder thematischen Satz oder Zusammenhang.</td>
+                <td>Standard<br>
+                    ABC-Analyse<br>
+                    LOGOMATE<br>
+                    INSTORE App<br>
+                    RCC<br>
+                    RPOS<br>
+                    RETAIL<br>
+                    STATCONTROL<br>
+                    UCP<br>
+                    UI/UX<br>
+                    Handelsterminologie</td>
+                <!-- Weitere Zeilen und Daten nach Bedarf -->
+            </tr>
+        </tbody>
+    </table>
 
-    <li><strong>Wortklasse / Word class:</strong>
-        <ul>
-            <li><em>Substantiv:</em> Nomen</li>
-            <li><em>Verb:</em> Tätigkeitswort</li>
-            <li><em>Adjektiv:</em> Eigenschaftswort</li>
-            <li><em>Adverb:</em> Umstandswort</li>
-        </ul>
-    </li>
-
-    <li><strong>Genus / Gender:</strong>
-        <ul>
-            <li><em>Maskulinum:</em> Männlich</li>
-            <li><em>Femininum:</em> Weiblich</li>
-            <li><em>Neutrum:</em> Sächlich</li>
-        </ul>
-    </li>
-
-    <li><strong>Definition:</strong> Klar formulierte Erklärung oder Bedeutung des Begriffs.</li>
-
-    <li><strong>Quelle / Source:</strong> Ursprung oder Referenz, woher der Begriff stammt.</li>
-
-    <li><strong>Anmerkung / Additional note:</strong>
-        <ul style="list-style-type: none; padding: 0; margin: 0;">
-            <li><em>Kurze Produktangabe (falls anwendbar):</em> Zusätzliche Information, insbesondere für Produkte.</li>
-        </ul>
-    </li>
-
-    <li><strong>Kontextbeispiel / Context example:</strong> Praktisches Beispiel, das den Begriff in einem Kontext zeigt.</li>
-
-    <li><strong>Termset / Term set:</strong> Gruppierung des Begriffs in einem bestimmten Satz oder Zusammenhang.</li>
-</ul>
-
+    <table id="english-table" class="english-table">
+        <!-- Englische Tabelle (initial ausgeblendet) -->
+        <thead>
+            <tr>
+                <th>Column name</th>
+                <th>Description</th>
+                <th>Possible values</th>
+                <!-- Add more rows and data as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Concept ID</td>
+                <td>Unique identification number of a term group in the SMC editing system. Different terms can belong to one term group</td>.
+                <td>In ascending numbering (e.g. concept-xxx)</td>
+                <!-- Further lines and data as required -->
+            </tr>
+        </tbody>
+    </table>
 
 </div>
 <footer>
