@@ -4,7 +4,7 @@ import tkinter as tk                    # GUI-Bibliothek
 from tkinter import filedialog          # Dateidialog-Funktionalität
 
 class ScrollableFrame(tk.Frame):
-    # Klasse für ein scrollbares Frame in der Gui
+    # Klasse für ein scrollbares Frame in der GUI
     def __init__(self, master, **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
 
@@ -200,7 +200,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     </style>
 </head>
 <header>
-    <img src="img\logo.PNG" alt="Logo Remira">
+    <img src="img\\logo.PNG" alt="Logo Remira">
     <h2>{file_name}</h2>
 </header>
 <body>
