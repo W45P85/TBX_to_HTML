@@ -96,6 +96,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img\\favicon.ico">
     <title>TBX in HTML konvertiert</title>
     <style>
         body {{
@@ -187,7 +188,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     </style>
 </head>
 <header>
-    <img src="logo.png" alt="Logo Remira">
+    <img src="img\logo.PNG" alt="Logo Remira">
     <h2>{file_name}</h2>
 </header>
 <body>
@@ -481,13 +482,13 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             <tr>
                 <td>Term Type</td>
                 <td>Respective type of naming for a term (e.g., long form, short form).</td>
-                <td>Main Naming<br>
-                    Common Language Naming<br>
-                    Short Form<br>
-                    Abbreviation<br>
-                    Standard Text<br>
-                    Synonym<br>
-                    Variant
+                <td>Hauptbenennung / Primary destignation<br>
+                    Gemeinschaftliche Benennung / General designation<br>
+                    Kurzform / Shorthand designation<br>
+                    Abkürzung / Abbreviation<br>
+                    Standardtext / Standard Text<br>
+                    Synonym / Synonym<br>
+                    Variante / Variant
                 </td>
                 <!-- Add more rows and data as needed -->
             </tr>
