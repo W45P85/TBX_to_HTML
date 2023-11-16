@@ -194,7 +194,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 
 <p>Willkommen zum TBX Viewer! Hier finden Sie eine Liste der Begriffe aus der TBX-Datei.</p>
 <p>Verwenden Sie das Suchfeld, um die Tabelle nach Termen zu filtern.</p>
-<p>Am Ende der Tabelle ist eine kleine Legende, falls erste Fragen sind</p>
+<p>Am Ende der Tabelle ist eine kleine Legende, falls erste Fragen sind.</p>
 
 <div class="search-container">
     <input type="text" id="searchInput" placeholder="Suche nach Terme" oninput="updateAutocomplete()">
@@ -403,7 +403,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             <tr>
                 <td>Genus / Gender</td>
                 <td>Grammatikalische Kategorie eines Terms (z.B. Männlich)</td>
-                <td>Maskulinum: Männlich<br>Femininum: Weiblich<br>Neutrum: Sächlich</td>
+                <td>Masculinum: Männlich<br>Femininum: Weiblich<br>Neutrum: Sächlich</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
@@ -494,13 +494,13 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             <tr>
                 <td>Word Class</td>
                 <td>Lexical category of a term (e.g., Verb).</td>
-                <td>Noun: Noun<br>Verb: Verb<br>Adjective: Adjective<br>Adverb: Adverb</td>
+                <td>Substantiv: Noun<br>Verb: Verb<br>Adjectiv: Adjective<br>Adverb: Adverb</td>
                 <!-- Add more rows and data as needed -->
             </tr>
             <tr>
                 <td>Gender</td>
                 <td>Grammatical category of a term (e.g., Masculine).</td>
-                <td>Masculine: Masculine<br>Feminine: Feminine<br>Neuter: Neuter</td>
+                <td>Masculinum: Masculine<br>Femininum: Feminine<br>Neutrum: Neuter</td>
                 <!-- Add more rows and data as needed -->
             </tr>
             <tr>
@@ -591,9 +591,10 @@ def choose_file():
        
     if selected_columns:
         # Call the preview_columns function with both arguments
+        file_name = os.path.splitext(os.path.basename(file_path))[0]
         columns = preview_columns(file_path, selected_columns)
 
-        html_file_path = "ausgabe.html"
+        html_file_path = f"{file_name}_in_HTML.html"
         convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
@@ -652,7 +653,8 @@ def show_column_selection(file_path):
 
     def on_continue_click():
         root.destroy()
-        html_file_path = "ausgabe.html"
+        file_name = os.path.splitext(os.path.basename(file_path))[0]
+        html_file_path = f"{file_name}_in_HTML.html"
         convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
