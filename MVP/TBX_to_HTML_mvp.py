@@ -1,37 +1,46 @@
-import os
-import xml.etree.ElementTree as ET
-import tkinter as tk
-from tkinter import filedialog
+import os                               # Betgriebssystem-spezifische Funktionen
+import xml.etree.ElementTree as ET      # Verarbeitung von XML-Daten
+import tkinter as tk                    # GUI-Bibliothek
+from tkinter import filedialog          # Dateidialog-Funktionalität
 
 class ScrollableFrame(tk.Frame):
+    # Klasse für ein scrollbares Frame in der Gui
     def __init__(self, master, **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
 
+        # Canvas für Scrollbar erstellen
         self.canvas = tk.Canvas(self, borderwidth=0, background="#ffffff")
         self.frame = tk.Frame(self.canvas, background="#ffffff")
         self.vsb = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.vsb.set)
 
+        # Widgets anordnen
         self.vsb.pack(side="right", fill="y")
         self.canvas.pack(side="left", fill="both", expand=True)
         self.canvas.create_window((4, 4), window=self.frame, anchor="nw", tags="self.frame")
 
+        # Event-Handler für Größenänderungen
         self.frame.bind("<Configure>", self.on_frame_configure)
         self.canvas.bind("<Configure>", self.on_canvas_configure)
 
+        # Scrollable Frame
         self.scrollable_frame = tk.Frame(self.frame, background="#ffffff")
         self.scrollable_frame.pack(fill="both", expand=True)
 
+    # Event-Handler: Frame-Größe ändern
     def on_frame_configure(self, event):
-            # Resize the canvas to fit the frame width and height
+            # Canvas an die Größe des Frames anpassen
             canvas_width = event.width
 
+    # Event-Handler: Canvas-Größe ändern
     def on_canvas_configure(self, event):
-            # Resize scrollable frame to fit canvas size
+            # Scrollable Frame an die Größe des Canvas anpassen
             canvas_width = event.width
             self.canvas.itemconfig("self.frame", width=canvas_width)
 
+
 def read_tbx(file_path, selected_columns):
+    # Funktion zum Lesen einer TBX-Datei und Extrahieren von Daten
     tree = ET.parse(file_path)
     root = tree.getroot()
 
@@ -71,6 +80,8 @@ def read_tbx(file_path, selected_columns):
 
     return term_dict
 
+
+# Funktion zum Konvertieren von TBX in HTML
 def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     term_dictionary = read_tbx(file_path, selected_columns)
 
@@ -89,6 +100,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         'Termset|String': 'Termset / Term set'
     }
 
+    # HTML-Inhalt erstellen
     html_content = f"""
 <!DOCTYPE html>
 <html lang="de">
@@ -554,13 +566,14 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 </body>
 </html>
 """
-
+    # HTML in Datei schreiben
     with open(html_file_path, "w", encoding="utf-8") as html_file:
         html_file.write(html_content)
 
     print(f"Erfolgreich in {html_file_path} konvertiert.")
 
 
+# Funktion zur Vorschau der ausgewählten Spalten
 def preview_columns(file_path, selected_columns):
     tree = ET.parse(file_path)
     root = tree.getroot()
@@ -574,24 +587,25 @@ def preview_columns(file_path, selected_columns):
                 if column_name == 'normativeAuthorization' or column_name.endswith("|String"):
                     columns.add(column_name)
 
-    # Hier kannst du die Spalten nach deiner gewünschten Reihenfolge anordnen
+    # Spalten nach deiner gewünschten Reihenfolge anordnen
     ordered_columns = ['Concept ID', 'normativeAuthorization', 'Benennungstyp|String', 'Wortklasse|String', 'Genus|String', 'Language' , 'Definition|String', 'Quelle|String', 'Anmerkung|String', 'Kontextbeispiel|String', 'Termset|String']
 
-    # Filtere nur die ausgewählten Spalten, die auch in der Reihenfolge vorkommen
+    # Filtere die ausgewählten Spalten, die auch in der Reihenfolge vorkommen
     selected_columns = [col for col in ordered_columns if col in columns]
 
     return selected_columns
 
 
+# Funktion zum Auswählen und Verarbeiten einer TBX-Datei
 def choose_file():
-    # Get the file path
+    # Dateiauswahldialog anzeigen
     file_path = filedialog.askopenfilename(filetypes=[("TBX files", "*.tbx")])
 
-    # Get the selected columns
+    # Spaltenauswahl für die Vorschau
     selected_columns = show_column_selection(file_path)
        
     if selected_columns:
-        # Call the preview_columns function with both arguments
+        # Rufe die Funktion preview_columns mit beiden Argumenten auf
         file_name = os.path.splitext(os.path.basename(file_path))[0]
         columns = preview_columns(file_path, selected_columns)
 
@@ -599,6 +613,7 @@ def choose_file():
         convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
+# Zeigt die ausgewählten Spalten
 def show_column_selection(file_path):
     selected_columns = None
     columns = preview_columns(file_path, selected_columns)
@@ -616,6 +631,7 @@ def show_column_selection(file_path):
         'Termset|String': 'Termset / Term set'
     }
     
+    # Fenster für Spaltenauswahl erstellen
     root = tk.Tk()
     root.title("Spaltenauswahl")
     root.geometry("300x400")
@@ -628,13 +644,15 @@ def show_column_selection(file_path):
     global checkboxes
     checkboxes = []
 
-    # Funktion hier definieren
+
+    # Funktion zum weglassen von Spalten
     def on_checkbox_change(column):
         if column in selected_columns:
             selected_columns.remove(column)
         else:
             selected_columns.append(column)
 
+    # Funktion zum auswählen aller Spalten
     def select_all_columns():
         for checkbox in scroll_frame.scrollable_frame.winfo_children():
             checkbox.select()
@@ -652,6 +670,7 @@ def show_column_selection(file_path):
     select_all_button = tk.Button(root, text="Alle auswählen", command=select_all_columns, bg="#003366", fg="white")
     select_all_button.pack(pady=10, side=tk.TOP, fill=tk.X)
 
+    # Funktion zum Schließen des Programms
     def on_continue_click():
         root.destroy()
         file_name = os.path.splitext(os.path.basename(file_path))[0]
