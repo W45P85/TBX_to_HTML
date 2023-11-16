@@ -174,7 +174,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         }}
 
         th {{
-            background-color: #003366;
+            background-color: #005D6B;
             color: white;
         }}
 
@@ -482,13 +482,13 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             <tr>
                 <td>Term Type</td>
                 <td>Respective type of naming for a term (e.g., long form, short form).</td>
-                <td>Hauptbenennung / Primary destignation<br>
-                    Gemeinschaftliche Benennung / General designation<br>
-                    Kurzform / Shorthand designation<br>
-                    Abkürzung / Abbreviation<br>
-                    Standardtext / Standard Text<br>
-                    Synonym / Synonym<br>
-                    Variante / Variant
+                <td>Hauptbenennung: Primary destignation<br>
+                    Gemeinschaftliche Benennung: General designation<br>
+                    Kurzform: Shorthand designation<br>
+                    Abkürzung: Abbreviation<br>
+                    Standardtext: Standard Text<br>
+                    Synonym: Synonym<br>
+                    Variante: Variant
                 </td>
                 <!-- Add more rows and data as needed -->
             </tr>
