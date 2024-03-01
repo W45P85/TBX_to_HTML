@@ -162,6 +162,10 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         button:hover {{
             background-color: #45a049;
         }}
+        
+        .hidden {{
+            display: none;
+            }}
 
         table {{
             border: solid #000000;
@@ -200,19 +204,37 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     </style>
 </head>
 <header>
-    <img src="img\logo.PNG" alt="Logo Remira">
+    <!-- <img src="img\logo.PNG" alt="Logo Remira"> -->
     <h2>{file_name}</h2>
 </header>
 <body>
 
-<p>Willkommen zum TBX Viewer! Hier finden Sie eine Liste der Begriffe aus der TBX-Datei.</p>
-<p>Verwenden Sie das Suchfeld, um die Tabelle nach Termen zu filtern.</p>
-<p>Am Ende der Tabelle ist eine kleine Legende, falls erste Fragen sind.</p>
+<p>Welcome to the terminology database. Here you will find a list of permitted and prohibited terms that should be used depending on the application.</p>
+<p>Use the search field to search the table for terms.</p>
+<p>In addition to the search function, the table can also be filtered using the drop-down menu.</p>
+<p>There is a small legend at the bottom of the page in case you have any initial questions.</p>
 
 <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Suche nach Terme" oninput="updateAutocomplete()">
+    <input type="text" id="searchInput" placeholder="Search for terms" oninput="updateAutocomplete()">
     <div id="autocomplete" class="autocomplete-items"></div>
-    <!-- <button onclick="highlightTableRows()">Zeige erlaubte Terme</button> -->
+    <br />
+    <br />
+    <!-- Dropdown-Menü zur Auswahl des Filters -->
+        <label for="filterSelect">Select terminology set:</label>
+        <select id="filterSelect">
+            <option value="all">Alle</option>
+            <option value="Standard">Standard</option>
+            <option value="ABC-Analyse">ABC-Analyse</option>
+            <option value="LOGOMATE">LOGOMATE</option>
+            <option value="INSTORE App">INSTORE App</option>
+            <option value="RCC">RCC</option>
+            <option value="RPOS">RPOS</option>
+            <option value="RETAIL">RETAIL</option>
+            <option value="STATCONTROL">STATCONTROL</option>
+            <option value="UCP">UCP</option>
+            <option value="UI/UX">UI/UX</option>
+            <option value="Handelterminologie">Handelterminologie</option>
+        </select>
 </div>
     
 <table id="termTable">
@@ -249,70 +271,61 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     var suggestionTimeout;
 
     function updateAutocomplete() {
-        clearTimeout(suggestionTimeout);
+    clearTimeout(suggestionTimeout);
 
-        // Verzögere die Aktualisierung der Vorschläge um 500 Millisekunden
-        suggestionTimeout = setTimeout(function () {
-            var input, filter, table, tr, td, i, j, txtValue, found;
-            input = document.getElementById('searchInput');
-            filter = input.value.toUpperCase();
-            table = document.getElementById('termTable');
-            tr = table.getElementsByTagName('tr');
+    // Verzögere die Aktualisierung der Vorschläge um 500 Millisekunden
+    suggestionTimeout = setTimeout(function () {
+        var input, filter, table, tr, td, i, txtValue, found;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        table = document.getElementById('termTable');
+        tr = table.getElementsByTagName('tr');
 
-            // Array, um Concept-IDs der sichtbaren Zeilen zu speichern
-            var visibleConceptIds = [];
+        // Array, um Concept-IDs der sichtbaren Zeilen zu speichern
+        var visibleConceptIds = [];
 
-            // Loop durch jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
-            for (i = 1; i < tr.length; i++) {
-                // Zeige die Zeile standardmäßig an
-                tr[i].style.display = '';
+        // Loop durch jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
+        for (i = 1; i < tr.length; i++) {
+            // Zeige die Zeile standardmäßig an
+            tr[i].style.display = '';
 
-                // Wenn die Sucheingabe nicht leer ist, filtere die Zeilen
-                if (filter.trim() !== '') {
-                    td = tr[i].getElementsByTagName('td');
-                    found = false;
+            // Suche nur in der Spalte "Term" (Index 2)
+            td = tr[i].getElementsByTagName('td')[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
 
-                    // Überprüfe jede Zelle in der Zeile
-                    for (j = 0; j < td.length; j++) {
-                        txtValue = td[j].textContent || td[j].innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            found = true;
-
-                            // Extrahiere die Concept-ID der gefundenen Zeile
-                            var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
-
-                            // Speichere die Concept-ID, wenn sie noch nicht gespeichert wurde
-                            if (!visibleConceptIds.includes(conceptId)) {
-                                visibleConceptIds.push(conceptId);
-                            }
-
-                            break;
-                        }
-                    }
-
-                    // Wenn keine der Zellen den Filter enthält, verstecke die Zeile
-                    if (!found) {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
-
-            // Wenn keine sichtbaren Zeilen vorhanden sind und die Sucheingabe nicht leer ist, zeige alle Zeilen mit den gespeicherten Concept-IDs
-            if (visibleConceptIds.length > 0 && filter.trim() !== '') {
-                for (i = 1; i < tr.length; i++) {
+                    // Extrahiere die Concept-ID der gefundenen Zeile
                     var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
-                    if (visibleConceptIds.includes(conceptId)) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
+
+                    // Speichere die Concept-ID, wenn sie noch nicht gespeichert wurde
+                    if (!visibleConceptIds.includes(conceptId)) {
+                        visibleConceptIds.push(conceptId);
                     }
+                } else {
+                    tr[i].style.display = 'none';
                 }
             }
+        }
 
-            // Aktualisiere die Suchvorschläge
-            updateSuggestions(filter);
-        }, 500); // Warte 500 Millisekunden, bevor die Vorschläge aktualisiert werden
-    }
+        // Wenn keine sichtbaren Zeilen vorhanden sind und die Sucheingabe nicht leer ist, zeige alle Zeilen mit den gespeicherten Concept-IDs
+        if (visibleConceptIds.length > 0 && filter.trim() !== '') {
+            for (i = 1; i < tr.length; i++) {
+                var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
+                if (visibleConceptIds.includes(conceptId)) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
+                }
+            }
+        }
+
+        // Aktualisiere die Suchvorschläge
+        updateSuggestions(filter);
+    }, 500); // Warte 500 Millisekunden, bevor die Vorschläge aktualisiert werden
+}
+
 
     function updateSuggestions(filter) {
         var suggestions = [];
@@ -344,21 +357,75 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             autocompleteInput.placeholder = '';
         }
     }
-    function toggleTable() {
-            var germanTable = document.getElementById('german-table');
-            var englishTable = document.getElementById('english-table');
 
-            if (document.getElementById('language-toggle').checked) {
-                // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
-                germanTable.style.display = 'none';
-                englishTable.style.display = 'table';
+    // Warte, bis das DOM vollständig geladen ist
+    document.addEventListener("DOMContentLoaded", function () {
+        // Referenz zum Dropdown-Menü erhalten
+        var filterSelect = document.getElementById('filterSelect');
+        // Hinzufügen eines Event Listeners auf Änderungen des Dropdown-Menüs
+        filterSelect.addEventListener('change', function () {
+            // Filterfunktion aufrufen, wenn sich die Auswahl ändert
+            filterTable();
+        });
+    });
+
+    // Funktion zum Filtern der Tabelle
+function filterTable() {
+    console.log("Filterfunktion aufgerufen"); // Konsolenausgabe, um zu überprüfen, ob die Funktion aufgerufen wird
+
+    // Wert des ausgewählten Filters erhalten
+    var selectedFilter = document.getElementById('filterSelect').value;
+    console.log("Ausgewählter Filter:", selectedFilter); // Konsolenausgabe, um den ausgewählten Filter zu überprüfen
+
+    // Tabelle und Zeilen referenzieren
+    var table = document.getElementById('termTable');
+    var rows = table.getElementsByTagName('tr');
+
+    // Suche die Spalte mit dem Header "Termset / Term set"
+    var termsetIndex = -1;
+    for (var j = 0; j < rows[0].cells.length; j++) {
+        if (rows[0].cells[j].textContent.trim() === "Termset / Term set") {
+            termsetIndex = j;
+            break;
+        }
+    }
+    console.log("Termset-Index:", termsetIndex); // Konsolenausgabe, um den Index der Termset-Spalte zu überprüfen
+
+    // Überprüfe, ob die Spalte gefunden wurde, bevor du fortfährst
+    if (termsetIndex !== -1) {
+        // Iteriere durch alle Zeilen und filtere basierend auf dem ausgewählten Filter
+        for (var i = 1; i < rows.length; i++) {
+            var cell = rows[i].getElementsByTagName('td')[termsetIndex];
+            var termsets = cell.textContent.split(','); // Termsets werden durch Kommas getrennt
+
+            // Überprüfe, ob die Zeile angezeigt werden soll basierend auf dem ausgewählten Filter
+            if (selectedFilter === 'all' || termsets.includes(selectedFilter)) {
+                rows[i].classList.remove('hidden'); // Zeile anzeigen
             } else {
-                // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
-                germanTable.style.display = 'table';
-                englishTable.style.display = 'none';
+                rows[i].classList.add('hidden'); // Zeile ausblenden
             }
-        }   
+        }
+    }
+}
+
+function toggleTable() {
+    var germanTable = document.getElementById('german-table');
+    var englishTable = document.getElementById('english-table');
+
+    if (document.getElementById('language-toggle').checked) {
+        // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
+        germanTable.style.display = 'none';
+        englishTable.style.display = 'table';
+    } else {
+        // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
+        germanTable.style.display = 'table';
+        englishTable.style.display = 'none';
+    }
+}
+
+
 </script>
+
 
 <h2>Legende</h2>
 
@@ -459,6 +526,22 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
                     Handelsterminologie</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
+            <tr>
+                <td>Select terminology set</td>
+                <td>Das Dropdown-Menü "Select terminology set" ermöglicht es, spezifische Terminologiesets auszuwählen, um die angezeigten Begriffe in der Tabelle entsprechend zu filtern.</td>
+                <td>Standard<br>
+                    ABC-Analyse<br>
+                    LOGOMATE<br>
+                    INSTORE App<br>
+                    RCC<br>
+                    RPOS<br>
+                    RETAIL<br>
+                    STATCONTROL<br>
+                    UCP<br>
+                    UI/UX<br>
+                    Handelsterminologie
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -555,6 +638,22 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
                     UI/UX<br>
                     Trade Terminology</td>
                 <!-- Add more rows and data as needed -->
+            </tr>
+            <tr>
+                <td>Select terminology set</td>
+                <td>The "Select terminology set" drop-down menu allows you to select specific terminology sets in order to filter the terms displayed in the table accordingly.</td>
+                <td>Standard<br>
+                    ABC-Analyse<br>
+                    LOGOMATE<br>
+                    INSTORE App<br>
+                    RCC<br>
+                    RPOS<br>
+                    RETAIL<br>
+                    STATCONTROL<br>
+                    UCP<br>
+                    UI/UX<br>
+                    Handelsterminologie
+                </td>
             </tr>
         </tbody>
     </table>
