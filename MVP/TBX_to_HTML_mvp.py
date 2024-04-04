@@ -2,6 +2,7 @@ import os                               # Betgriebssystem-spezifische Funktionen
 import xml.etree.ElementTree as ET      # Verarbeitung von XML-Daten
 import tkinter as tk                    # GUI-Bibliothek
 from tkinter import filedialog          # Dateidialog-Funktionalität
+from datetime import datetime           # Datumsanzeige
 
 class ScrollableFrame(tk.Frame):
     # Klasse für ein scrollbares Frame in der Gui
@@ -86,6 +87,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     term_dictionary = read_tbx(file_path, selected_columns)
 
     file_name = os.path.splitext(os.path.basename(file_path))[0]
+    date = datetime.now().date()
 
     # Ersetze die alten Spaltennamen durch die neuen
     new_column_names = {
@@ -205,7 +207,8 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 </head>
 <header>
     <!-- <img src="img\logo.PNG" alt="Logo Remira"> -->
-    <h2>{file_name}</h2>
+    <h1>REMIRA terminology</h1>
+    <small>{date}</small>
 </header>
 <body>
 
@@ -219,22 +222,33 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     <div id="autocomplete" class="autocomplete-items"></div>
     <br />
     <br />
-    <!-- Dropdown-Menü zur Auswahl des Filters -->
+    <!-- Dropdown-Menü zur Auswahl des TermSet -->
         <label for="filterSelect">Select terminology set:</label>
         <select id="filterSelect">
-            <option value="all">Alle</option>
-            <option value="Standard">Standard</option>
-            <option value="ABC-Analyse">ABC-Analyse</option>
+            <option value="all">All</option>
+            <option value="Standard">Default</option>
+            <option value="ABC-Analyse">ABC-Analysis</option>
             <option value="LOGOMATE">LOGOMATE</option>
             <option value="INSTORE App">INSTORE App</option>
-            <option value="RCC">RCC</option>
-            <option value="RPOS">RPOS</option>
+            <option value="RCC">COMMERCE Cloud</option>
+            <option value="RPOS">POS</option>
             <option value="RETAIL">RETAIL</option>
-            <option value="STATCONTROL">STATCONTROL</option>
+            <option value="STATCONTROL">STATCONTROL Cloud</option>
             <option value="UCP">UCP</option>
             <option value="UI/UX">UI/UX</option>
-            <option value="Handelterminologie">Handelterminologie</option>
+            <option value="Handelterminologie">Handelsterminologie</option>
+            <!-- Bei Bedarf weitere hinzufügen -->
         </select>
+    <br />
+    <br />
+    <!-- Dropdown-Menü zur Auswahl der Sprache -->
+        <label for="languageSelect">Select Language</label>
+        <select id="languageSelect" onchange="filterTableLanguage()">
+            <option value="">All</option>
+            <option value="en-us">English</option>
+            <option value="de">Deutsch</option>
+            <!-- Bei Bedarf weitere hinzufügen -->
+</select>
 </div>
     
 <table id="termTable">
@@ -271,61 +285,60 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     var suggestionTimeout;
 
     function updateAutocomplete() {
-    clearTimeout(suggestionTimeout);
+        clearTimeout(suggestionTimeout);
 
-    // Verzögere die Aktualisierung der Vorschläge um 500 Millisekunden
-    suggestionTimeout = setTimeout(function () {
-        var input, filter, table, tr, td, i, txtValue, found;
-        input = document.getElementById('searchInput');
-        filter = input.value.toUpperCase();
-        table = document.getElementById('termTable');
-        tr = table.getElementsByTagName('tr');
+        // Verzögere die Aktualisierung der Vorschläge um 500 Millisekunden
+        suggestionTimeout = setTimeout(function () {
+            var input, filter, table, tr, td, i, txtValue, found;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.getElementById('termTable');
+            tr = table.getElementsByTagName('tr');
 
-        // Array, um Concept-IDs der sichtbaren Zeilen zu speichern
-        var visibleConceptIds = [];
+            // Array, um Concept-IDs der sichtbaren Zeilen zu speichern
+            var visibleConceptIds = [];
 
-        // Loop durch jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
-        for (i = 1; i < tr.length; i++) {
-            // Zeige die Zeile standardmäßig an
-            tr[i].style.display = '';
-
-            // Suche nur in der Spalte "Term" (Index 2)
-            td = tr[i].getElementsByTagName('td')[2];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    found = true;
-
-                    // Extrahiere die Concept-ID der gefundenen Zeile
-                    var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
-
-                    // Speichere die Concept-ID, wenn sie noch nicht gespeichert wurde
-                    if (!visibleConceptIds.includes(conceptId)) {
-                        visibleConceptIds.push(conceptId);
-                    }
-                } else {
-                    tr[i].style.display = 'none';
-                }
-            }
-        }
-
-        // Wenn keine sichtbaren Zeilen vorhanden sind und die Sucheingabe nicht leer ist, zeige alle Zeilen mit den gespeicherten Concept-IDs
-        if (visibleConceptIds.length > 0 && filter.trim() !== '') {
+            // Loop durch jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
             for (i = 1; i < tr.length; i++) {
-                var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
-                if (visibleConceptIds.includes(conceptId)) {
-                    tr[i].style.display = '';
-                } else {
-                    tr[i].style.display = 'none';
+                // Zeige die Zeile standardmäßig an
+                tr[i].style.display = '';
+
+                // Suche nur in der Spalte "Term" (Index 2)
+                td = tr[i].getElementsByTagName('td')[2];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+
+                        // Extrahiere die Concept-ID der gefundenen Zeile
+                        var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
+
+                        // Speichere die Concept-ID, wenn sie noch nicht gespeichert wurde
+                        if (!visibleConceptIds.includes(conceptId)) {
+                            visibleConceptIds.push(conceptId);
+                        }
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
                 }
             }
-        }
 
-        // Aktualisiere die Suchvorschläge
-        updateSuggestions(filter);
-    }, 500); // Warte 500 Millisekunden, bevor die Vorschläge aktualisiert werden
-}
+            // Wenn keine sichtbaren Zeilen vorhanden sind und die Sucheingabe nicht leer ist, zeige alle Zeilen mit den gespeicherten Concept-IDs
+            if (visibleConceptIds.length > 0 && filter.trim() !== '') {
+                for (i = 1; i < tr.length; i++) {
+                    var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
+                    if (visibleConceptIds.includes(conceptId)) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }
+            }
 
+            // Aktualisiere die Suchvorschläge
+            updateSuggestions(filter);
+        }, 500); // Warte 500 Millisekunden, bevor die Vorschläge aktualisiert werden
+    }
 
     function updateSuggestions(filter) {
         var suggestions = [];
@@ -358,76 +371,70 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         }
     }
 
-    // Warte, bis das DOM vollständig geladen ist
+function filterTable() {
+    var selectedLanguage = document.getElementById("languageSelect").value.toUpperCase();
+    var selectedFilter = document.getElementById("filterSelect").value.toUpperCase();
+
+    var table = document.getElementById("termTable");
+    var rows = table.getElementsByTagName("tr");
+
+    for (var i = 1; i < rows.length; i++) {
+        var languageCell = rows[i].getElementsByTagName("td")[1].textContent.toUpperCase();
+        var termsetCell = rows[i].getElementsByTagName("td")[11].textContent.toUpperCase();
+
+        var languageFilterPassed = selectedLanguage === "" || languageCell === selectedLanguage;
+        var filterFilterPassed = selectedFilter === "ALL" || termsetCell.includes(selectedFilter);
+
+        // Zeige die Zeile, wenn der Sprachfilter oder der Termsetfilter zutrifft
+        if (languageFilterPassed && filterFilterPassed) {
+            rows[i].classList.remove('hidden');
+        } else {
+            rows[i].classList.add('hidden');
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
     document.addEventListener("DOMContentLoaded", function () {
-        // Referenz zum Dropdown-Menü erhalten
         var filterSelect = document.getElementById('filterSelect');
-        // Hinzufügen eines Event Listeners auf Änderungen des Dropdown-Menüs
+        var languageSelect = document.getElementById('languageSelect');
+
         filterSelect.addEventListener('change', function () {
-            // Filterfunktion aufrufen, wenn sich die Auswahl ändert
-            filterTable();
+            filterTable(); // Filter nach Sprache und Termset
+        });
+
+        languageSelect.addEventListener('change', function () {
+            filterTable(); // Filter nach Sprache und Termset
         });
     });
 
-    // Funktion zum Filtern der Tabelle
-function filterTable() {
-    console.log("Filterfunktion aufgerufen"); // Konsolenausgabe, um zu überprüfen, ob die Funktion aufgerufen wird
+    function toggleTable() {
+        var germanTable = document.getElementById('german-table');
+        var englishTable = document.getElementById('english-table');
 
-    // Wert des ausgewählten Filters erhalten
-    var selectedFilter = document.getElementById('filterSelect').value;
-    console.log("Ausgewählter Filter:", selectedFilter); // Konsolenausgabe, um den ausgewählten Filter zu überprüfen
-
-    // Tabelle und Zeilen referenzieren
-    var table = document.getElementById('termTable');
-    var rows = table.getElementsByTagName('tr');
-
-    // Suche die Spalte mit dem Header "Termset / Term set"
-    var termsetIndex = -1;
-    for (var j = 0; j < rows[0].cells.length; j++) {
-        if (rows[0].cells[j].textContent.trim() === "Termset / Term set") {
-            termsetIndex = j;
-            break;
+        if (document.getElementById('language-toggle').checked) {
+            // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
+            germanTable.style.display = 'none';
+            englishTable.style.display = 'table';
+        } else {
+            // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
+            germanTable.style.display = 'table';
+            englishTable.style.display = 'none';
         }
     }
-    console.log("Termset-Index:", termsetIndex); // Konsolenausgabe, um den Index der Termset-Spalte zu überprüfen
-
-    // Überprüfe, ob die Spalte gefunden wurde, bevor du fortfährst
-    if (termsetIndex !== -1) {
-        // Iteriere durch alle Zeilen und filtere basierend auf dem ausgewählten Filter
-        for (var i = 1; i < rows.length; i++) {
-            var cell = rows[i].getElementsByTagName('td')[termsetIndex];
-            var termsets = cell.textContent.split(','); // Termsets werden durch Kommas getrennt
-
-            // Überprüfe, ob die Zeile angezeigt werden soll basierend auf dem ausgewählten Filter
-            if (selectedFilter === 'all' || termsets.includes(selectedFilter)) {
-                rows[i].classList.remove('hidden'); // Zeile anzeigen
-            } else {
-                rows[i].classList.add('hidden'); // Zeile ausblenden
-            }
-        }
-    }
-}
-
-function toggleTable() {
-    var germanTable = document.getElementById('german-table');
-    var englishTable = document.getElementById('english-table');
-
-    if (document.getElementById('language-toggle').checked) {
-        // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
-        germanTable.style.display = 'none';
-        englishTable.style.display = 'table';
-    } else {
-        // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
-        germanTable.style.display = 'table';
-        englishTable.style.display = 'none';
-    }
-}
-
-
 </script>
 
 
-<h2>Legende</h2>
+
+<h1>Legende</h1>
 
 <label for="language-toggle">English version</label>
     <input type="checkbox" id="language-toggle" onchange="toggleTable()">
