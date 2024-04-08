@@ -1,8 +1,8 @@
-import os                               # Betgriebssystem-spezifische Funktionen
-import xml.etree.ElementTree as ET      # Verarbeitung von XML-Daten
-import tkinter as tk                    # GUI-Bibliothek
-from tkinter import filedialog          # Dateidialog-Funktionalität
-from datetime import datetime           # Datumsanzeige
+import os                                           # Betgriebssystem-spezifische Funktionen
+import xml.etree.ElementTree as ET                  # Verarbeitung von XML-Daten
+import tkinter as tk                                # GUI-Bibliothek
+from tkinter import filedialog                      # Dateidialog-Funktionalität
+from datetime import datetime                       # Datumsanzeige
 
 class ScrollableFrame(tk.Frame):
     # Klasse für ein scrollbares Frame in der Gui
@@ -21,17 +21,11 @@ class ScrollableFrame(tk.Frame):
         self.canvas.create_window((4, 4), window=self.frame, anchor="nw", tags="self.frame")
 
         # Event-Handler für Größenänderungen
-        self.frame.bind("<Configure>", self.on_frame_configure)
         self.canvas.bind("<Configure>", self.on_canvas_configure)
 
         # Scrollable Frame
         self.scrollable_frame = tk.Frame(self.frame, background="#ffffff")
         self.scrollable_frame.pack(fill="both", expand=True)
-
-    # Event-Handler: Frame-Größe ändern
-    def on_frame_configure(self, event):
-            # Canvas an die Größe des Frames anpassen
-            canvas_width = event.width
 
     # Event-Handler: Canvas-Größe ändern
     def on_canvas_configure(self, event):
@@ -85,21 +79,19 @@ def read_tbx(file_path, selected_columns):
 # Funktion zum Konvertieren von TBX in HTML
 def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     term_dictionary = read_tbx(file_path, selected_columns)
-
-    file_name = os.path.splitext(os.path.basename(file_path))[0]
     date = datetime.now().date()
 
     # Ersetze die alten Spaltennamen durch die neuen
     new_column_names = {
-        'normativeAuthorization': 'Verwendung / Usage',
-        'Benennungstyp|String': 'Benennungstyp / Term type',
-        'Wortklasse|String': 'Wortklasse / Word class',
-        'Genus|String': 'Genus / Gender',
+        'normativeAuthorization': 'Usage',
+        'Benennungstyp|String': 'Term type',
+        'Wortklasse|String': 'Word class',
+        'Genus|String': 'Gender',
         'Definition|String': 'Definition',
-        'Quelle|String': 'Quelle / Source',
-        'Anmerkung|String': 'Anmerkung / Additional note',
-        'Kontextbeispiel|String': 'Kontextbeispiel / Context example',
-        'Termset|String': 'Termset / Term set'
+        'Quelle|String': 'Source',
+        'Anmerkung|String': 'Additional note',
+        'Kontextbeispiel|String': 'Context example',
+        'Termset|String': 'Term set'
     }
 
     # HTML-Inhalt erstellen
@@ -110,7 +102,6 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="img\\favicon.ico">
     <title>TBX in HTML konvertiert</title>
     <style>
         body {{
@@ -129,7 +120,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             max-width: 170px;
             padding: 10px;
         }}
-        
+
         h2 {{
             color: #333;
             text-align: center;
@@ -164,7 +155,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         button:hover {{
             background-color: #45a049;
         }}
-        
+
         .hidden {{
             display: none;
             }}
@@ -236,7 +227,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             <option value="STATCONTROL">STATCONTROL Cloud</option>
             <option value="UCP">UCP</option>
             <option value="UI/UX">UI/UX</option>
-            <option value="Handelterminologie">Handelsterminologie</option>
+            <option value="Handelterminologie">General Commerce and Logistics Terminology</option>
             <!-- Bei Bedarf weitere hinzufügen -->
         </select>
     <br />
@@ -245,16 +236,16 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         <label for="languageSelect">Select Language</label>
         <select id="languageSelect" onchange="filterTableLanguage()">
             <option value="">All</option>
-            <option value="en-us">English</option>
+            <option value="en-us" selected>English</option>
             <option value="de">Deutsch</option>
             <!-- Bei Bedarf weitere hinzufügen -->
-</select>
+        </select>
 </div>
     
 <table id="termTable">
     <tr>
         <th>Concept ID</th>
-        <th>Sprache / Language</th>
+        <th>Language</th>
         <th>Term</th>
         <!-- Add headers here -->
 """
@@ -371,6 +362,15 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         }
     }
 
+window.onload = function() {
+    filterTable();
+    toggleTable()
+};
+
+function filterTableLanguage() {
+    filterTable();
+}
+
 function filterTable() {
     var selectedLanguage = document.getElementById("languageSelect").value.toUpperCase();
     var selectedFilter = document.getElementById("filterSelect").value.toUpperCase();
@@ -385,7 +385,6 @@ function filterTable() {
         var languageFilterPassed = selectedLanguage === "" || languageCell === selectedLanguage;
         var filterFilterPassed = selectedFilter === "ALL" || termsetCell.includes(selectedFilter);
 
-        // Zeige die Zeile, wenn der Sprachfilter oder der Termsetfilter zutrifft
         if (languageFilterPassed && filterFilterPassed) {
             rows[i].classList.remove('hidden');
         } else {
@@ -394,25 +393,16 @@ function filterTable() {
     }
 }
 
-
-
-
-
-
-
-
-
-
     document.addEventListener("DOMContentLoaded", function () {
         var filterSelect = document.getElementById('filterSelect');
         var languageSelect = document.getElementById('languageSelect');
 
         filterSelect.addEventListener('change', function () {
-            filterTable(); // Filter nach Sprache und Termset
+            filterTable();
         });
 
         languageSelect.addEventListener('change', function () {
-            filterTable(); // Filter nach Sprache und Termset
+            filterTable();
         });
     });
 
@@ -422,21 +412,20 @@ function filterTable() {
 
         if (document.getElementById('language-toggle').checked) {
             // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
-            germanTable.style.display = 'none';
-            englishTable.style.display = 'table';
-        } else {
-            // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
             germanTable.style.display = 'table';
             englishTable.style.display = 'none';
+        } else {
+            // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
+            germanTable.style.display = 'none';
+            englishTable.style.display = 'table';
         }
     }
 </script>
 
 
-
 <h1>Legende</h1>
 
-<label for="language-toggle">English version</label>
+<label for="language-toggle">German version</label>
     <input type="checkbox" id="language-toggle" onchange="toggleTable()">
 
     <table id="german-table">
@@ -457,19 +446,19 @@ function filterTable() {
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Sprache / Language</td>
+                <td>Language</td>
                 <td>Jeweilige Sprache eines Terms innerhalb einer Termgruppe.</td>
                 <td>de (Deutsch - Deutschland)<br>en_US (Englisch - USA)</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Verwendung / Usage</td>
+                <td>Usage</td>
                 <td>Jeweilige Verwendungseinstufung eines Terms</td>
                 <td>preferredTerm (Bevorzugter Begriff)<br>admittedTerm (Erlaubter Begriff/ Wörterbucheintrag)<br>deprecatedTerm (Gesperrter Begriff)</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Benennungstyp / Term type</td>
+                <td>Term type</td>
                 <td>Jeweilige Art der Benennung eines Terms (z.B. Langform, Kurzform)</td>
                 <td>Hauptbenennung<br>
                     Gemeinsprachliche Benennung<br>
@@ -482,13 +471,13 @@ function filterTable() {
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Wortklasse / Word class</td>
+                <td>Word class</td>
                 <td>Lexikalische Kategorie eines Terms (z.B. Verb)</td>
                 <td>Substantiv: Nomen<br>Verb: Tätigkeitswort<br>Adjektiv: Eigenschaftswort<br>Adverb: Umstandswort</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Genus / Gender</td>
+                <td>Gender</td>
                 <td>Grammatikalische Kategorie eines Terms (z.B. Männlich)</td>
                 <td>Masculinum: Männlich<br>Femininum: Weiblich<br>Neutrum: Sächlich</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
@@ -500,25 +489,25 @@ function filterTable() {
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Quelle / Source</td>
+                <td>Source</td>
                 <td>Ursprung oder Referenz, woher der Term stammt.</td>
                 <td>Freitexteingabe einer Quelle eines Terms aus dem Redaktionssystem SMC</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Anmerkung / Additional note</td>
+                <td>Additional note</td>
                 <td>Zusätzliche Information für einen Term, insbesondere für Produkte.</td>
                 <td>Freitexteingabe einer Quelle eines Terms aus dem Redaktionssystem SMC</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Kontextbeispiel / Context example</td>
+                <td>Context example</td>
                 <td>Praktisches Beispiel, das den Term in einem Kontext zeigt.</td>
                 <td>Freitexteingabe einer Quelle eines Terms aus dem Redaktionssystem SMC</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
             <tr>
-                <td>Termset / Term set</td>
+                <td>Term set</td>
                 <td>Gruppierung des Terms in einem bestimmten produktspezifischen oder thematischen Satz oder Zusammenhang.</td>
                 <td>Standard<br>
                     ABC-Analyse<br>
@@ -693,7 +682,7 @@ def preview_columns(file_path, selected_columns):
                 if column_name == 'normativeAuthorization' or column_name.endswith("|String"):
                     columns.add(column_name)
 
-    # Spalten nach deiner gewünschten Reihenfolge anordnen
+    # Spalten in gewünschter Reihenfolge anordnen
     ordered_columns = ['Concept ID', 'normativeAuthorization', 'Benennungstyp|String', 'Wortklasse|String', 'Genus|String', 'Language' , 'Definition|String', 'Quelle|String', 'Anmerkung|String', 'Kontextbeispiel|String', 'Termset|String']
 
     # Filtere die ausgewählten Spalten, die auch in der Reihenfolge vorkommen
@@ -709,14 +698,8 @@ def choose_file():
 
     # Spaltenauswahl für die Vorschau
     selected_columns = show_column_selection(file_path)
-       
-    if selected_columns:
-        # Rufe die Funktion preview_columns mit beiden Argumenten auf
-        file_name = os.path.splitext(os.path.basename(file_path))[0]
-        columns = preview_columns(file_path, selected_columns)
 
-        html_file_path = f"{file_name}_in_HTML.html"
-        convert_tbx_to_html(file_path, html_file_path, selected_columns)
+
 
 
 # Zeigt die ausgewählten Spalten
@@ -726,17 +709,17 @@ def show_column_selection(file_path):
 
     # Ersetze die alten Spaltennamen durch die neuen
     new_column_names = {
-        'normativeAuthorization': 'Verwendung / Usage',
-        'Benennungstyp|String': 'Benennungstyp / Term type',
-        'Wortklasse|String': 'Wortklasse / Word class',
-        'Genus|String': 'Genus / Gender',
+        'normativeAuthorization': 'Usage',
+        'Benennungstyp|String': 'Term type',
+        'Wortklasse|String': 'Word class',
+        'Genus|String': 'Gender',
         'Definition|String': 'Definition',
-        'Quelle|String': 'Quelle / Source',
-        'Anmerkung|String': 'Anmerkung / Additional note',
-        'Kontextbeispiel|String': 'Kontextbeispiel / Context example',
-        'Termset|String': 'Termset / Term set'
+        'Quelle|String': 'Source',
+        'Anmerkung|String': 'Additional note',
+        'Kontextbeispiel|String': 'Context example',
+        'Termset|String': 'Term set'
     }
-    
+
     # Fenster für Spaltenauswahl erstellen
     root = tk.Tk()
     root.title("Spaltenauswahl")
@@ -765,7 +748,7 @@ def show_column_selection(file_path):
             column = checkbox.cget("text")
             if column not in selected_columns:
                 selected_columns.append(column)
-        
+
         print(f"Ausgewählte Spalten: {selected_columns}")
 
     for column in columns:
@@ -778,9 +761,10 @@ def show_column_selection(file_path):
 
     # Funktion zum Schließen des Programms
     def on_continue_click():
+        date = datetime.now().date()
         root.destroy()
-        file_name = os.path.splitext(os.path.basename(file_path))[0]
-        html_file_path = f"{file_name}_in_HTML.html"
+        file_name = "terminology"
+        html_file_path = f"{file_name}_{date}.html"
         convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
@@ -790,7 +774,6 @@ def show_column_selection(file_path):
     root.mainloop()
 
     return selected_columns
-
 
 
 # GUI-Fenster erstellen
