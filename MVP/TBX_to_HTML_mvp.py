@@ -104,6 +104,33 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TBX in HTML konvertiert</title>
     <style>
+
+        .tooltip {{
+            position: relative;
+            }}
+
+        .tooltip .tooltiptext {{
+            visibility: hidden;
+            width: auto;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }}
+
+        .tooltip:hover .tooltiptext {{
+            visibility: visible;
+            opacity: 1;
+        }}
+
         body {{
             font-family: Calibri;
             background-color: #f4f4f4;
@@ -206,7 +233,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 <p>Welcome to the terminology database. Here you will find a list of permitted and prohibited terms that should be used depending on the application.</p>
 <p>Use the search field to search the table for terms.</p>
 <p>In addition to the search function, the table can also be filtered using the drop-down menu.</p>
-<p>There is a small legend at the bottom of the page in case you have any initial questions.</p>
+<p>There is a <a href="#legend">small legend at the bottom of the page</a> in case you have any initial questions.</p>
 
 <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search for terms" oninput="updateAutocomplete()">
@@ -235,13 +262,13 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     <!-- Dropdown-Menü zur Auswahl der Sprache -->
         <label for="languageSelect">Select Language</label>
         <select id="languageSelect" onchange="filterTableLanguage()">
-            <option value="">All</option>
-            <option value="en-us" selected>English</option>
+            <option value="" selected>All</option>
+            <option value="en-us">English</option>
             <option value="de">Deutsch</option>
             <!-- Bei Bedarf weitere hinzufügen -->
         </select>
 </div>
-    
+
 <table id="termTable">
     <tr>
         <th>Concept ID</th>
@@ -275,6 +302,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 <script>
     var suggestionTimeout;
 
+    // Funktion zum Aktualisieren der Autovervollständigung basierend auf Benutzereingaben
     function updateAutocomplete() {
         clearTimeout(suggestionTimeout);
 
@@ -289,7 +317,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
             // Array, um Concept-IDs der sichtbaren Zeilen zu speichern
             var visibleConceptIds = [];
 
-            // Loop durch jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
+            // Loop durch jede Zeile (überspringt die erste Zeile, die die Überschriften enthält)
             for (i = 1; i < tr.length; i++) {
                 // Zeige die Zeile standardmäßig an
                 tr[i].style.display = '';
@@ -331,8 +359,12 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         }, 500); // Warte 500 Millisekunden, bevor die Vorschläge aktualisiert werden
     }
 
+    // Funktion zum Aktualisieren der Suchvorschläge basierend auf einem Filter
     function updateSuggestions(filter) {
+        // Array für die Vorschläge initialisieren
         var suggestions = [];
+
+        // Tabelle und Zeilen abrufen
         var termTable = document.getElementById('termTable');
         var tr = termTable.getElementsByTagName('tr');
 
@@ -362,29 +394,42 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         }
     }
 
+// Funktion wird ausgeführt, wenn das Fenster vollständig geladen ist
 window.onload = function() {
-    filterTable();
-    toggleTable()
+    // Funktionen aufrufen, um die Tabelle zu filtern, umzuschalten und Tooltips hinzuzufügen
+    filterTable();            // filtert die Tabelle basierend auf Benutzereingaben
+    toggleTable();            // schaltet die Legende um (zwischen de und en)
+    addTooltipsFromTable()    // fügt Tooltips basierend auf den Daten in der Tabelle hinzu
+    convertUrlsToLinks()      // konvertiert http:// und https:// Einträge in einen Link
 };
 
+
+// Funktion, die filterTable aufruft und für Kompatibilität bereitgestellt wird
 function filterTableLanguage() {
-    filterTable();
+    filterTable(); // Ruft die Hauptfilterfunktion filterTable() auf
 }
 
+// Hauptfilterfunktion, die die Tabelle basierend auf ausgewählter Sprache und Filteroption filtert
 function filterTable() {
+    // Ausgewählte Sprache und Filteroption aus den Dropdown-Listen abrufen
     var selectedLanguage = document.getElementById("languageSelect").value.toUpperCase();
     var selectedFilter = document.getElementById("filterSelect").value.toUpperCase();
 
+    // Tabelle und Zeilen abrufen
     var table = document.getElementById("termTable");
     var rows = table.getElementsByTagName("tr");
 
+    // Durchlaufe jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
     for (var i = 1; i < rows.length; i++) {
+        // Zellen für Sprache und Filteroption abrufen
         var languageCell = rows[i].getElementsByTagName("td")[1].textContent.toUpperCase();
         var termsetCell = rows[i].getElementsByTagName("td")[11].textContent.toUpperCase();
 
+        // Überprüfe, ob die Sprache und die Filteroption den ausgewählten Kriterien entsprechen
         var languageFilterPassed = selectedLanguage === "" || languageCell === selectedLanguage;
         var filterFilterPassed = selectedFilter === "ALL" || termsetCell.includes(selectedFilter);
 
+        // Entscheide, ob die Zeile angezeigt oder ausgeblendet werden soll, basierend auf den Filterergebnissen
         if (languageFilterPassed && filterFilterPassed) {
             rows[i].classList.remove('hidden');
         } else {
@@ -393,23 +438,30 @@ function filterTable() {
     }
 }
 
+    // Diese Funktion wird ausgeführt, wenn das DOM vollständig geladen ist
     document.addEventListener("DOMContentLoaded", function () {
+        // Filter- und Sprachauswahl-Elemente aus dem DOM abrufen
         var filterSelect = document.getElementById('filterSelect');
         var languageSelect = document.getElementById('languageSelect');
 
+        // Eventlistener hinzufügen, um auf Änderungen in der Filterauswahl zu reagieren und filterTable() aufzurufen
         filterSelect.addEventListener('change', function () {
-            filterTable();
+            filterTable(); // filterTable() aufrufen, wenn sich die Filterauswahl ändert
         });
 
+        // Eventlistener hinzufügen, um auf Änderungen in der Sprachauswahl zu reagieren und filterTable() aufzurufen
         languageSelect.addEventListener('change', function () {
-            filterTable();
+            filterTable(); // filterTable() aufrufen, wenn sich die Sprachauswahl ändert
         });
     });
 
+    // Funktion zum Umschalten zwischen deutscher und englischer Legende
     function toggleTable() {
+         // Deutsche und englische Tabellen abrufen
         var germanTable = document.getElementById('german-table');
         var englishTable = document.getElementById('english-table');
 
+        // Überprüfen, ob das Sprachumschalt-Checkbox-Feld aktiviert ist
         if (document.getElementById('language-toggle').checked) {
             // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
             germanTable.style.display = 'table';
@@ -420,10 +472,83 @@ function filterTable() {
             englishTable.style.display = 'table';
         }
     }
+
+// Funktion zum Hinzufügen von Tooltips basierend auf einer vordefinierten Tabelle
+function addTooltipsFromTable() {
+    // Tabelle mit den Tooltips
+    // Syntax: "Wort", "Übersetzung", "Tooltip"
+
+  var tooltipTable = [
+    ["Hauptbenennung", "Main term designation", "This is the main term designation."],
+    ["Substantiv", "Noun", "This is a noun."],
+    ["Verb", "Verb", "This is a verb."],
+    ["Adjektiv", "Adjective", "This is an adjective."],
+    ["Adverb", "Adverb", "This is an adverb."],
+    ["Synonym", "Synonym", "This is a synonym term."],
+    ["Gemeinsprachlich", "Common language term", "This is a common language term"],
+    ["Variante", "Variant", "This is a variant term."],
+    ["Abkürzung", "Abbreviation", "This is a term abbreviation."],
+    ["Kurzform", "Short form", "This is a short-form term."],
+    ["Standardtext", "Standard usage", "This is standard usage term."],
+    ["Femininum", "Feminine", "This is feminine."],
+    ["Masculinum", "Masculine", "This is masculine."],
+    ["Neutrum", "Neuter", "This is neuter."],
+    ["Handelterminologie", "General Commerce and Logistics Terminology", "This is the General Commerce and Logistics Terminology."]
+    // Hier können weitere Wörter und deren Übersetzungen eingefügt werden
+];
+
+  // Tabelle mit den Begriffen abrufen
+  var termTable = document.getElementById("termTable");
+  var cells = termTable.getElementsByTagName("td");
+
+  // Durchlaufe jede Zelle in der Tabelle
+  for (var i = 0; i < cells.length; i++) {
+    var term = cells[i].innerText.trim();
+    // Durchsuche die Tooltip-Tabelle nach dem aktuellen Begriff
+    for (var j = 0; j < tooltipTable.length; j++) {
+      if (tooltipTable[j][0] === term) { // Wenn der Begriff gefunden wird
+        cells[i].classList.add("tooltip"); // Füge der Zelle die Klasse "tooltip" hinzu
+        cells[i].innerHTML += '<span class="tooltiptext">' + tooltipTable[j][2] + '</span>'; // Füge den Tooltip hinzu
+      }
+    }
+  }
+}
+
+function convertUrlsToLinks() {
+    // Suche nach dem HTML-Element mit der ID "termTable"
+    var table = document.getElementById("termTable");
+
+    // Überprüfe, ob das Element gefunden wurde
+    if (table) {
+        // Durchlaufe alle Zeilen der Tabelle
+        for (var i = 0; i < table.rows.length; i++) {
+            // Durchlaufe alle Zellen in der aktuellen Zeile
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                // Hole den Inhalt der Zelle
+                var cellContent = table.rows[i].cells[j].innerHTML;
+
+                // Überprüfe, ob der Zelleninhalt eine URL enthält
+                if (cellContent.includes("http://") || cellContent.includes("https://")) {
+                    // Erstelle einen anklickbaren Link
+                    var link = document.createElement("a");
+                    link.href = cellContent;
+                    link.textContent = cellContent;
+                    link.target = "_blank";
+                    // Ersetze den Zelleninhalt durch den Link
+                    table.rows[i].cells[j].innerHTML = '';
+                    table.rows[i].cells[j].appendChild(link);
+                }
+            }
+        }
+    } else {
+        console.error("Tabelle nicht gefunden!");
+    }
+}
+
 </script>
 
 
-<h1>Legende</h1>
+<h1 id="legend">Legende</h1>
 
 <label for="language-toggle">German version</label>
     <input type="checkbox" id="language-toggle" onchange="toggleTable()">
@@ -573,13 +698,13 @@ function filterTable() {
             <tr>
                 <td>Term Type</td>
                 <td>Respective type of naming for a term (e.g., long form, short form).</td>
-                <td>Hauptbenennung: Primary destignation<br>
-                    Gemeinschaftliche Benennung: General designation<br>
-                    Kurzform: Shorthand designation<br>
-                    Abkürzung: Abbreviation<br>
-                    Standardtext: Standard Text<br>
-                    Synonym: Synonym<br>
-                    Variante: Variant
+                <td>Hauptbenennung: Main term destignation<br>
+                    Gemeinschaftliche Benennung: Common language term<br>
+                    Kurzform: Short-form designation<br>
+                    Abkürzung: Term abbrevation<br>
+                    Standardtext: Standard usage term<br>
+                    Synonym: Synonym term<br>
+                    Variante: Variant term
                 </td>
                 <!-- Add more rows and data as needed -->
             </tr>
@@ -623,32 +748,32 @@ function filterTable() {
                 <td>Term Set</td>
                 <td>Grouping of the term in a specific product-specific or thematic set or context.</td>
                 <td>Standard<br>
-                    ABC Analysis<br>
+                    ABC-Analysis<br>
                     LOGOMATE<br>
                     INSTORE App<br>
-                    RCC<br>
-                    RPOS<br>
+                    COMMERCE Cloud<br>
+                    POS<br>
                     RETAIL<br>
-                    STATCONTROL<br>
+                    STATCONTROL Cloud<br>
                     UCP<br>
                     UI/UX<br>
-                    Trade Terminology</td>
+                    General Commerce and Logistics Terminology</td>
                 <!-- Add more rows and data as needed -->
             </tr>
             <tr>
                 <td>Select terminology set</td>
                 <td>The "Select terminology set" drop-down menu allows you to select specific terminology sets in order to filter the terms displayed in the table accordingly.</td>
                 <td>Standard<br>
-                    ABC-Analyse<br>
+                    ABC-Analysis<br>
                     LOGOMATE<br>
                     INSTORE App<br>
-                    RCC<br>
-                    RPOS<br>
+                    COMMERCE Cloud<br>
+                    POS<br>
                     RETAIL<br>
-                    STATCONTROL<br>
+                    STATCONTROL Cloud<br>
                     UCP<br>
                     UI/UX<br>
-                    Handelsterminologie
+                    General Commerce and Logistics Terminology
                 </td>
             </tr>
         </tbody>
