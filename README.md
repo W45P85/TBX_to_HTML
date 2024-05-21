@@ -9,7 +9,7 @@ No installation is required. To use the tool, simply download the file **tbx_to_
 ## Usage
 1. open the program:
        Open the "TBX to HTML" program.
-2. select a TBX file:
+2. select a TBX file:&nbsp;
        <img src="MVP/img/Programm öffnet sich.PNG"></img>&nbsp;
        Click on the "Select file" button.
        Select the desired TBX file from your file system and confirm the selection with "Open".
