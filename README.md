@@ -34,9 +34,7 @@ einfach die Datei **tbx_to_html.exe** herunter und öffnen Sie sie.
 Es gibt keine optionalen Parameter.
 
 ## Beispiele
-Aktuell sind keine spezifischen Beispielbefehle verfügbar. Eine vorhandene Beispiel-Datei 
-kann im Storybook der REMIRA unter https://storybook.remira.com/?path=/docs/remira-terminology--docs 
-gefunden werden.
+Aktuell sind keine spezifischen Beispielbefehle verfügbar.
 
 ## Fehlerbehandlung
 Derzeit liegen keine Erfahrungen oder spezifischen Informationen zur Fehlerbehandlung vor.
