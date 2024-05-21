@@ -33,23 +33,21 @@ einfach die Datei **tbx_to_html.exe** herunter und öffne sie.
 5. Programm schließen:
        Nachdem die Konvertierung abgeschlossen ist, kannst du das Programm durch Klicken auf die Schaltfläche "Programm schließen" (2) beenden.
 
-*
-1. open the program:
-       Open the "TBX to HTML" program.
-2. select a TBX file:
-       Click on the "Select file" button.
-       Select the desired TBX file from your file system and confirm the selection with "Open".
-3. column selection:
-       After selecting the file, a window opens to select the columns to be displayed in the HTML document.
-       You can select the columns by activating the corresponding checkboxes.
-       Alternatively, you can also use the "Select all" option to select all available columns at once (recommended).
-       Click on "Next" to continue.
-4. conversion:
-       After the column selection, the TBX file is converted into an HTML document.
-       After successful conversion, the HTML is saved in the same directory as the original TBX file. The file is called "terminology_YYYY-MM-DD", whereby the current day is taken as the date.
-5. close the program:
-       Once the conversion is complete, you can close the program by clicking on the "Close program" button (2).
-*
+*1. open the program:*
+       *Open the "TBX to HTML" program.*
+*2. select a TBX file:*
+       *Click on the "Select file" button.*
+       *Select the desired TBX file from your file system and confirm the selection with "Open".*
+*3. column selection:*
+       *After selecting the file, a window opens to select the columns to be displayed in the HTML document.*
+       *You can select the columns by activating the corresponding checkboxes.*
+       *Alternatively, you can also use the "Select all" option to select all available columns at once (recommended).*
+       *Click on "Next" to continue.*
+*4. conversion:*
+       *After the column selection, the TBX file is converted into an HTML document.*
+       *After successful conversion, the HTML is saved in the same directory as the original TBX file. The file is called "terminology_YYYY-MM-DD", whereby the current day is taken as the date.*
+*5. close the program:*
+       *Once the conversion is complete, you can close the program by clicking on the "Close program" button (2).*
 
 ## Unterstützung / Support
 Bei Fragen oder Problemen, kontaktiere mich hier auf GitHub. :)
