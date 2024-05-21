@@ -9,10 +9,10 @@ No installation is required. To use the tool, simply download the file **tbx_to_
 ## Usage
 1. open the program:
        Open the "TBX to HTML" program.
-2. select a TBX file:
-![Select a TBX file](MVP/img/Programm%20öffnet%20sich.PNG)
-       Click on the "Select file" button.
-       Select the desired TBX file from your file system and confirm the selection with "Open".
+2. select a TBX file:&nbsp;
+       ![Select a TBX file](MVP/img/Programm%20öffnet%20sich.PNG)&nbsp;
+       - Click on the "Select file" button.
+       - Select the desired TBX file from your file system and confirm the selection with "Open".
 4. column selection:
        After selecting the file, a window opens to select the columns to be displayed in the HTML document.
        You can select the columns by activating the corresponding checkboxes.
