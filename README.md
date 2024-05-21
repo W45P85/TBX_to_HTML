@@ -13,13 +13,16 @@ No installation is required. To use the tool, simply download the file **tbx_to_
 
 ![Select a TBX file](MVP/img/Programm%20öffnet%20sich.PNG)
 
-- Click on the "Select file" button.
+- Click on the "Select file" button. (1)
 - Select the desired TBX file from your file system and confirm the selection with "Open".
 5. column selection:
-       After selecting the file, a window opens to select the columns to be displayed in the HTML document.
-       You can select the columns by activating the corresponding checkboxes.
-       Alternatively, you can also use the "Select all" option to select all available columns at once (recommended).
-       Click on "Next" to continue.
+
+![Select a TBX file](MVP/img/alle_auswählen.PNG)
+
+- After selecting the file, a window opens to select the columns to be displayed in the HTML document.
+- You can select the columns by activating the corresponding checkboxes.
+- Alternatively, you can also use the "Select all" option to select all available columns at once (recommended).
+- Click on "Next" to continue.
 6. conversion:
        After the column selection, the TBX file is converted into an HTML document.
        After successful conversion, the HTML is saved in the same directory as the original TBX file. The file is called "terminology_YYYY-MM-DD", whereby the current day is taken as the date.
