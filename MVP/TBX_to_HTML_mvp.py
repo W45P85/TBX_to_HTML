@@ -515,28 +515,35 @@ function addTooltipsFromTable() {
 }
 
 function convertUrlsToLinks() {
-    // Suche nach dem HTML-Element mit der ID "termTable"
     var table = document.getElementById("termTable");
 
-    // Überprüfe, ob das Element gefunden wurde
     if (table) {
-        // Durchlaufe alle Zeilen der Tabelle
         for (var i = 0; i < table.rows.length; i++) {
-            // Durchlaufe alle Zellen in der aktuellen Zeile
             for (var j = 0; j < table.rows[i].cells.length; j++) {
-                // Hole den Inhalt der Zelle
                 var cellContent = table.rows[i].cells[j].innerHTML;
 
-                // Überprüfe, ob der Zelleninhalt eine URL enthält
-                if (cellContent.includes("http://") || cellContent.includes("https://")) {
-                    // Erstelle einen anklickbaren Link
+                // Überprüfe, ob der Zelleninhalt eine URL enthält und "(translation)" nicht am Anfang steht
+                if ((cellContent.includes("http://") || cellContent.includes("https://")) && !cellContent.includes("(translation)")) {
                     var link = document.createElement("a");
                     link.href = cellContent;
                     link.textContent = cellContent;
-                    link.target = "_blank";
-                    // Ersetze den Zelleninhalt durch den Link
+                    link.target = "_blank"; // Öffne den Link in einem neuen Fenster
                     table.rows[i].cells[j].innerHTML = '';
                     table.rows[i].cells[j].appendChild(link);
+                } else if (cellContent.includes("(translation)")) {
+                    // Teile den Zelleninhalt an der Position von "(translation)"
+                    var parts = cellContent.split("(translation)");
+                    // Erstelle einen neuen Link für den Teil vor "(translation)"
+                    var linkBefore = document.createElement("a");
+                    linkBefore.href = parts[0];
+                    linkBefore.textContent = parts[0];
+                    linkBefore.target = "_blank"; // Öffne den Link in einem neuen Fenster
+                    // Erstelle einen Textknoten für den Teil nach "(translation)"
+                    var textNodeAfter = document.createTextNode("(translation)" + parts[1]);
+                    // Lösche den Zelleninhalt und füge den Link und den Textknoten ein
+                    table.rows[i].cells[j].innerHTML = '';
+                    table.rows[i].cells[j].appendChild(linkBefore);
+                    table.rows[i].cells[j].appendChild(textNodeAfter);
                 }
             }
         }
@@ -903,7 +910,8 @@ def show_column_selection(file_path):
 
 # GUI-Fenster erstellen
 root = tk.Tk()
-root.title("TBX to HTML Converter")
+#root.iconbitmap("favicon.ico")
+root.title("Termfinder by User Assistance")
 root.geometry("500x150")
 
 # Schaltfläche um TBX-Datei auszuwählen
