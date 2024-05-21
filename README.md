@@ -10,7 +10,7 @@ No installation is required. To use the tool, simply download the file **tbx_to_
 1. open the program:
        Open the "TBX to HTML" program.
 2. select a TBX file:
-<img src="MVP/img/Programm öffnet sich.PNG"></img>
+       ![Select a TBX file](MVP/img/Programm%20öffnet%20sich.PNG)
        Click on the "Select file" button.
        Select the desired TBX file from your file system and confirm the selection with "Open".
 4. column selection:
