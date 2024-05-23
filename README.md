@@ -10,7 +10,7 @@
 <p>Converter for TBX-files to HTML</p>
 </pre>
 
-## Übersicht / Overview
+## Overview
 **TBX to HTML** converts TBX files into readable HTML files. It analyzes the TBX file and allows you to select the desired columns for conversion.
 
 ## Installation
@@ -21,7 +21,7 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
        Open the "TBX to HTML" program.
 2. select a TBX file:
 
-<img src="MVP/img/Programm%20öffnet%20sich.PNG" width="250">
+<img src="MVP/img/Programm%20öffnet%20sich.PNG">
 
 - Click on the "Select file" button. (1)
 - Select the desired TBX file from your file system and confirm the selection with "Open".
