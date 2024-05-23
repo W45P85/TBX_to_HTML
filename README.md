@@ -7,7 +7,7 @@
    |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
                                                               
   
-<p align="center">Converter for TBX-files to HTML</p>
+<p>Converter for TBX-files to HTML</p>
 </pre>
 
 ## Übersicht / Overview
