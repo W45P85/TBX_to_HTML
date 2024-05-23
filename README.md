@@ -1,16 +1,14 @@
-<div style="text-align: center;">
-       <pre align="center">
+<pre style="background-color: transparent; border: none;">
 
-       _____  ____ __  __  _           _   _  _____  __  __  _     
-       |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
-       | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
-       | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
-       |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
-                                                               
-       
-       <p>Converter for TBX-files to HTML</p>
-       </pre>
-</div>
+  _____  ____ __  __  _           _   _  _____  __  __  _     
+ |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
+   | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
+   | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
+   |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
+                                                              
+  
+<p>Converter for TBX-files to HTML</p>
+</pre>
 
 ## Übersicht / Overview
 **TBX to HTML** converts TBX files into readable HTML files. It analyzes the TBX file and allows you to select the desired columns for conversion.
@@ -30,7 +28,7 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
 
 3. column selection:
 
-<img src="MVP/img/alle_auswählen.PNG">
+<img src="MVP/img/alle_auswählen.PNG" width="250">
 
 - After selecting the file, a window opens to select the columns to be displayed in the HTML document.
 - You can select the columns by activating the corresponding checkboxes.
