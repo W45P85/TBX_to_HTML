@@ -1,14 +1,16 @@
-<pre align="center">
+<div style="text-align: center;">
+       <pre align="center">
 
-  _____  ____ __  __  _           _   _  _____  __  __  _     
- |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
-   | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
-   | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
-   |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
-                                                              
-  
-<p>Converter for TBX-files to HTML</p>
-</pre>
+       _____  ____ __  __  _           _   _  _____  __  __  _     
+       |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
+       | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
+       | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
+       |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
+                                                               
+       
+       <p>Converter for TBX-files to HTML</p>
+       </pre>
+</div>
 
 ## Übersicht / Overview
 **TBX to HTML** converts TBX files into readable HTML files. It analyzes the TBX file and allows you to select the desired columns for conversion.
