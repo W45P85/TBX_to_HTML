@@ -1,4 +1,4 @@
-<pre style="background-color: transparent; border: none;">
+<pre align="center">
 
   _____  ____ __  __  _           _   _  _____  __  __  _     
  |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
@@ -28,7 +28,7 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
 
 3. column selection:
 
-<img src="MVP/img/alle_auswählen.PNG" width="250">
+<img src="MVP/img/alle_auswählen.PNG">
 
 - After selecting the file, a window opens to select the columns to be displayed in the HTML document.
 - You can select the columns by activating the corresponding checkboxes.
