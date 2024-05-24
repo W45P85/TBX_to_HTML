@@ -13,8 +13,10 @@
 ## Overview
 **TBX to HTML** converts TBX files into readable HTML files. It analyzes the TBX file and allows you to select the desired columns for conversion.
 
+
 ## Installation
 No installation is required. Simply use the **tbx_to_html.exe** file from the "MVP" folder to start the tool.
+
 
 ## Usage
 1. open the program:
@@ -50,6 +52,7 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
 ## How This Tool Works
 This tool  is a Python program that facilitates the conversion of a TBX (TermBase eXchange) file to an HTML format. The program also includes features for previewing and selecting specific columns from the TBX file. The code is divided into two parts, each responsible for different functionalities. Here is a detailed explanation of how the script works:
 
+
 ### Part 1: GUI Setup and TBX File Processing
 #### Importing Libraries
 
@@ -59,7 +62,6 @@ This tool  is a Python program that facilitates the conversion of a TBX (TermBas
    import xml.etree.ElementTree as ET
    from datetime import datetime
 ```
-
 The script imports necessary libraries for GUI creation (tkinter), file handling (filedialog), XML parsing (ElementTree), and date/time operations (datetime).
 
 #### ScrollableFrame Class
@@ -70,7 +72,6 @@ The script imports necessary libraries for GUI creation (tkinter), file handling
    import xml.etree.ElementTree as ET
    from datetime import datetime
 ```
-
 This class creates a scrollable frame in the GUI that allows the user to navigate through multiple checkboxes for column selection and easily add new columns if necessary.
 
 #### Function to Convert TBX to HTML
@@ -79,7 +80,6 @@ This class creates a scrollable frame in the GUI that allows the user to navigat
    def convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns):
     ...
 ```
-
 This function parses the TBX file and converts its content to an HTML file, including only the selected columns. It constructs an HTML structure with tables and other HTML elements.
 
 #### Function to Preview Columns
@@ -88,7 +88,6 @@ This function parses the TBX file and converts its content to an HTML file, incl
    def preview_columns(file_path, selected_columns):
     ...
 ```
-
 This function reads the TBX file to identify and preview available columns. It returns a list of columns present in the file.
 
 #### Function to Choose File
@@ -97,7 +96,6 @@ This function reads the TBX file to identify and preview available columns. It r
    def choose_file():
     ...
 ```
-
 This function displays a GUI window with checkboxes for each column, allowing the user to select which columns to include in the HTML conversion.
 
 #### GUI Main Window
@@ -109,8 +107,8 @@ This function displays a GUI window with checkboxes for each column, allowing th
    ...
    root.mainloop()
 ```
-
 This section sets up the main GUI window with buttons to choose a file and close the program. It also includes a label for informational text.
+
 
 ### Part 2: JavaScript for Enhanced HTML Functionality
 The generated HTML file includes embedded JavaScript to provide interactive features such as filtering, toggling between languages, tooltips, and converting URLs to links.
