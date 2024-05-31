@@ -552,6 +552,15 @@ function convertUrlsToLinks() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+            var tableHeaders = document.querySelectorAll('#termTable th');
+            tableHeaders.forEach(function(th) {
+                th.style.position = 'sticky';
+                th.style.top = '0';
+                th.style.zIndex = '1000';
+            });
+        });
+
 </script>
 
 
