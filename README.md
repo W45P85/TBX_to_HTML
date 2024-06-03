@@ -46,7 +46,7 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
 - After successful conversion, the HTML is saved in the same directory as the original TBX file. The file is called "terminology_YYYY-MM-DD", whereby the current day is taken as the date.
 
 5. close the program:
-       Once the conversion is complete, you can close the program by clicking on the "Close program" button (2).
+       Once the conversion is complete, you can close the program by clicking on red the "Close" button.
 
 
 ## How This Tool Works
