@@ -171,10 +171,14 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     }}
     
     h1 {{
-        margin: 0;
+        margin: 0px;
         font-size: 2rem;
-        color: white;
         padding-left: 10px;
+    }}
+    
+    h1_legende {{
+        font-weight: 600;
+        font-size: 2rem;
     }}
 
     h2 {{
@@ -618,9 +622,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
 </script>
-
-
-<h1 id="legend">Legende</h1>
+<br>
+<br>
+<br>
+<h1_legende id="legend">Legend</h1_legende>
+<br>
+<br>
 
 <label for="language-toggle">German version</label>
     <input type="checkbox" id="language-toggle" onchange="toggleTable()">
@@ -853,7 +860,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </div>
 <footer>
-    <small>Automatically generated list by the tool <a href="https://github.com/W45P85/TBX_to_HTML" target="_blank">TBX to HTML</a>.</small>
+    <small>This list was created automatically by this tool <a href="https://github.com/W45P85/TBX_to_HTML" target="_blank">TBX to HTML</a>.</small>
 </footer>
 </body>
 </html>
