@@ -862,7 +862,7 @@ document.addEventListener('DOMContentLoaded', function() {
     with open(html_file_path, "w", encoding="utf-8") as html_file:
         html_file.write(html_content)
 
-    print(f"Erfolgreich in {html_file_path} konvertiert.")
+    print(f"Successfully converted to {html_file_path}.")
 
 
 # Funktion zur Vorschau der ausgewählten Spalten
