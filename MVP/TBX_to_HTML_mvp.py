@@ -946,7 +946,7 @@ def show_column_selection(file_path):
             if column not in selected_columns:
                 selected_columns.append(column)
 
-        print(f"Ausgewählte Spalten: {selected_columns}")
+        print(f"Selected columns: {selected_columns}")
 
     for column in columns:
         var = tk.IntVar()
