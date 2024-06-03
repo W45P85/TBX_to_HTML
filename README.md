@@ -257,17 +257,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 ```
 
-1. document.addEventListener('DOMContentLoaded', function() {...});: This binds a function to the 'DOMContentLoaded' event of the document. This function is executed when the entire HTML document has been fully loaded and parsed.
+1. **document.addEventListener('DOMContentLoaded', function() {...});**: This binds a function to the 'DOMContentLoaded' event of the document. This function is executed when the entire HTML document has been fully loaded and parsed.
 
-2. var tableHeaders = document.querySelectorAll('#termTable th');: This selects all 'th' elements that are within an element with the ID 'termTable'. 'querySelectorAll' returns a NodeList containing all matching elements.
+2. **var tableHeaders = document.querySelectorAll('#termTable th');**: This selects all 'th' elements that are within an element with the ID 'termTable'. 'querySelectorAll' returns a NodeList containing all matching elements.
 
-3. tableHeaders.forEach(function(th) {...});: This iterates through each element in the 'tableHeaders' NodeList and executes a function for each element.
+3. **tableHeaders.forEach(function(th) {...});**: This iterates through each element in the 'tableHeaders' NodeList and executes a function for each element.
 
-4. th.style.position = 'sticky';: Sets the CSS position of the current 'th' element to 'sticky', which causes it to stick to the screen when scrolling.
+4. **th.style.position = 'sticky';**: Sets the CSS position of the current 'th' element to 'sticky', which causes it to stick to the screen when scrolling.
 
-5. th.style.top = '0';: Sets the distance of the current 'th' element from the top to '0', which ensures that it always remains at the top of the screen when it is stuck.
+5. **th.style.top = '0';**: Sets the distance of the current 'th' element from the top to '0', which ensures that it always remains at the top of the screen when it is stuck.
 
-6. th.style.zIndex = '1000';: Sets the stacking order of the current 'th' element to '1000', which ensures that it is displayed above other elements when it is pinned.
+6. **th.style.zIndex = '1000';**: Sets the stacking order of the current 'th' element to '1000', which ensures that it is displayed above other elements when it is pinned.
 
 
 ### HTML Structure
