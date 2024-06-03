@@ -244,6 +244,32 @@ The addTooltipsFromTable function adds tooltips to table cells based on predefin
 ```
 The convertUrlsToLinks function scans the table for any cells containing URLs and converts these URLs into clickable links. This function also handles special cases where URLs are followed by "(translation)" text, ensuring the content is properly formatted and interactive.
 
+#### Table Header "sticky"
+
+```
+document.addEventListener('DOMContentLoaded', function() {
+            var tableHeaders = document.querySelectorAll('#termTable th');
+            tableHeaders.forEach(function(th) {
+                th.style.position = 'sticky';
+                th.style.top = '0';
+                th.style.zIndex = '1000';
+            });
+        });
+```
+
+1. document.addEventListener('DOMContentLoaded', function() {...});: This binds a function to the 'DOMContentLoaded' event of the document. This function is executed when the entire HTML document has been fully loaded and parsed.
+
+2. var tableHeaders = document.querySelectorAll('#termTable th');: This selects all 'th' elements that are within an element with the ID 'termTable'. 'querySelectorAll' returns a NodeList containing all matching elements.
+
+3. tableHeaders.forEach(function(th) {...});: This iterates through each element in the 'tableHeaders' NodeList and executes a function for each element.
+
+4. th.style.position = 'sticky';: Sets the CSS position of the current 'th' element to 'sticky', which causes it to stick to the screen when scrolling.
+
+5. th.style.top = '0';: Sets the distance of the current 'th' element from the top to '0', which ensures that it always remains at the top of the screen when it is stuck.
+
+6. th.style.zIndex = '1000';: Sets the stacking order of the current 'th' element to '1000', which ensures that it is displayed above other elements when it is pinned.
+
+
 ### HTML Structure
 The generated HTML includes two tables (German and English) with relevant term data. It also includes interactive elements like a checkbox to toggle between languages, and dropdowns for filtering terms based on language and other criteria. The script ensures the HTML output is dynamic and user-friendly.
 

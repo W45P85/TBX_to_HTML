@@ -930,7 +930,6 @@ def show_column_selection(file_path):
     global checkboxes
     checkboxes = []
 
-
     # Funktion zum weglassen von Spalten
     def on_checkbox_change(column):
         if column in selected_columns:
