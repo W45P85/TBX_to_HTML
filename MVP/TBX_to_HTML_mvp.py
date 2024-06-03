@@ -3,6 +3,9 @@ import xml.etree.ElementTree as ET                  # Verarbeitung von XML-Daten
 import tkinter as tk                                # GUI-Bibliothek
 from tkinter import filedialog                      # Dateidialog-Funktionalität
 from datetime import datetime                       # Datumsanzeige
+import webbrowser 
+from tkinter import *
+from tkinter.ttk import *# Für Links in tkInter benötigt
 
 class ScrollableFrame(tk.Frame):
     # Klasse für ein scrollbares Frame in der Gui
@@ -33,6 +36,8 @@ class ScrollableFrame(tk.Frame):
             canvas_width = event.width
             self.canvas.itemconfig("self.frame", width=canvas_width)
 
+def open_github(event):
+    webbrowser.open_new("https://github.com/W45P85/TBX_to_HTML")
 
 def read_tbx(file_path, selected_columns):
     # Funktion zum Lesen einer TBX-Datei und Extrahieren von Daten
@@ -105,127 +110,178 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     <title>TBX in HTML konvertiert</title>
     <style>
 
-        .tooltip {{
-            position: relative;
-            }}
+    .tooltip {{
+        position: relative;
+    }}
 
-        .tooltip .tooltiptext {{
-            visibility: hidden;
-            width: auto;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }}
+    .tooltip .tooltiptext {{
+        visibility: hidden;
+        width: auto;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 10000;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }}
 
-        .tooltip:hover .tooltiptext {{
-            visibility: visible;
-            opacity: 1;
-        }}
+    .tooltip:hover .tooltiptext {{
+        visibility: visible;
+        opacity: 1;
+    }}
 
-        body {{
-            font-family: Calibri;
-            background-color: #f4f4f4;
-            margin: 0;
-            text-align: center;
-            padding: 0;
-        }}
+    body {{
+        font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        text-align: center;
+        padding: 20px;
+    }}
 
-        header {{
-            text-align: left;
-        }}
+    .container {{
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }}
 
-        img {{
-            max-width: 170px;
-            padding: 10px;
-        }}
+    header {{
+        text-align: left;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        background-color: #000000;
+        padding: 10px 20px;
+        color: white;
+        border-radius: 10px 10px 0 0;
+    }}
 
-        h2 {{
-            color: #333;
-            text-align: center;
-            font-size: 40px;
-        }}
+    img {{
+        max-width: 150px;
+        padding: 5px;
+        border-radius: 8px;
+    }}
+    
+    h1 {{
+        margin: 0;
+        font-size: 2rem;
+        color: white;
+        padding-left: 10px;
+    }}
 
-        .search-container {{
-            margin-top: 20px;
-        }}
+    h2 {{
+        color: #343a40;
+        text-align: center;
+        font-size: 1.75rem;
+        margin-top: 20px;
+    }}
 
-        p {{
-            color: #555;
-        }}
+    .search-container {{
+        margin-top: 20px;
+    }}
 
-        input[type="text"] {{
-            text-align: center;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }}
+    p {{
+        color: #6c757d;
+        font-size: 1rem;
+    }}
+    
+    small {{
+        font-size: 0.875rem;
+        margin-left: 1em;
+        font-size: 16px;
+    }}
 
-        button {{
-            background-color: #003366;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }}
+    input[type="text"] {{
+        text-align: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        width: calc(100% - 22px);
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }}
 
-        button:hover {{
-            background-color: #45a049;
-        }}
+    button {{
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }}
 
-        .hidden {{
-            display: none;
-            }}
+    button:hover {{
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }}
 
-        table {{
-            border: solid #000000;
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }}
+    .hidden {{
+        display: none;
+    }}
 
-        th, td {{
-            border: thin solid #000000;
-            vertical-align: top;
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }}
+    table {{
+        border: 1px solid #dee2e6;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+    }}
 
-        footer {{
-            text-align: center;
-            font-style: italic;
-            margin: 20px;
-            padding: 20px;
-        }}
+    th, td {{
+        border: 1px solid #dee2e6;
+        vertical-align: top;
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }}
 
-        th {{
-            background-color: #005D6B;
-            color: white;
-        }}
+    th {{
+        background-color: #009e8b;
+        color: white;
+    }}
 
-        tr:hover {{
-            background-color: #f5f5f5;
-        }}
+    tr:nth-child(even) {{
+        background-color: #f2f2f2;
+    }}
 
-        .english-table {{
-            display: none;
-        }}
-    </style>
+    tr:hover {{
+        background-color: #e9ecef;
+    }}
+
+    footer {{
+        text-align: center;
+        font-style: italic;
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        color: #6c757d;
+        border-radius: 0 0 10px 10px;
+    }}
+
+    .english-table {{
+        display: none;
+    }}
+</style>
+
+
 </head>
 <header>
-    <!-- <img src="img\logo.PNG" alt="Logo Remira"> -->
-    <h1>REMIRA terminology</h1>
+    <!-- <img src="img\logo.PNG" alt="Logo"> -->
+    <h1>TERMINOLOGY Overview from: </h1>
     <small>{date}</small>
 </header>
 <body>
@@ -797,7 +853,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </div>
 <footer>
-    User Assistance - 2023
+    <small>Automatically generated list by the tool <a href="https://github.com/W45P85/TBX_to_HTML" target="_blank">TBX to HTML</a>.</small>
 </footer>
 </body>
 </html>
@@ -863,7 +919,7 @@ def show_column_selection(file_path):
 
     # Fenster für Spaltenauswahl erstellen
     root = tk.Tk()
-    root.title("Spaltenauswahl")
+    root.title("Column selection")
     root.geometry("300x400")
 
     selected_columns = []
@@ -897,7 +953,7 @@ def show_column_selection(file_path):
         checkbox = tk.Checkbutton(scroll_frame.scrollable_frame, text=new_column_names.get(column, column), variable=var, command=lambda col=column: on_checkbox_change(col))
         checkbox.pack(anchor=tk.W)
 
-    select_all_button = tk.Button(root, text="Alle auswählen", command=select_all_columns, bg="#003366", fg="white")
+    select_all_button = tk.Button(root, text="Select all", command=select_all_columns, bg="#009e8b", fg="white")
     select_all_button.pack(pady=10, side=tk.TOP, fill=tk.X)
 
     # Funktion zum Schließen des Programms
@@ -909,7 +965,7 @@ def show_column_selection(file_path):
         convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
-    continue_button = tk.Button(root, text="Weiter", command=on_continue_click, bg="#003366", fg="white")
+    continue_button = tk.Button(root, text="Next", command=on_continue_click, bg="#009e8b", fg="white")
     continue_button.pack(pady=10, side=tk.TOP, fill=tk.X)
 
     root.mainloop()
@@ -921,19 +977,20 @@ def show_column_selection(file_path):
 root = tk.Tk()
 #root.iconbitmap("favicon.ico")
 root.title("Termfinder by User Assistance")
-root.geometry("500x150")
+root.geometry("500x213")
 
 # Schaltfläche um TBX-Datei auszuwählen
-choose_button = tk.Button(root, text="Datei auswählen", command=choose_file)
+choose_button = tk.Button(root, text="Select File", command=choose_file, bg="#009e8b", fg="white", width=20, height=2, anchor="center", font=('times', 16, 'bold', 'italic'))
 choose_button.pack(pady=20)
 
 # Button zum Schließen des Programms
-close_button = tk.Button(root, text="Programm schließen", command=root.destroy)
+close_button = tk.Button(root, text="Close", command=root.destroy, bg="#ff6060", fg="white", width=20, height=2, anchor="center", font=('times', 12, 'bold', 'italic'))
 close_button.pack(pady=10)
 
 # Label für Info-Text
-info_label = tk.Label(root, text="Programmed by Daniel Rukober - User Assistance", anchor="w", justify="left")
+info_label = tk.Label(root, text="Programmed by Daniel Rukober", fg="blue", cursor="hand2", font=('Arial', 10, 'italic underline'))
 info_label.pack(pady=10, padx=10)
+info_label.bind("<Button-1>", open_github)
 
 # Starte die GUI
 root.mainloop()

@@ -25,7 +25,7 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
 
 <img src="MVP/img/Programm%20öffnet%20sich.PNG">
 
-- Click on the "Select file" button. (1)
+- Click on the "Select file" button.
 - Select the desired TBX file from your file system and confirm the selection with "Open".
 
 3. column selection:
