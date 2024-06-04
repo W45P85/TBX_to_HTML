@@ -375,6 +375,22 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     html_content += """</table>
 
 <script>
+// Function called when the window is fully loaded
+window.onload = function() {
+    filterTable();            // filtert die Tabelle basierend auf Benutzereingaben
+    toggleTable();            // schaltet die Legende um (zwischen de und en)
+    addTooltipsFromTable()    // fügt Tooltips basierend auf den Daten in der Tabelle hinzu
+    convertUrlsToLinks()      // konvertiert http:// und https:// Einträge in einen Link
+    colorizeTerms()           // färbt die Term-IDs in der Tabelle mit der entsprechenden Farbe
+};
+
+
+
+/**
+* Function to update autocomplete suggestions based on user input.
+* Delays the update by 500 milliseconds to reduce excessive updates.
+*/
+
     var suggestionTimeout;
 
     // Funktion zum Aktualisieren der Autovervollständigung basierend auf Benutzereingaben
@@ -469,43 +485,30 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         }
     }
 
-// Funktion wird ausgeführt, wenn das Fenster vollständig geladen ist
-window.onload = function() {
-    // Funktionen aufrufen, um die Tabelle zu filtern, umzuschalten und Tooltips hinzuzufügen
-    filterTable();            // filtert die Tabelle basierend auf Benutzereingaben
-    toggleTable();            // schaltet die Legende um (zwischen de und en)
-    addTooltipsFromTable()    // fügt Tooltips basierend auf den Daten in der Tabelle hinzu
-    convertUrlsToLinks()      // konvertiert http:// und https:// Einträge in einen Link
-    colorizeTerms()           // färbt die Term-IDs in der Tabelle mit der entsprechenden Farbe
-};
 
 
-// Funktion, die filterTable aufruft und für Kompatibilität bereitgestellt wird
-function filterTableLanguage() {
-    filterTable(); // Ruft die Hauptfilterfunktion filterTable() auf
-}
+/**
+* Main function to filter the table based on selected language and filter option.
+* Shows or hides rows based on filter criteria.
+*/
 
-// Hauptfilterfunktion, die die Tabelle basierend auf ausgewählter Sprache und Filteroption filtert
 function filterTable() {
-    // Ausgewählte Sprache und Filteroption aus den Dropdown-Listen abrufen
     var selectedLanguage = document.getElementById("languageSelect").value.toUpperCase();
     var selectedFilter = document.getElementById("filterSelect").value.toUpperCase();
 
-    // Tabelle und Zeilen abrufen
     var table = document.getElementById("termTable");
     var rows = table.getElementsByTagName("tr");
 
-    // Durchlaufe jede Zeile (überspringe die erste Zeile, die die Überschriften enthält)
+    // Loop through each row (skip header row)
     for (var i = 1; i < rows.length; i++) {
-        // Zellen für Sprache und Filteroption abrufen
         var languageCell = rows[i].getElementsByTagName("td")[1].textContent.toUpperCase();
         var termsetCell = rows[i].getElementsByTagName("td")[11].textContent.toUpperCase();
 
-        // Überprüfe, ob die Sprache und die Filteroption den ausgewählten Kriterien entsprechen
+        // Check if language and filter match the selected criteria
         var languageFilterPassed = selectedLanguage === "" || languageCell === selectedLanguage;
         var filterFilterPassed = selectedFilter === "ALL" || termsetCell.includes(selectedFilter);
 
-        // Entscheide, ob die Zeile angezeigt oder ausgeblendet werden soll, basierend auf den Filterergebnissen
+        // Show or hide the row based on the filter results
         if (languageFilterPassed && filterFilterPassed) {
             rows[i].classList.remove('hidden');
         } else {
@@ -514,46 +517,50 @@ function filterTable() {
     }
 }
 
-    // Diese Funktion wird ausgeführt, wenn das DOM vollständig geladen ist
-    document.addEventListener("DOMContentLoaded", function () {
-        // Filter- und Sprachauswahl-Elemente aus dem DOM abrufen
-        var filterSelect = document.getElementById('filterSelect');
-        var languageSelect = document.getElementById('languageSelect');
+// Function to add event listeners for filter and language selection
+document.addEventListener("DOMContentLoaded", function () {
+    var filterSelect = document.getElementById('filterSelect');
+    var languageSelect = document.getElementById('languageSelect');
 
-        // Eventlistener hinzufügen, um auf Änderungen in der Filterauswahl zu reagieren und filterTable() aufzurufen
-        filterSelect.addEventListener('change', function () {
-            filterTable(); // filterTable() aufrufen, wenn sich die Filterauswahl ändert
-        });
-
-        // Eventlistener hinzufügen, um auf Änderungen in der Sprachauswahl zu reagieren und filterTable() aufzurufen
-        languageSelect.addEventListener('change', function () {
-            filterTable(); // filterTable() aufrufen, wenn sich die Sprachauswahl ändert
-        });
+    // Add event listener for filter selection change
+    filterSelect.addEventListener('change', function () {
+        filterTable();
     });
 
-    // Funktion zum Umschalten zwischen deutscher und englischer Legende
-    function toggleTable() {
-         // Deutsche und englische Tabellen abrufen
-        var germanTable = document.getElementById('german-table');
-        var englishTable = document.getElementById('english-table');
+    // Add event listener for language selection change
+    languageSelect.addEventListener('change', function () {
+        filterTable();
+    });
+});
 
-        // Überprüfen, ob das Sprachumschalt-Checkbox-Feld aktiviert ist
-        if (document.getElementById('language-toggle').checked) {
-            // Englische Tabelle anzeigen, deutsche Tabelle ausblenden
-            germanTable.style.display = 'table';
-            englishTable.style.display = 'none';
-        } else {
-            // Deutsche Tabelle anzeigen, englische Tabelle ausblenden
-            germanTable.style.display = 'none';
-            englishTable.style.display = 'table';
-        }
+
+/**
+* Function to toggle between German and English legend.
+* Shows the corresponding table based on the toggle checkbox state.
+*/
+
+function toggleTable() {
+    var germanTable = document.getElementById('german-table');
+    var englishTable = document.getElementById('english-table');
+
+    // Check if the language toggle checkbox is checked
+    if (document.getElementById('language-toggle').checked) {
+        germanTable.style.display = 'table';
+        englishTable.style.display = 'none';
+    } else {
+        germanTable.style.display = 'none';
+        englishTable.style.display = 'table';
     }
+}
 
-// Funktion zum Hinzufügen von Tooltips basierend auf einer vordefinierten Tabelle
+/**
+* Function to add tooltips based on predefined table data.
+* Searches for specific terms and adds corresponding tooltips.
+*/
+
 function addTooltipsFromTable() {
-    // Tabelle mit den Tooltips
-    // Syntax: "Wort", "Übersetzung", "Tooltip"
-
+    // Table with tooltips
+    // Syntax: "Word", "Translation", "Tooltip"
   var tooltipTable = [
     ["Hauptbenennung", "Main term designation", "This is the main term designation."],
     ["Substantiv", "Noun", "This is a noun."],
@@ -573,23 +580,27 @@ function addTooltipsFromTable() {
     // Hier können weitere Wörter und deren Übersetzungen eingefügt werden
 ];
 
-  // Tabelle mit den Begriffen abrufen
+  // Get the table with the terms
   var termTable = document.getElementById("termTable");
   var cells = termTable.getElementsByTagName("td");
 
-  // Durchlaufe jede Zelle in der Tabelle
+  // Loop through each cell in the table
   for (var i = 0; i < cells.length; i++) {
     var term = cells[i].innerText.trim();
-    // Durchsuche die Tooltip-Tabelle nach dem aktuellen Begriff
+    // Search for the term in the tooltip table
     for (var j = 0; j < tooltipTable.length; j++) {
-      if (tooltipTable[j][0] === term) { // Wenn der Begriff gefunden wird
-        cells[i].classList.add("tooltip"); // Füge der Zelle die Klasse "tooltip" hinzu
+      if (tooltipTable[j][0] === term) {
+        cells[i].classList.add("tooltip");
         cells[i].innerHTML += '<span class="tooltiptext">' + tooltipTable[j][2] + '</span>'; // Füge den Tooltip hinzu
       }
     }
   }
 }
 
+/**
+* Function to convert URLs in table cells to clickable links.
+* Checks for URLs in cell content and converts them.
+*/
 function convertUrlsToLinks() {
     var table = document.getElementById("termTable");
 
@@ -655,6 +666,12 @@ function convertUrlsToLinks() {
     }
 }
 
+
+/**
+* Function to make table headers sticky.
+* Ensures headers stay in place when scrolling.
+*/
+
 document.addEventListener('DOMContentLoaded', function() {
             var tableHeaders = document.querySelectorAll('#termTable th');
             tableHeaders.forEach(function(th) {
@@ -664,21 +681,38 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+/**
+ * Function to colorize table cells based on their content.
+ * Searches for specific terms and applies corresponding CSS classes
+ * to change the background and text color of the cells.
+ */
+
 function colorizeTerms() {
+        // Get the table element by its ID
         const table = document.getElementById('termTable');
+        
+        // Get all rows in the table
         const rows = table.getElementsByTagName('tr');
 
-        for (let i = 1; i < rows.length; i++) {  // Skip header row
+        // Loop through each row, skipping the header row (index 0)
+        for (let i = 1; i < rows.length; i++) {
+            // Get all cells in the current row
             const cells = rows[i].getElementsByTagName('td');
 
+            // Loop through each cell in the row
             for (let j = 0; j < cells.length; j++) {
+                // Get the text content of the cell
                 const term = cells[j].innerText;
 
+                // Apply a specific CSS class based on the cell's text content
                 if (term === 'preferredTerm') {
+                    // Apply the 'preferred-term' class for preferred terms
                     cells[j].classList.add('preferred-term');
                 } else if (term === 'deprecatedTerm') {
+                    // Apply the 'deprecated-term' class for deprecated term
                     cells[j].classList.add('deprecated-term');
                 } else if (term === 'admittedTerm') {
+                    // Apply the 'admitted-term' class for admitted terms
                     cells[j].classList.add('admitted-term');
                 }
             }
@@ -924,7 +958,7 @@ function colorizeTerms() {
 
 </div>
 <footer>
-    <small>This list was created automatically by this tool <a href="https://github.com/W45P85/TBX_to_HTML" target="_blank">TBX to HTML</a>.</small>
+    <small>This list was created automatically by the tool <a href="https://github.com/W45P85/TBX_to_HTML" target="_blank">TBX to HTML</a>.</small>
 </footer>
 </body>
 </html>
