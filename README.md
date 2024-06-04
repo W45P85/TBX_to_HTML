@@ -317,6 +317,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 6. **th.style.zIndex = '1000';**: Sets the stacking order of the current 'th' element to '1000', which ensures that it is displayed above other elements when it is pinned.
 
+#### colorize the status of the term with colorizeTerms() function
+
+```
+function colorizeTerms() {
+        const table = document.getElementById('termtable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {  // Skip header row
+            const cells = rows[i].getElementsByTagName('td');
+
+            for (let j = 0; j < cells.length; j++) {
+                const term = cells[j].innerText;
+
+                if (term === 'preferredTerm') {
+                    cells[j].classList.add('preferred-term');
+                } else if (term === 'deprecatedTerm') {
+                    cells[j].classList.add('deprecated-term');
+                } else if (term === 'admittedTerm') {
+                    cells[j].classList.add('admitted-term');
+                }
+            }
+        }
+    }
+```
+The colorizeTerms() function searches an HTML table for specific terms and colors the corresponding cells based on the term found. The terms to be searched for are 'preferredTerm', 'deprecatedTerm' and 'admittedTerm', and each category is highlighted with a specific background and font color.
 
 ### HTML Structure
 The generated HTML includes two tables (German and English) with relevant term data. It also includes interactive elements like a checkbox to toggle between languages, and dropdowns for filtering terms based on language and other criteria. The script ensures the HTML output is dynamic and user-friendly.

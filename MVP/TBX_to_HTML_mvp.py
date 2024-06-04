@@ -279,6 +279,21 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     .english-table {{
         display: none;
     }}
+    
+    .preferred-term {{
+            background-color: lightgreen;
+            color: darkgreen;
+        }}
+        
+        .deprecated-term {{
+            background-color: lightcoral;
+            color: darkred;
+        }}
+        
+        .admitted-term {{
+            background-color: lightgray;
+            color: black;
+        }}
 </style>
 
 
@@ -461,6 +476,7 @@ window.onload = function() {
     toggleTable();            // schaltet die Legende um (zwischen de und en)
     addTooltipsFromTable()    // fügt Tooltips basierend auf den Daten in der Tabelle hinzu
     convertUrlsToLinks()      // konvertiert http:// und https:// Einträge in einen Link
+    colorizeTerms()           // färbt die Term-IDs in der Tabelle mit der entsprechenden Farbe
 };
 
 
@@ -647,6 +663,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 th.style.zIndex = '1000';
             });
         });
+
+function colorizeTerms() {
+        const table = document.getElementById('termTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {  // Skip header row
+            const cells = rows[i].getElementsByTagName('td');
+
+            for (let j = 0; j < cells.length; j++) {
+                const term = cells[j].innerText;
+
+                if (term === 'preferredTerm') {
+                    cells[j].classList.add('preferred-term');
+                } else if (term === 'deprecatedTerm') {
+                    cells[j].classList.add('deprecated-term');
+                } else if (term === 'admittedTerm') {
+                    cells[j].classList.add('admitted-term');
+                }
+            }
+        }
+    }
 
 </script>
 <br>
