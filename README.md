@@ -209,7 +209,7 @@ The addTooltipsFromTable function adds tooltips to table cells based on predefin
 #### Convert URLs to Links
 
 ```
-   function convertUrlsToLinks() {
+function convertUrlsToLinks() {
     var table = document.getElementById("termTable");
 
     if (table) {
@@ -217,20 +217,52 @@ The addTooltipsFromTable function adds tooltips to table cells based on predefin
             for (var j = 0; j < table.rows[i].cells.length; j++) {
                 var cellContent = table.rows[i].cells[j].innerHTML;
 
-                if ((cellContent.includes("http://") || cellContent.includes("https://")) && !cellContent.includes("(translation)")) {
+                // Use a regular expression to match URLs with spaces
+                var urlRegex = /(https?:\/\/[^\s]+)/g;
+                var matches = cellContent.match(urlRegex);
+
+                if (matches && !cellContent.includes("(translation)")) {
                     var link = document.createElement("a");
-                    link.href = cellContent;
-                    link.textContent = cellContent;
+                    link.href = matches[0];
+                    link.textContent = matches[0];
                     link.target = "_blank";
-                    table.rows[i].cells[j].innerHTML = '';
-                    table.rows[i].cells[j].appendChild(link);
+
+                    // Extract the remaining text after the URL
+                    var remainingText = cellContent.substring(matches[0].length);
+
+                    // Create a text node for the remaining text
+                    var textNode = document.createTextNode(remainingText);
+
+                    // Check if there is content before the URL
+                    var textBefore = cellContent.substring(0, cellContent.indexOf(matches[0]));
+                    if (textBefore) {
+                        // Create a text node for the text before the URL
+                        var textNodeBefore = document.createTextNode(textBefore);
+
+                        table.rows[i].cells[j].innerHTML = '';
+                        table.rows[i].cells[j].appendChild(textNodeBefore);
+                        table.rows[i].cells[j].appendChild(link);
+                    } else {
+                        table.rows[i].cells[j].innerHTML = '';
+                        table.rows[i].cells[j].appendChild(link);
+                    }
+
+                    table.rows[i].cells[j].appendChild(textNode);
                 } else if (cellContent.includes("(translation)")) {
+                    
+                    // Split the cell content at "(translation)"
                     var parts = cellContent.split("(translation)");
+                    
+                    // Create a new link for the part before "(translation)"
                     var linkBefore = document.createElement("a");
                     linkBefore.href = parts[0];
                     linkBefore.textContent = parts[0];
-                    linkBefore.target = "_blank";
+                    linkBefore.target = "_blank"; // Open the link in a new window
+                    
+                    // Create a text node for the part after "(translation)"
                     var textNodeAfter = document.createTextNode("(translation)" + parts[1]);
+                    
+                    // Clear the cell content and append the link and text nodes
                     table.rows[i].cells[j].innerHTML = '';
                     table.rows[i].cells[j].appendChild(linkBefore);
                     table.rows[i].cells[j].appendChild(textNodeAfter);
@@ -238,11 +270,27 @@ The addTooltipsFromTable function adds tooltips to table cells based on predefin
             }
         }
     } else {
-        console.error("Tabelle nicht gefunden!");
+        console.error("Table not found!");
     }
 }
 ```
-The convertUrlsToLinks function scans the table for any cells containing URLs and converts these URLs into clickable links. This function also handles special cases where URLs are followed by "(translation)" text, ensuring the content is properly formatted and interactive.
+The convertUrlsToLinks function scans the table for any cells containing URLs and converts these URLs into clickable links. This function also handles special cases where URLs are followed by "(translation)" text, ensuring the content is properly formatted and interactive. **That was a customer requirement! If there are no ("translation") strings in the cells, the part can be deleted.**
+
+Steps:
+1. The convertUrlsToLinks function is defined.
+2. It retrieves the HTML table with the ID "termTable" using document.getElementById.
+3. If the table is found, it iterates over each row in the table.
+4. For each row, it iterates over each cell in the row.
+5. It retrieves the content of the current cell using cells[j].innerHTML.
+6. It uses a regular expression to match URLs in the cell content.
+7. If a URL match is found and the cell does not contain the text "(übersetzung)", it creates a new link element (<a>) and sets its href, textContent, and target attributes.
+8. It extracts the remaining text after the URL and creates a text node for it.
+9. If there is content before the URL, it creates a text node for it as well.
+10. It clears the cell content and appends the text nodes and the link element.
+11. If the cell content contains the text "(translation)", it splits the content at "(translation)" and creates a new link element for the part before it.
+12. It creates a text node for the part after "(translation)" and sets the cell content to the link element and the text node.
+13. If the table is not found, it logs an error message to the console.
+
 
 #### Table Header "sticky"
 

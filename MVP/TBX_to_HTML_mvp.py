@@ -582,25 +582,52 @@ function convertUrlsToLinks() {
             for (var j = 0; j < table.rows[i].cells.length; j++) {
                 var cellContent = table.rows[i].cells[j].innerHTML;
 
-                // Überprüfe, ob der Zelleninhalt eine URL enthält und "(translation)" nicht am Anfang steht
-                if ((cellContent.includes("http://") || cellContent.includes("https://")) && !cellContent.includes("(translation)")) {
+                // Use a regular expression to match URLs with spaces
+                var urlRegex = /(https?:\/\/[^\s]+)/g;
+                var matches = cellContent.match(urlRegex);
+
+                if (matches && !cellContent.includes("(translation)")) {
                     var link = document.createElement("a");
-                    link.href = cellContent;
-                    link.textContent = cellContent;
-                    link.target = "_blank"; // Öffne den Link in einem neuen Fenster
-                    table.rows[i].cells[j].innerHTML = '';
-                    table.rows[i].cells[j].appendChild(link);
+                    link.href = matches[0];
+                    link.textContent = matches[0];
+                    link.target = "_blank";
+
+                    // Extract the remaining text after the URL
+                    var remainingText = cellContent.substring(matches[0].length);
+
+                    // Create a text node for the remaining text
+                    var textNode = document.createTextNode(remainingText);
+
+                    // Check if there is content before the URL
+                    var textBefore = cellContent.substring(0, cellContent.indexOf(matches[0]));
+                    if (textBefore) {
+                        // Create a text node for the text before the URL
+                        var textNodeBefore = document.createTextNode(textBefore);
+
+                        table.rows[i].cells[j].innerHTML = '';
+                        table.rows[i].cells[j].appendChild(textNodeBefore);
+                        table.rows[i].cells[j].appendChild(link);
+                    } else {
+                        table.rows[i].cells[j].innerHTML = '';
+                        table.rows[i].cells[j].appendChild(link);
+                    }
+
+                    table.rows[i].cells[j].appendChild(textNode);
                 } else if (cellContent.includes("(translation)")) {
-                    // Teile den Zelleninhalt an der Position von "(translation)"
+                    
+                    // Split the cell content at "(translation)"
                     var parts = cellContent.split("(translation)");
-                    // Erstelle einen neuen Link für den Teil vor "(translation)"
+                    
+                    // Create a new link for the part before "(translation)"
                     var linkBefore = document.createElement("a");
                     linkBefore.href = parts[0];
                     linkBefore.textContent = parts[0];
-                    linkBefore.target = "_blank"; // Öffne den Link in einem neuen Fenster
-                    // Erstelle einen Textknoten für den Teil nach "(translation)"
+                    linkBefore.target = "_blank"; // Open the link in a new window
+                    
+                    // Create a text node for the part after "(translation)"
                     var textNodeAfter = document.createTextNode("(translation)" + parts[1]);
-                    // Lösche den Zelleninhalt und füge den Link und den Textknoten ein
+                    
+                    // Clear the cell content and append the link and text nodes
                     table.rows[i].cells[j].innerHTML = '';
                     table.rows[i].cells[j].appendChild(linkBefore);
                     table.rows[i].cells[j].appendChild(textNodeAfter);
@@ -608,7 +635,7 @@ function convertUrlsToLinks() {
             }
         }
     } else {
-        console.error("Tabelle nicht gefunden!");
+        console.error("Table not found!");
     }
 }
 
@@ -927,7 +954,7 @@ def show_column_selection(file_path):
     # Fenster für Spaltenauswahl erstellen
     root = tk.Tk()
     root.title("Column selection")
-    root.geometry("300x400")
+    root.geometry("300x360")
 
     selected_columns = []
 
@@ -959,7 +986,7 @@ def show_column_selection(file_path):
         checkbox = tk.Checkbutton(scroll_frame.scrollable_frame, text=new_column_names.get(column, column), variable=var, command=lambda col=column: on_checkbox_change(col))
         checkbox.pack(anchor=tk.W)
 
-    select_all_button = tk.Button(root, text="Select all", command=select_all_columns, bg="#009e8b", fg="white")
+    select_all_button = tk.Button(root, text="Select all", command=select_all_columns, bg="#009e8b", fg="white", height=1, anchor="center")
     select_all_button.pack(pady=10, side=tk.TOP, fill=tk.X)
 
     # Funktion zum Schließen des Programms
@@ -971,7 +998,7 @@ def show_column_selection(file_path):
         convert_tbx_to_html(file_path, html_file_path, selected_columns)
 
 
-    continue_button = tk.Button(root, text="Next", command=on_continue_click, bg="#009e8b", fg="white")
+    continue_button = tk.Button(root, text="Next", command=on_continue_click, bg="#585858", fg="white", height=1, anchor="center")
     continue_button.pack(pady=10, side=tk.TOP, fill=tk.X)
 
     root.mainloop()
