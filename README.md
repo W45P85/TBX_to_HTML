@@ -1,6 +1,5 @@
 <div align="center">
 <pre>
-
   _____  ____ __  __  _           _   _  _____  __  __  _     
  |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
    | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
@@ -8,7 +7,10 @@
    |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
                                                               
 
-Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files and transforms them into beautiful, readable HTML files. Whether you're a terminology enthusiast or just someone who loves well-organized data, this tool is here to make your life easier.
+Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files
+and transforms them into beautiful, readable HTML files. Whether you're a terminology
+enthusiast or just someone who loves well-organized data, this tool is here to make your
+life easier.
 </pre>
 </div>
 
