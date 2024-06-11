@@ -7,7 +7,10 @@
    |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
                                                               
 
-Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files and transforms them into beautiful, readable HTML files. Whether you're a terminology enthusiast or just someone who loves well-organized data, this tool is here to make your life easier.
+Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files<br>
+and transforms them into beautiful, readable HTML files. Whether you're a terminology<br>
+enthusiast or just someone who loves well-organized data, this tool is here to make your<br>
+life easier.
 </pre>
 
 > Note: This tool has been tested using a terminology export from the tool SMC (Smart Media Creator) by ECS (Expert Communication Solutions).
