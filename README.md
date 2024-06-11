@@ -6,16 +6,20 @@
    | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
    |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
                                                               
-  
-<p>Converter for TBX-files to HTML</p>
+
+Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files and transforms them into beautiful, readable HTML files. Whether you're a terminology enthusiast or just someone who loves well-organized data, this tool is here to make your life easier.
 </pre>
+
+> Note: This tool has been tested using a terminology export from the tool SMC (Smart Media Creator) by ECS (Expert Communication Solutions).
+
 
 ## Overview
 **TBX to HTML** converts TBX files into readable HTML files. It analyzes the TBX file and allows you to select the desired columns for conversion.
 
 
 ## Installation
-No installation is required. Simply use the **tbx_to_html.exe** file from the "MVP" folder to start the tool.
+No installation is required. Simply download the folder **TBX_to_HTML_compiled** and open the file **TBX_to_HTML.exe** or use the single file **TBX_to_HTML (single file).exe** to start the tool.
+> ⚠️ **Warning:** I am not licensed by Microsoft, so you might encounter an warning message related to licensing.
 
 
 ## Usage
@@ -23,14 +27,14 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
        Open the "TBX to HTML" program.
 2. select a TBX file:
 
-<img src="MVP/img/Programm%20öffnet%20sich.PNG">
+<img src="img/Programm%20öffnet%20sich.PNG">
 
 - Click on the "Select file" button.
 - Select the desired TBX file from your file system and confirm the selection with "Open".
 
 3. column selection:
 
-<img src="MVP/img/alle_auswählen.PNG" width="250">
+<img src="img/alle_auswählen.PNG" width="250">
 
 - After selecting the file, a window opens to select the columns to be displayed in the HTML document.
 - You can select the columns by activating the corresponding checkboxes.
@@ -39,7 +43,7 @@ No installation is required. Simply use the **tbx_to_html.exe** file from the "M
 
 4. conversion:
 
-<img src="MVP/img/Dateiname%20der%20HTML.PNG">
+<img src="img/Dateiname%20der%20HTML.PNG">
 
 
 - After the column selection, the TBX file is converted into an HTML document.
