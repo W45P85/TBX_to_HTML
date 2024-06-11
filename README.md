@@ -1,4 +1,4 @@
-<div style="background-color: transparent; border: none; text-align: center;">
+<div align="center">
 <pre>
 
   _____  ____ __  __  _           _   _  _____  __  __  _     
