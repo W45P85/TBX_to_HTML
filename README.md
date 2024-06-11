@@ -64,7 +64,7 @@ This tool  is a Python program that facilitates the conversion of a TBX (TermBas
 ### Part 1: GUI Setup and TBX File Processing
 #### Importing Libraries
 
-```
+```python
    import tkinter as tk
    from tkinter import filedialog
    import xml.etree.ElementTree as ET
@@ -74,17 +74,36 @@ The script imports necessary libraries for GUI creation (tkinter), file handling
 
 #### ScrollableFrame Class
 
-```
-   import tkinter as tk
-   from tkinter import filedialog
-   import xml.etree.ElementTree as ET
-   from datetime import datetime
+```python
+   class ScrollableFrame(tk.Frame):
+    # Klasse für ein scrollbares Frame in der Gui
+    def __init__(self, master, **kwargs):
+        tk.Frame.__init__(self, master, **kwargs)
+
+        # Canvas für Scrollbar erstellen
+        self.canvas = tk.Canvas(self, borderwidth=0, background="#ffffff")
+        self.frame = tk.Frame(self.canvas, background="#ffffff")
+        self.vsb = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self.vsb.set)
+
+        # Widgets anordnen
+        self.vsb.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.canvas.create_window((4, 4), window=self.frame, anchor="nw", tags="self.frame")
+
+        # Event-Handler für Größenänderungen
+        self.canvas.bind("<Configure>", self.on_canvas_configure)
+
+        # Scrollable Frame
+        self.scrollable_frame = tk.Frame(self.frame, background="#ffffff")
+        self.scrollable_frame.pack(fill="both", expand=True)
+        ...
 ```
 This class creates a scrollable frame in the GUI that allows the user to navigate through multiple checkboxes for column selection and easily add new columns if necessary.
 
 #### Function to Convert TBX to HTML
 
-```
+```python
    def convert_tbx_to_html(tbx_file_path, html_file_path, selected_columns):
     ...
 ```
@@ -92,7 +111,7 @@ This function parses the TBX file and converts its content to an HTML file, incl
 
 #### Function to Preview Columns
 
-```
+```python
    def preview_columns(file_path, selected_columns):
     ...
 ```
@@ -100,7 +119,7 @@ This function reads the TBX file to identify and preview available columns. It r
 
 #### Function to Choose File
 
-```
+```python
    def choose_file():
     ...
 ```
@@ -108,7 +127,7 @@ This function displays a GUI window with checkboxes for each column, allowing th
 
 #### GUI Main Window
 
-```
+```python
    root = tk.Tk()
    root.title("Termfinder by User Assistance")
    root.geometry("500x150")
@@ -123,7 +142,7 @@ The generated HTML file includes embedded JavaScript to provide interactive feat
 
 #### Autocomplete Suggestions
 
-```
+```js
    var autocompleteInput = document.getElementById('searchInput');
    if (suggestions.length > 0) {
       autocompleteInput.placeholder = suggestions[0].substring(filter.length);
@@ -135,7 +154,7 @@ This section of the code dynamically updates the placeholder text in the input f
 
 #### Window Onload Event
 
-```
+```js
    window.onload = function() {
     filterTable();
     toggleTable();
@@ -147,7 +166,7 @@ The window.onload event ensures that certain functions are executed only after t
 
 #### Filter Table Function
 
-```
+```js
    function filterTable() {
     var selectedLanguage = document.getElementById("languageSelect").value.toUpperCase();
     var selectedFilter = document.getElementById("filterSelect").value.toUpperCase();
@@ -173,7 +192,7 @@ The filterTable function filters the table rows based on the selected language a
 
 #### Toggle Table Function
 
-```
+```js
    function toggleTable() {
     var germanTable = document.getElementById('german-table');
     var englishTable = document.getElementById('english-table');
@@ -191,7 +210,7 @@ The toggleTable function switches between displaying the German and English vers
 
 #### Tooltips Function
 
-```
+```js
    function addTooltipsFromTable() {
     var tooltipTable = [
         ["Hauptbenennung", "Main term designation", "This is the main term designation."],
@@ -216,7 +235,7 @@ The addTooltipsFromTable function adds tooltips to table cells based on predefin
 
 #### Convert URLs to Links
 
-```
+```js
 function convertUrlsToLinks() {
     var table = document.getElementById("termTable");
 
@@ -302,7 +321,7 @@ Steps:
 
 #### Table Header "sticky"
 
-```
+```js
 document.addEventListener('DOMContentLoaded', function() {
             var tableHeaders = document.querySelectorAll('#termTable th');
             tableHeaders.forEach(function(th) {
@@ -327,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 #### colorize the status of the term with colorizeTerms() function
 
-```
+```js
 function colorizeTerms() {
         const table = document.getElementById('termtable');
         const rows = table.getElementsByTagName('tr');
@@ -353,7 +372,6 @@ The colorizeTerms() function searches an HTML table for specific terms and color
 
 ### HTML Structure
 The generated HTML includes two tables (German and English) with relevant term data. It also includes interactive elements like a checkbox to toggle between languages, and dropdowns for filtering terms based on language and other criteria. The script ensures the HTML output is dynamic and user-friendly.
-
 
 
 ## Support
