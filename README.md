@@ -163,15 +163,7 @@ The filterTable function filters the table rows based on the selected language a
    function toggleTable() {
     var germanTable = document.getElementById('german-table');
     var englishTable = document.getElementById('english-table');
-
-    if (document.getElementById('language-toggle').checked) {
-        germanTable.style.display = 'table';
-        englishTable.style.display = 'none';
-    } else {
-        germanTable.style.display = 'none';
-        englishTable.style.display = 'table';
-    }
-}
+    ...
 ```
 The toggleTable function switches between displaying the German and English versions of the table. It checks the state of a checkbox and toggles the visibility of the respective tables accordingly, allowing users to view the information in their preferred language.
 
@@ -183,20 +175,7 @@ The toggleTable function switches between displaying the German and English vers
         ["Hauptbenennung", "Main term designation", "This is the main term designation."],
         ...
     ];
-
-    var termTable = document.getElementById("termTable");
-    var cells = termTable.getElementsByTagName("td");
-
-    for (var i = 0; i < cells.length; i++) {
-        var term = cells[i].innerText.trim();
-        for (var j = 0; j < tooltipTable.length; j++) {
-            if (tooltipTable[j][0] === term) {
-                cells[i].classList.add("tooltip");
-                cells[i].innerHTML += '<span class="tooltiptext">' + tooltipTable[j][2] + '</span>';
-            }
-        }
-    }
-}
+    ...
 ```
 The addTooltipsFromTable function adds tooltips to table cells based on predefined terms. It searches for specific terms in the table and, if found, attaches a tooltip to the cell to provide additional context or explanation, enhancing user understanding.
 
@@ -210,63 +189,7 @@ function convertUrlsToLinks() {
         for (var i = 0; i < table.rows.length; i++) {
             for (var j = 0; j < table.rows[i].cells.length; j++) {
                 var cellContent = table.rows[i].cells[j].innerHTML;
-
-                // Use a regular expression to match URLs with spaces
-                var urlRegex = /(https?:\/\/[^\s]+)/g;
-                var matches = cellContent.match(urlRegex);
-
-                if (matches && !cellContent.includes("(translation)")) {
-                    var link = document.createElement("a");
-                    link.href = matches[0];
-                    link.textContent = matches[0];
-                    link.target = "_blank";
-
-                    // Extract the remaining text after the URL
-                    var remainingText = cellContent.substring(matches[0].length);
-
-                    // Create a text node for the remaining text
-                    var textNode = document.createTextNode(remainingText);
-
-                    // Check if there is content before the URL
-                    var textBefore = cellContent.substring(0, cellContent.indexOf(matches[0]));
-                    if (textBefore) {
-                        // Create a text node for the text before the URL
-                        var textNodeBefore = document.createTextNode(textBefore);
-
-                        table.rows[i].cells[j].innerHTML = '';
-                        table.rows[i].cells[j].appendChild(textNodeBefore);
-                        table.rows[i].cells[j].appendChild(link);
-                    } else {
-                        table.rows[i].cells[j].innerHTML = '';
-                        table.rows[i].cells[j].appendChild(link);
-                    }
-
-                    table.rows[i].cells[j].appendChild(textNode);
-                } else if (cellContent.includes("(translation)")) {
-                    
-                    // Split the cell content at "(translation)"
-                    var parts = cellContent.split("(translation)");
-                    
-                    // Create a new link for the part before "(translation)"
-                    var linkBefore = document.createElement("a");
-                    linkBefore.href = parts[0];
-                    linkBefore.textContent = parts[0];
-                    linkBefore.target = "_blank"; // Open the link in a new window
-                    
-                    // Create a text node for the part after "(translation)"
-                    var textNodeAfter = document.createTextNode("(translation)" + parts[1]);
-                    
-                    // Clear the cell content and append the link and text nodes
-                    table.rows[i].cells[j].innerHTML = '';
-                    table.rows[i].cells[j].appendChild(linkBefore);
-                    table.rows[i].cells[j].appendChild(textNodeAfter);
-                }
-            }
-        }
-    } else {
-        console.error("Table not found!");
-    }
-}
+    ...
 ```
 The convertUrlsToLinks function scans the table for any cells containing URLs and converts these URLs into clickable links. This function also handles special cases where URLs are followed by "(translation)" text, ensuring the content is properly formatted and interactive. **That was a customer requirement! If there are no ("translation") strings in the cells, the part can be deleted.**
 
@@ -317,23 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function colorizeTerms() {
         const table = document.getElementById('termtable');
         const rows = table.getElementsByTagName('tr');
-
-        for (let i = 1; i < rows.length; i++) {  // Skip header row
-            const cells = rows[i].getElementsByTagName('td');
-
-            for (let j = 0; j < cells.length; j++) {
-                const term = cells[j].innerText;
-
-                if (term === 'preferredTerm') {
-                    cells[j].classList.add('preferred-term');
-                } else if (term === 'deprecatedTerm') {
-                    cells[j].classList.add('deprecated-term');
-                } else if (term === 'admittedTerm') {
-                    cells[j].classList.add('admitted-term');
-                }
-            }
-        }
-    }
+    ...
 ```
 The colorizeTerms() function searches an HTML table for specific terms and colors the corresponding cells based on the term found. The terms to be searched for are 'preferredTerm', 'deprecatedTerm' and 'admittedTerm', and each category is highlighted with a specific background and font color.
 
@@ -343,5 +250,3 @@ The generated HTML includes two tables (German and English) with relevant term d
 
 ## Support
 If you have questions or problems, contact me here on GitHub. :)
-
-
