@@ -6,7 +6,7 @@
    | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
    |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
                                                               
-
+<br>
 Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files
 and transforms them into beautiful, readable HTML files. Whether you're a terminology
 enthusiast or just someone who loves well-organized data, this tool is here to make your
