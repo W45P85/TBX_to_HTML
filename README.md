@@ -28,7 +28,6 @@ No installation is required. Simply download the folder **TBX_to_HTML_compiled**
 
 ## Usage
 1. open the program:
-       Open the "TBX to HTML" program.
 2. select a TBX file:
 
 <img src="img/Programm%20öffnet%20sich.PNG">
@@ -79,24 +78,6 @@ The script imports necessary libraries for GUI creation (tkinter), file handling
     # Klasse für ein scrollbares Frame in der Gui
     def __init__(self, master, **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
-
-        # Canvas für Scrollbar erstellen
-        self.canvas = tk.Canvas(self, borderwidth=0, background="#ffffff")
-        self.frame = tk.Frame(self.canvas, background="#ffffff")
-        self.vsb = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
-        self.canvas.configure(yscrollcommand=self.vsb.set)
-
-        # Widgets anordnen
-        self.vsb.pack(side="right", fill="y")
-        self.canvas.pack(side="left", fill="both", expand=True)
-        self.canvas.create_window((4, 4), window=self.frame, anchor="nw", tags="self.frame")
-
-        # Event-Handler für Größenänderungen
-        self.canvas.bind("<Configure>", self.on_canvas_configure)
-
-        # Scrollable Frame
-        self.scrollable_frame = tk.Frame(self.frame, background="#ffffff")
-        self.scrollable_frame.pack(fill="both", expand=True)
         ...
 ```
 This class creates a scrollable frame in the GUI that allows the user to navigate through multiple checkboxes for column selection and easily add new columns if necessary.
