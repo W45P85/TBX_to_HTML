@@ -153,21 +153,7 @@ The window.onload event ensures that certain functions are executed only after t
     var selectedFilter = document.getElementById("filterSelect").value.toUpperCase();
     var table = document.getElementById("termTable");
     var rows = table.getElementsByTagName("tr");
-
-    for (var i = 1; i < rows.length; i++) {
-        var languageCell = rows[i].getElementsByTagName("td")[1].textContent.toUpperCase();
-        var termsetCell = rows[i].getElementsByTagName("td")[11].textContent.toUpperCase();
-
-        var languageFilterPassed = selectedLanguage === "" || languageCell === selectedLanguage;
-        var filterFilterPassed = selectedFilter === "ALL" || termsetCell.includes(selectedFilter);
-
-        if (languageFilterPassed && filterFilterPassed) {
-            rows[i].classList.remove('hidden');
-        } else {
-            rows[i].classList.add('hidden');
-        }
-    }
-}
+    ...
 ```
 The filterTable function filters the table rows based on the selected language and filter criteria. It retrieves the selected values from dropdowns and compares them with the table data, showing only the rows that match the criteria and hiding the others.
 
