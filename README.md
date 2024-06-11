@@ -1,17 +1,19 @@
-<pre style="background-color: transparent; border: none;">
+<div align="center">
+    <pre style="background-color: transparent; border: none; text-align: center;">
 
-  _____  ____ __  __  _           _   _  _____  __  __  _     
- |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
-   | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
-   | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
-   |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
-                                                              
+    _____  ____ __  __  _           _   _  _____  __  __  _     
+    |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
+    | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
+    | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
+    |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
+                                                                
 
-Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files<br>
-and transforms them into beautiful, readable HTML files. Whether you're a terminology<br>
-enthusiast or just someone who loves well-organized data, this tool is here to make your<br>
-life easier.
-</pre>
+    Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files<br>
+    and transforms them into beautiful, readable HTML files. Whether you're a terminology<br>
+    enthusiast or just someone who loves well-organized data, this tool is here to make your<br>
+    life easier.
+    </pre>
+</div>
 
 > Note: This tool has been tested using a terminology export from the tool SMC (Smart Media Creator) by ECS (Expert Communication Solutions).
 
