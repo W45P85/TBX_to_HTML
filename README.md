@@ -1,5 +1,5 @@
-<div align="center">
-<pre style="background-color: transparent; border: none; text-align: center;">
+<div style="background-color: transparent; border: none; text-align: center;">
+<pre>
 
   _____  ____ __  __  _           _   _  _____  __  __  _     
  |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
