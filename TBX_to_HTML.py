@@ -97,7 +97,6 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         'Quelle|String': 'Source',
         'Anmerkung|String': 'Additional note',
         'Kontextbeispiel|String': 'Context example',
-        'Termset|String': 'Term set'
     }
 
     # HTML-Inhalt erstellen
@@ -116,7 +115,7 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     }}
 
     .tooltip .tooltiptext {{
-        visibility: hidden;
+        display: none;
         width: auto;
         background-color: #555;
         color: #fff;
@@ -128,13 +127,10 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         bottom: 125%;
         left: 50%;
         margin-left: -60px;
-        opacity: 0;
-        transition: opacity 0.3s;
     }}
 
     .tooltip:hover .tooltiptext {{
-        visibility: visible;
-        opacity: 1;
+        display: block;
     }}
 
     body {{
@@ -229,7 +225,6 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 
     button:hover {{
         background-color: #0056b3;
-        transform: translateY(-2px);
     }}
 
     .hidden {{
@@ -256,14 +251,37 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
     th {{
         background-color: #009e8b;
         color: white;
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }}
 
     tr:nth-child(even) {{
         background-color: #f2f2f2;
     }}
-
-    tr:hover {{
-        background-color: #e9ecef;
+    
+    .pagination {{
+        margin: 20px 0;
+        text-align: center;
+    }}
+    
+    .pagination button {{
+        margin: 0 5px;
+        padding: 8px 16px;
+    }}
+    
+    .pagination button.active {{
+        background-color: #009e8b;
+    }}
+    
+    .pagination button:disabled {{
+        background-color: #ccc;
+        cursor: not-allowed;
+    }}
+    
+    #pageInfo {{
+        margin: 10px 0;
+        font-weight: bold;
     }}
 
     footer {{
@@ -312,38 +330,22 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
 <p>There is a <a href="#legend">small legend at the bottom of the page</a> in case you have any initial questions.</p>
 
 <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search for terms" oninput="updateAutocomplete()">
+    <input type="text" id="searchInput" placeholder="Search for terms">
     <div id="autocomplete" class="autocomplete-items"></div>
-    <br />
-    <br />
-    <!-- Dropdown-Menü zur Auswahl des TermSet -->
-        <label for="filterSelect">Select terminology set:</label>
-        <select id="filterSelect">
-            <option value="all">All</option>
-            <option value="Standard">Default</option>
-            <option value="ABC-Analyse">ABC-Analysis</option>
-            <option value="LOGOMATE">LOGOMATE</option>
-            <option value="INSTORE App">INSTORE App</option>
-            <option value="RCC">COMMERCE Cloud</option>
-            <option value="RPOS">POS</option>
-            <option value="RETAIL">RETAIL</option>
-            <option value="STATCONTROL">STATCONTROL Cloud</option>
-            <option value="UCP">UCP</option>
-            <option value="UI/UX">UI/UX</option>
-            <option value="Handelterminologie">General Commerce and Logistics Terminology</option>
-            <!-- Bei Bedarf weitere hinzufügen -->
-        </select>
     <br />
     <br />
     <!-- Dropdown-Menü zur Auswahl der Sprache -->
         <label for="languageSelect">Select Language</label>
-        <select id="languageSelect" onchange="filterTableLanguage()">
+        <select id="languageSelect" onchange="filterTable()">
             <option value="" selected>All</option>
             <option value="en-us">English</option>
             <option value="de">Deutsch</option>
             <!-- Bei Bedarf weitere hinzufügen -->
         </select>
 </div>
+
+<div id="pageInfo"></div>
+<div class="pagination" id="paginationTop"></div>
 
 <table id="termTable">
     <tr>
@@ -353,103 +355,249 @@ def convert_tbx_to_html(file_path, html_file_path, selected_columns):
         <!-- Add headers here -->
 """
 
+    # PERFORMANCE FIX: Use list instead of string concatenation
+    html_parts = []
+    
     for column in selected_columns:
-        html_content += f"<th>{column}</th>\n"
+        html_parts.append(f"<th>{column}</th>\n")
 
-    html_content += "</tr>\n"
+    html_parts.append("</tr>\n")
 
+    # Build table rows efficiently
     for concept_id, terms_info in term_dictionary.items():
         for term_info in terms_info:
-            html_content += f"<tr>"
-            html_content += f"<td>{concept_id}</td>"
-            html_content += f"<td>{term_info['language']}</td>"
-            html_content += f"<td>{term_info['term']}</td>"
+            html_parts.append(f"<tr>")
+            html_parts.append(f"<td>{concept_id}</td>")
+            html_parts.append(f"<td>{term_info['language']}</td>")
+            html_parts.append(f"<td>{term_info['term']}</td>")
 
             for column in selected_columns:
                 # Verwende den ursprünglichen Spaltennamen für die Zuordnung des Inhalts
                 original_column_name = next((key for key, value in new_column_names.items() if value == column), column)
                 note_value = term_info["notes"].get(original_column_name, "-")
-                html_content += f"<td>{note_value}</td>"
+                html_parts.append(f"<td>{note_value}</td>")
 
-            html_content += "</tr>\n"
+            html_parts.append("</tr>\n")
 
-    html_content += """</table>
+    html_parts.append("</table>\n")
+    html_parts.append('<div class="pagination" id="paginationBottom"></div>\n')
+    
+    # Join all parts at once (much faster!)
+    html_content += ''.join(html_parts)
+    html_content += """
 
 <script>
-// Function called when the window is fully loaded
+// ============================================
+// PERFORMANCE OPTIMIZED VERSION
+// ============================================
+
+// Global state
+var currentPage = 1;
+var rowsPerPage = 50; // PERFORMANCE: Reduced from 100 to 50
+var allRows = [];
+var filteredRows = [];
+var searchTimeout;
+
 window.onload = function() {
-    filterTable();            // filtert die Tabelle basierend auf Benutzereingaben
-    toggleTable();            // schaltet die Legende um (zwischen de und en)
-    addTooltipsFromTable()    // fügt Tooltips basierend auf den Daten in der Tabelle hinzu
-    convertUrlsToLinks()      // konvertiert http:// und https:// Einträge in einen Link
-    colorizeTerms()           // färbt die Term-IDs in der Tabelle mit der entsprechenden Farbe
+    console.time('Page Load Performance');
+    initializeTableOptimized();
+    filterTable();
+    toggleTable();
+    console.timeEnd('Page Load Performance');
 };
+
+/**
+ * AGGRESSIVE PERFORMANCE FIX: Minimal initialization - lazy load everything else
+ */
+function initializeTableOptimized() {
+    var table = document.getElementById("termTable");
+    if (!table) return;
+    
+    var rows = table.getElementsByTagName('tr');
+    
+    // Store all rows - NO processing yet!
+    allRows = Array.from(rows).slice(1); // Skip header
+    filteredRows = allRows.slice();
+    
+    // ONLY colorize Usage column (column 3) - this is fast
+    for (var i = 0; i < allRows.length; i++) {
+        var cells = allRows[i].getElementsByTagName('td');
+        if (cells.length > 3) {
+            var usageCell = cells[3];
+            var cellText = usageCell.innerText.trim();
+            
+            if (cellText === 'preferredTerm') {
+                usageCell.classList.add('preferred-term');
+            } else if (cellText === 'deprecatedTerm') {
+                usageCell.classList.add('deprecated-term');
+            } else if (cellText === 'admittedTerm') {
+                usageCell.classList.add('admitted-term');
+            }
+        }
+    }
+    
+    // Initialize pagination
+    displayPage(1);
+    
+    // Add search event with debouncing
+    document.getElementById('searchInput').addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            updateAutocomplete();
+        }, 300);
+    });
+    
+    // LAZY LOAD: Process tooltips and links only for visible rows
+    setTimeout(function() {
+        processVisibleRowsLazy();
+    }, 100);
+}
+
+/**
+ * LAZY LOAD: Only process currently visible rows
+ */
+function processVisibleRowsLazy() {
+    var tooltipMap = createTooltipMap();
+    
+    for (var i = 0; i < allRows.length; i++) {
+        var row = allRows[i];
+        
+        // Only process if visible
+        if (!row.classList.contains('hidden')) {
+            var cells = row.getElementsByTagName('td');
+            
+            for (var j = 0; j < cells.length; j++) {
+                var cell = cells[j];
+                
+                // Skip if already processed
+                if (cell.dataset.processed) continue;
+                
+                var cellText = cell.innerText.trim();
+                var cellHTML = cell.innerHTML;
+                
+                // Add tooltips
+                if (tooltipMap[cellText] && !cell.classList.contains('tooltip')) {
+                    cell.classList.add("tooltip");
+                    cell.innerHTML += '<span class="tooltiptext">' + tooltipMap[cellText] + '</span>';
+                }
+                
+                // Convert URLs to links
+                if ((cellHTML.includes('http://') || cellHTML.includes('https://')) && !cell.querySelector('a')) {
+                    convertCellUrlToLink(cell);
+                }
+                
+                cell.dataset.processed = 'true';
+            }
+        }
+    }
+}
+
+/**
+ * Create tooltip lookup map for O(1) access
+ */
+function createTooltipMap() {
+    var tooltips = [
+        ["Hauptbenennung", "This is the main term designation."],
+        ["Substantiv", "This is a noun."],
+        ["Verb", "This is a verb."],
+        ["Adjektiv", "This is an adjective."],
+        ["Adverb", "This is an adverb."],
+        ["Synonym", "This is a synonym term."],
+        ["Gemeinsprachlich", "This is a common language term"],
+        ["Variante", "This is a variant term."],
+        ["Abkürzung", "This is a term abbreviation."],
+        ["Kurzform", "This is a short-form term."],
+        ["Standardtext", "This is standard usage term."],
+        ["Femininum", "This is feminine."],
+        ["Masculinum", "This is masculine."],
+        ["Neutrum", "This is neuter."],
+        ["Handelterminologie", "This is the General Commerce and Logistics Terminology."]
+    ];
+    
+    var map = {};
+    for (var i = 0; i < tooltips.length; i++) {
+        map[tooltips[i][0]] = tooltips[i][1];
+    }
+    return map;
+}
+
+/**
+ * Helper function to convert URL in cell to clickable link
+ */
+function convertCellUrlToLink(cell) {
+    var cellContent = cell.innerHTML;
+    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    var matches = cellContent.match(urlRegex);
+    
+    if (matches && !cellContent.includes("(translation)")) {
+        var link = document.createElement("a");
+        link.href = matches[0];
+        link.textContent = matches[0];
+        link.target = "_blank";
+        
+        var textBefore = cellContent.substring(0, cellContent.indexOf(matches[0]));
+        var remainingText = cellContent.substring(cellContent.indexOf(matches[0]) + matches[0].length);
+        
+        cell.innerHTML = '';
+        if (textBefore) {
+            cell.appendChild(document.createTextNode(textBefore));
+        }
+        cell.appendChild(link);
+        cell.appendChild(document.createTextNode(remainingText));
+    } else if (cellContent.includes("(translation)")) {
+        var parts = cellContent.split("(translation)");
+        var linkBefore = document.createElement("a");
+        linkBefore.href = parts[0].trim();
+        linkBefore.textContent = parts[0].trim();
+        linkBefore.target = "_blank";
+        
+        cell.innerHTML = '';
+        cell.appendChild(linkBefore);
+        cell.appendChild(document.createTextNode("(translation)" + parts[1]));
+    }
+}
 
 
 
 /**
-* Function to update autocomplete suggestions based on user input.
-* Delays the update by 500 milliseconds to reduce excessive updates.
-*/
+ * PERFORMANCE: Optimized search with pagination support
+ */
+function updateAutocomplete() {
+    var input = document.getElementById('searchInput');
+    var filter = input.value.toUpperCase();
 
-    var suggestionTimeout;
-
-    // Funktion zum Aktualisieren der Autovervollständigung basierend auf Benutzereingaben
-    function updateAutocomplete() {
-        clearTimeout(suggestionTimeout);
-
-        // Verzögere die Aktualisierung der Vorschläge um 500 Millisekunden
-        suggestionTimeout = setTimeout(function () {
-            var input, filter, table, tr, td, i, txtValue, found;
-            input = document.getElementById('searchInput');
-            filter = input.value.toUpperCase();
-            table = document.getElementById('termTable');
-            tr = table.getElementsByTagName('tr');
-
-            // Array, um Concept-IDs der sichtbaren Zeilen zu speichern
-            var visibleConceptIds = [];
-
-            // Loop durch jede Zeile (überspringt die erste Zeile, die die Überschriften enthält)
-            for (i = 1; i < tr.length; i++) {
-                // Zeige die Zeile standardmäßig an
-                tr[i].style.display = '';
-
-                // Suche nur in der Spalte "Term" (Index 2)
-                td = tr[i].getElementsByTagName('td')[2];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        found = true;
-
-                        // Extrahiere die Concept-ID der gefundenen Zeile
-                        var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
-
-                        // Speichere die Concept-ID, wenn sie noch nicht gespeichert wurde
-                        if (!visibleConceptIds.includes(conceptId)) {
-                            visibleConceptIds.push(conceptId);
-                        }
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
-
-            // Wenn keine sichtbaren Zeilen vorhanden sind und die Sucheingabe nicht leer ist, zeige alle Zeilen mit den gespeicherten Concept-IDs
-            if (visibleConceptIds.length > 0 && filter.trim() !== '') {
-                for (i = 1; i < tr.length; i++) {
-                    var conceptId = tr[i].getElementsByTagName('td')[0].textContent || tr[i].getElementsByTagName('td')[0].innerText;
-                    if (visibleConceptIds.includes(conceptId)) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
-
-            // Aktualisiere die Suchvorschläge
-            updateSuggestions(filter);
-        }, 500); // Warte 500 Millisekunden, bevor die Vorschläge aktualisiert werden
+    if (filter.trim() === '') {
+        filteredRows = allRows.slice();
+        currentPage = 1;
+        displayPage(1);
+        return;
     }
+
+    // Array to store visible concept IDs
+    var visibleConceptIds = new Set();
+
+    // Search in Term column (index 2)
+    for (var i = 0; i < allRows.length; i++) {
+        var td = allRows[i].getElementsByTagName('td')[2];
+        if (td) {
+            var txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                var conceptId = allRows[i].getElementsByTagName('td')[0].textContent;
+                visibleConceptIds.add(conceptId);
+            }
+        }
+    }
+
+    // Filter rows by concept ID
+    filteredRows = allRows.filter(function(row) {
+        var conceptId = row.getElementsByTagName('td')[0].textContent;
+        return visibleConceptIds.has(conceptId);
+    });
+
+    currentPage = 1;
+    displayPage(1);
+    updateSuggestions(filter);
+}
 
     // Funktion zum Aktualisieren der Suchvorschläge basierend auf einem Filter
     function updateSuggestions(filter) {
@@ -489,34 +637,122 @@ window.onload = function() {
 
 
 /**
-* Main function to filter the table based on selected language and filter option.
-* Shows or hides rows based on filter criteria.
-*/
-
+ * PERFORMANCE: Optimized language filter with pagination
+ */
 function filterTable() {
     var selectedLanguage = document.getElementById("languageSelect").value.toUpperCase();
-    var selectedFilter = document.getElementById("filterSelect").value.toUpperCase();
+    var searchFilter = document.getElementById('searchInput').value.toUpperCase();
 
-    var table = document.getElementById("termTable");
-    var rows = table.getElementsByTagName("tr");
-
-    // Loop through each row (skip header row)
-    for (var i = 1; i < rows.length; i++) {
-        var languageCell = rows[i].getElementsByTagName("td")[1].textContent.toUpperCase();
-        var termsetCell = rows[i].getElementsByTagName("td")[11].textContent.toUpperCase();
-
-        // Check if language and filter match the selected criteria
-        var languageFilterPassed = selectedLanguage === "" || languageCell === selectedLanguage;
-        var filterFilterPassed = selectedFilter === "ALL" || termsetCell.includes(selectedFilter);
-
-        // Show or hide the row based on the filter results
-        if (languageFilterPassed && filterFilterPassed) {
-            rows[i].classList.remove('hidden');
-        } else {
-            rows[i].classList.add('hidden');
-        }
+    // Filter by language
+    if (selectedLanguage === "") {
+        filteredRows = allRows.slice();
+    } else {
+        filteredRows = allRows.filter(function(row) {
+            var languageCell = row.getElementsByTagName("td")[1].textContent.toUpperCase();
+            return languageCell === selectedLanguage;
+        });
     }
+
+    // Apply search filter if exists
+    if (searchFilter.trim() !== '') {
+        var visibleConceptIds = new Set();
+        
+        for (var i = 0; i < filteredRows.length; i++) {
+            var td = filteredRows[i].getElementsByTagName('td')[2];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(searchFilter) > -1) {
+                    var conceptId = filteredRows[i].getElementsByTagName('td')[0].textContent;
+                    visibleConceptIds.add(conceptId);
+                }
+            }
+        }
+        
+        filteredRows = filteredRows.filter(function(row) {
+            var conceptId = row.getElementsByTagName('td')[0].textContent;
+            return visibleConceptIds.has(conceptId);
+        });
+    }
+
+    currentPage = 1;
+    displayPage(1);
 }
+
+/**
+ * Display specific page with pagination
+ */
+function displayPage(pageNum) {
+    currentPage = pageNum;
+    
+    // Hide all rows first
+    for (var i = 0; i < allRows.length; i++) {
+        allRows[i].classList.add('hidden');
+    }
+    
+    // Calculate pagination
+    var startIndex = (pageNum - 1) * rowsPerPage;
+    var endIndex = Math.min(startIndex + rowsPerPage, filteredRows.length);
+    
+    // Show only current page rows
+    for (var i = startIndex; i < endIndex; i++) {
+        filteredRows[i].classList.remove('hidden');
+    }
+    
+    // Update pagination controls
+    updatePaginationControls();
+    
+    // LAZY LOAD: Process newly visible rows after a short delay
+    setTimeout(function() {
+        processVisibleRowsLazy();
+    }, 50);
+}
+
+/**
+ * Create/Update pagination controls
+ */
+function updatePaginationControls() {
+    var totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+    
+    var pageInfo = 'Showing ' + 
+        ((currentPage - 1) * rowsPerPage + 1) + '-' + 
+        Math.min(currentPage * rowsPerPage, filteredRows.length) + 
+        ' of ' + filteredRows.length + ' entries';
+    
+    document.getElementById('pageInfo').textContent = pageInfo;
+    
+    var paginationHTML = '';
+    
+    // Previous button
+    paginationHTML += '<button onclick="displayPage(' + (currentPage - 1) + ')" ' + 
+        (currentPage === 1 ? 'disabled' : '') + '>← Previous</button>';
+    
+    // Page numbers (show max 5 pages)
+    var startPage = Math.max(1, currentPage - 2);
+    var endPage = Math.min(totalPages, currentPage + 2);
+    
+    if (startPage > 1) {
+        paginationHTML += '<button onclick="displayPage(1)">1</button>';
+        if (startPage > 2) paginationHTML += '<span>...</span>';
+    }
+    
+    for (var i = startPage; i <= endPage; i++) {
+        paginationHTML += '<button onclick="displayPage(' + i + ')" ' + 
+            (i === currentPage ? 'class="active"' : '') + '>' + i + '</button>';
+    }
+    
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) paginationHTML += '<span>...</span>';
+        paginationHTML += '<button onclick="displayPage(' + totalPages + ')">' + totalPages + '</button>';
+    }
+    
+    // Next button
+    paginationHTML += '<button onclick="displayPage(' + (currentPage + 1) + ')" ' + 
+        (currentPage === totalPages ? 'disabled' : '') + '>Next →</button>';
+    
+    document.getElementById('paginationTop').innerHTML = paginationHTML;
+    document.getElementById('paginationBottom').innerHTML = paginationHTML;
+}
+
 
 // Function to add event listeners for filter and language selection
 document.addEventListener("DOMContentLoaded", function () {
@@ -539,7 +775,6 @@ document.addEventListener("DOMContentLoaded", function () {
 * Function to toggle between German and English legend.
 * Shows the corresponding table based on the toggle checkbox state.
 */
-
 function toggleTable() {
     var germanTable = document.getElementById('german-table');
     var englishTable = document.getElementById('english-table');
@@ -554,171 +789,11 @@ function toggleTable() {
     }
 }
 
-/**
-* Function to add tooltips based on predefined table data.
-* Searches for specific terms and adds corresponding tooltips.
-*/
-
-function addTooltipsFromTable() {
-    // Table with tooltips
-    // Syntax: "Word", "Translation", "Tooltip"
-  var tooltipTable = [
-    ["Hauptbenennung", "Main term designation", "This is the main term designation."],
-    ["Substantiv", "Noun", "This is a noun."],
-    ["Verb", "Verb", "This is a verb."],
-    ["Adjektiv", "Adjective", "This is an adjective."],
-    ["Adverb", "Adverb", "This is an adverb."],
-    ["Synonym", "Synonym", "This is a synonym term."],
-    ["Gemeinsprachlich", "Common language term", "This is a common language term"],
-    ["Variante", "Variant", "This is a variant term."],
-    ["Abkürzung", "Abbreviation", "This is a term abbreviation."],
-    ["Kurzform", "Short form", "This is a short-form term."],
-    ["Standardtext", "Standard usage", "This is standard usage term."],
-    ["Femininum", "Feminine", "This is feminine."],
-    ["Masculinum", "Masculine", "This is masculine."],
-    ["Neutrum", "Neuter", "This is neuter."],
-    ["Handelterminologie", "General Commerce and Logistics Terminology", "This is the General Commerce and Logistics Terminology."]
-    // Hier können weitere Wörter und deren Übersetzungen eingefügt werden
-];
-
-  // Get the table with the terms
-  var termTable = document.getElementById("termTable");
-  var cells = termTable.getElementsByTagName("td");
-
-  // Loop through each cell in the table
-  for (var i = 0; i < cells.length; i++) {
-    var term = cells[i].innerText.trim();
-    // Search for the term in the tooltip table
-    for (var j = 0; j < tooltipTable.length; j++) {
-      if (tooltipTable[j][0] === term) {
-        cells[i].classList.add("tooltip");
-        cells[i].innerHTML += '<span class="tooltiptext">' + tooltipTable[j][2] + '</span>'; // Füge den Tooltip hinzu
-      }
-    }
-  }
-}
-
-/**
-* Function to convert URLs in table cells to clickable links.
-* Checks for URLs in cell content and converts them.
-*/
-function convertUrlsToLinks() {
-    var table = document.getElementById("termTable");
-
-    if (table) {
-        for (var i = 0; i < table.rows.length; i++) {
-            for (var j = 0; j < table.rows[i].cells.length; j++) {
-                var cellContent = table.rows[i].cells[j].innerHTML;
-
-                // Use a regular expression to match URLs with spaces
-                var urlRegex = /(https?:\/\/[^\s]+)/g;
-                var matches = cellContent.match(urlRegex);
-
-                if (matches && !cellContent.includes("(translation)")) {
-                    var link = document.createElement("a");
-                    link.href = matches[0];
-                    link.textContent = matches[0];
-                    link.target = "_blank";
-
-                    // Extract the remaining text after the URL
-                    var remainingText = cellContent.substring(matches[0].length);
-
-                    // Create a text node for the remaining text
-                    var textNode = document.createTextNode(remainingText);
-
-                    // Check if there is content before the URL
-                    var textBefore = cellContent.substring(0, cellContent.indexOf(matches[0]));
-                    if (textBefore) {
-                        // Create a text node for the text before the URL
-                        var textNodeBefore = document.createTextNode(textBefore);
-
-                        table.rows[i].cells[j].innerHTML = '';
-                        table.rows[i].cells[j].appendChild(textNodeBefore);
-                        table.rows[i].cells[j].appendChild(link);
-                    } else {
-                        table.rows[i].cells[j].innerHTML = '';
-                        table.rows[i].cells[j].appendChild(link);
-                    }
-
-                    table.rows[i].cells[j].appendChild(textNode);
-                } else if (cellContent.includes("(translation)")) {
-                    
-                    // Split the cell content at "(translation)"
-                    var parts = cellContent.split("(translation)");
-                    
-                    // Create a new link for the part before "(translation)"
-                    var linkBefore = document.createElement("a");
-                    linkBefore.href = parts[0];
-                    linkBefore.textContent = parts[0];
-                    linkBefore.target = "_blank"; // Open the link in a new window
-                    
-                    // Create a text node for the part after "(translation)"
-                    var textNodeAfter = document.createTextNode("(translation)" + parts[1]);
-                    
-                    // Clear the cell content and append the link and text nodes
-                    table.rows[i].cells[j].innerHTML = '';
-                    table.rows[i].cells[j].appendChild(linkBefore);
-                    table.rows[i].cells[j].appendChild(textNodeAfter);
-                }
-            }
-        }
-    } else {
-        console.error("Table not found!");
-    }
-}
-
-
-/**
-* Function to make table headers sticky.
-* Ensures headers stay in place when scrolling.
-*/
-
-document.addEventListener('DOMContentLoaded', function() {
-            var tableHeaders = document.querySelectorAll('#termTable th');
-            tableHeaders.forEach(function(th) {
-                th.style.position = 'sticky';
-                th.style.top = '0';
-                th.style.zIndex = '1000';
-            });
-        });
-
-/**
- * Function to colorize table cells based on their content.
- * Searches for specific terms and applies corresponding CSS classes
- * to change the background and text color of the cells.
- */
-
-function colorizeTerms() {
-        // Get the table element by its ID
-        const table = document.getElementById('termTable');
-        
-        // Get all rows in the table
-        const rows = table.getElementsByTagName('tr');
-
-        // Loop through each row, skipping the header row (index 0)
-        for (let i = 1; i < rows.length; i++) {
-            // Get all cells in the current row
-            const cells = rows[i].getElementsByTagName('td');
-
-            // Loop through each cell in the row
-            for (let j = 0; j < cells.length; j++) {
-                // Get the text content of the cell
-                const term = cells[j].innerText;
-
-                // Apply a specific CSS class based on the cell's text content
-                if (term === 'preferredTerm') {
-                    // Apply the 'preferred-term' class for preferred terms
-                    cells[j].classList.add('preferred-term');
-                } else if (term === 'deprecatedTerm') {
-                    // Apply the 'deprecated-term' class for deprecated term
-                    cells[j].classList.add('deprecated-term');
-                } else if (term === 'admittedTerm') {
-                    // Apply the 'admitted-term' class for admitted terms
-                    cells[j].classList.add('admitted-term');
-                }
-            }
-        }
-    }
+// OLD FUNCTIONS REMOVED - Now handled by initializeTableOptimized()
+// - addTooltipsFromTable() 
+// - convertUrlsToLinks()
+// - colorizeTerms()
+// These are now combined in a single loop for better performance
 
 </script>
 <br>
@@ -809,38 +884,6 @@ function colorizeTerms() {
                 <td>Freitexteingabe einer Quelle eines Terms aus dem Redaktionssystem SMC</td>
                 <!-- Weitere Zeilen und Daten nach Bedarf -->
             </tr>
-            <tr>
-                <td>Term set</td>
-                <td>Gruppierung des Terms in einem bestimmten produktspezifischen oder thematischen Satz oder Zusammenhang.</td>
-                <td>Standard<br>
-                    ABC-Analyse<br>
-                    LOGOMATE<br>
-                    INSTORE App<br>
-                    RCC<br>
-                    RPOS<br>
-                    RETAIL<br>
-                    STATCONTROL<br>
-                    UCP<br>
-                    UI/UX<br>
-                    Handelsterminologie</td>
-                <!-- Weitere Zeilen und Daten nach Bedarf -->
-            </tr>
-            <tr>
-                <td>Select terminology set</td>
-                <td>Das Dropdown-Menü "Select terminology set" ermöglicht es, spezifische Terminologiesets auszuwählen, um die angezeigten Begriffe in der Tabelle entsprechend zu filtern.</td>
-                <td>Standard<br>
-                    ABC-Analyse<br>
-                    LOGOMATE<br>
-                    INSTORE App<br>
-                    RCC<br>
-                    RPOS<br>
-                    RETAIL<br>
-                    STATCONTROL<br>
-                    UCP<br>
-                    UI/UX<br>
-                    Handelsterminologie
-                </td>
-            </tr>
         </tbody>
     </table>
 
@@ -922,38 +965,6 @@ function colorizeTerms() {
                 <td>Free text entry of a source of a term from the editorial system SMC</td>
                 <!-- Add more rows and data as needed -->
             </tr>
-            <tr>
-                <td>Term Set</td>
-                <td>Grouping of the term in a specific product-specific or thematic set or context.</td>
-                <td>Standard<br>
-                    ABC-Analysis<br>
-                    LOGOMATE<br>
-                    INSTORE App<br>
-                    COMMERCE Cloud<br>
-                    POS<br>
-                    RETAIL<br>
-                    STATCONTROL Cloud<br>
-                    UCP<br>
-                    UI/UX<br>
-                    General Commerce and Logistics Terminology</td>
-                <!-- Add more rows and data as needed -->
-            </tr>
-            <tr>
-                <td>Select terminology set</td>
-                <td>The "Select terminology set" drop-down menu allows you to select specific terminology sets in order to filter the terms displayed in the table accordingly.</td>
-                <td>Standard<br>
-                    ABC-Analysis<br>
-                    LOGOMATE<br>
-                    INSTORE App<br>
-                    COMMERCE Cloud<br>
-                    POS<br>
-                    RETAIL<br>
-                    STATCONTROL Cloud<br>
-                    UCP<br>
-                    UI/UX<br>
-                    General Commerce and Logistics Terminology
-                </td>
-            </tr>
         </tbody>
     </table>
 
@@ -986,7 +997,7 @@ def preview_columns(file_path, selected_columns):
                     columns.add(column_name)
 
     # Spalten in gewünschter Reihenfolge anordnen
-    ordered_columns = ['Concept ID', 'normativeAuthorization', 'Benennungstyp|String', 'Wortklasse|String', 'Genus|String', 'Language' , 'Definition|String', 'Quelle|String', 'Anmerkung|String', 'Kontextbeispiel|String', 'Termset|String']
+    ordered_columns = ['Concept ID', 'normativeAuthorization', 'Benennungstyp|String', 'Wortklasse|String', 'Genus|String', 'Language' , 'Definition|String', 'Quelle|String', 'Anmerkung|String', 'Kontextbeispiel|String']
 
     # Filtere die ausgewählten Spalten, die auch in der Reihenfolge vorkommen
     selected_columns = [col for col in ordered_columns if col in columns]
@@ -1020,7 +1031,6 @@ def show_column_selection(file_path):
         'Quelle|String': 'Source',
         'Anmerkung|String': 'Additional note',
         'Kontextbeispiel|String': 'Context example',
-        'Termset|String': 'Term set'
     }
 
     # Fenster für Spaltenauswahl erstellen
